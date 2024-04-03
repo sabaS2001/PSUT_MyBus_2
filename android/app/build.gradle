@@ -67,4 +67,5 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.23"
+    implementation 'com.google.android.gms:play-services-maps:18.2.0'
 }

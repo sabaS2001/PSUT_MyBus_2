@@ -2,11 +2,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'psForgetPassword.dart';
 import 'psBottomNavBar.dart';
-import 'dart:io';
 
 
-class psLogin extends StatelessWidget {
-  const psLogin({super.key});
+class PSLogin extends StatelessWidget {
+  const PSLogin({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,23 +17,23 @@ class psLogin extends StatelessWidget {
             Container(
               height: 100.0,
               alignment: Alignment.topLeft,
-              child: Image(
+              child: const Image(
                 image:AssetImage('assets/images/bg_logo.png'),
               ),
             ),
-            CircleAvatar(  //Logo of PSUT
+            const CircleAvatar(  //Logo of PSUT
               backgroundColor: Colors.white30,
               backgroundImage: AssetImage('assets/images/logo.png'),
               radius: 130.0,
             ),
-            SizedBox(height: 10.0),
-            Text('PSUT MyBus',
+            const SizedBox(height: 10.0),
+            const Text('PSUT MyBus',
                 style: TextStyle(
                   fontFamily: 'Wellfleet',
                   fontSize: 42.0,
                 )
             ),
-            SizedBox(height: 20.0,),
+            const SizedBox(height: 20.0,),
             SizedBox( //Input Box of Bus Driver ID
               width: 350.0,
               height: 48.0,
@@ -54,7 +53,7 @@ class psLogin extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 10.0), //Space between input boxes
+            const SizedBox(height: 10.0), //Space between input boxes
             SizedBox( // Input Box of Password
               width: 350.0,
               height: 48.0,
@@ -65,7 +64,7 @@ class psLogin extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     labelText: "Password:",
-                    labelStyle: TextStyle(
+                    labelStyle: const TextStyle(
                       fontSize: 16.0,
                       fontFamily: 'Wellfleet',
                       fontWeight: FontWeight.w500,
@@ -74,7 +73,7 @@ class psLogin extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20.0), //Space between input box and the button
+            const SizedBox(height: 20.0), //Space between input box and the button
             SizedBox(
               width: 320.0,
               height: 48.0,
@@ -85,12 +84,9 @@ class psLogin extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => PSNavBar()),
                     );
                   },
-                  child: Text(
-                    'Login',
-                  ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromRGBO(11, 39, 143, 1.0),
-                    textStyle: TextStyle(
+                    backgroundColor: const Color.fromRGBO(11, 39, 143, 1.0),
+                    textStyle: const TextStyle(
                       fontSize: 16.0,
                       fontFamily: 'Wellfleet',
                       fontWeight: FontWeight.w500,
@@ -99,20 +95,23 @@ class psLogin extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(40.0)
                     ),
+                  ),
+                  child: Text(
+                    'Login',
                   )
               ),
             ),
             Container(
               height: 70.0,
-              padding: EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(10.0),
               child: TextButton(
                 onPressed: (){
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => psForget()),
+                    MaterialPageRoute(builder: (context) => const PSForget()),
                   );
                 },
-                child: Text('Forget Password?',
+                child: const Text('Forget Password?',
                   style: TextStyle(
                     decoration: TextDecoration.underline,
                     color: Color.fromRGBO(11, 39, 143, 1.0),
@@ -122,7 +121,7 @@ class psLogin extends StatelessWidget {
                 ),
               ),
             ),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [

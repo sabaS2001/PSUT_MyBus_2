@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'psSettings.dart';
 class PSChangePassword extends StatelessWidget {
@@ -31,7 +30,7 @@ class PSChangePassword extends StatelessWidget {
               width: 290.0,
               child: Text('Change Password',
                 textAlign: TextAlign.start,
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: 'Wellfleet',
                   fontSize: 20.0,
                   color: Colors.black,
@@ -43,14 +42,14 @@ class PSChangePassword extends StatelessWidget {
       ),
       body: Column(
         children: [
-          SizedBox(height: 30.0,),
+          const SizedBox(height: 30.0,),
           Row(
             children: [
               Container(
                 height: 100.0,
                 alignment: Alignment.topLeft,
-                child: Image(
-                  image: const AssetImage('assets/images/bg_logo.png'),
+                child: const Image(
+                  image: AssetImage('assets/images/bg_logo.png'),
                 ),
               ),
               const SizedBox(width: 20.0,),
@@ -77,7 +76,7 @@ class PSChangePassword extends StatelessWidget {
             ],
           ),
           const Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+            padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
             child: SizedBox(
               width: 305.0,
               height: 70.0,
@@ -117,9 +116,6 @@ class PSChangePassword extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => PSSettings()),
                   );
                 },
-                child: const Text(
-                  'SUBMIT',
-                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromRGBO(11, 39, 143, 1.0),
                   textStyle: const TextStyle(
@@ -131,6 +127,9 @@ class PSChangePassword extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(40.0)
                   ),
+                ),
+                child: const Text(
+                  'SUBMIT',
                 )
             ),
           ),

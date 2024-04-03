@@ -14,16 +14,10 @@ class PSHomePage extends StatefulWidget {
 class _PSHomePage extends State<PSHomePage> {
   late GoogleMapController mapController;
   late String _mapStyle;
-  static final CameraPosition _initialLocation = CameraPosition(
-      target: LatLng(32.02363463930013, 35.87613106096076), zoom: 17);
+  static const CameraPosition _initialLocation = CameraPosition(
+       target: LatLng(32.02363463930013, 35.87613106096076), zoom: 17);
   void initState() {
     super.initState();
-    //loading map style JSON from asset file
-    DefaultAssetBundle.of(context).loadString('mapTheme/map_style.mapTheme').then((string) {
-      this._mapStyle = string;
-    }).catchError((error) {
-      log(error.toString());
-    });
   }
   void onMapCreated(GoogleMapController controller) {
     //set style on the map on creation to customize look showing only map features

@@ -1,10 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'dart:io';
-import 'package:psut_my_bus/main.dart';
 import 'psLogin.dart';
-class psForget extends StatelessWidget {
-  const psForget({super.key});
+
+class PSForget extends StatelessWidget {
+  const PSForget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +18,7 @@ class psForget extends StatelessWidget {
             onPressed: (){
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => psLogin()),
+                MaterialPageRoute(builder: (context) => const PSLogin()),
               );
             },
             icon: const Icon(Icons.arrow_circle_left_outlined, size: 40.0,),
@@ -48,7 +47,7 @@ class psForget extends StatelessWidget {
               Container(
                 height: 100.0,
                 alignment: Alignment.topLeft,
-                child: Image(
+                child: const Image(
                   image:AssetImage('assets/images/bg_logo.png'),
                 ),
               ),
@@ -96,8 +95,8 @@ class psForget extends StatelessWidget {
                   // );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromRGBO(11, 39, 143, 1.0),
-                  textStyle: TextStyle(
+                  backgroundColor: const Color.fromRGBO(11, 39, 143, 1.0),
+                  textStyle: const TextStyle(
                     fontSize: 20.0,
                     fontFamily: 'Wellfleet',
                     fontWeight: FontWeight.w500,

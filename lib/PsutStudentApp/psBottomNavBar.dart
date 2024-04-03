@@ -9,9 +9,7 @@ class PSNavBar extends StatefulWidget {
   const PSNavBar({super.key});
 
   @override
-  _PSNavBar createState() {
-    return _PSNavBar();
-  }
+  _PSNavBar createState() => _PSNavBar();
 }
 class _PSNavBar extends State<PSNavBar> {
   int _currentIndex = 0;

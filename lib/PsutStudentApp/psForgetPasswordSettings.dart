@@ -1,8 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'psSettings.dart';
-class psForgetSettings extends StatelessWidget {
-  const psForgetSettings({super.key});
+class PSForgetSettings extends StatelessWidget {
+  const PSForgetSettings({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,16 +17,16 @@ class psForgetSettings extends StatelessWidget {
             onPressed: (){
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => PSSettings()),
+                MaterialPageRoute(builder: (context) => const PSSettings()),
               );
             },
-            icon: Icon(Icons.arrow_circle_left_outlined, size: 40.0,),
+            icon: const Icon(Icons.arrow_circle_left_outlined, size: 40.0,),
             color: Colors.blue[900],
           ),
         ),
-        title: Center(
+        title: const Center(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(50.0,30.0,10.0,0.0),
+            padding: EdgeInsets.fromLTRB(50.0,30.0,10.0,0.0),
             child: SizedBox(
               width: 290.0,
               child: Text('Forget Password',
@@ -43,17 +43,17 @@ class psForgetSettings extends StatelessWidget {
       ),
       body: Column(
         children: [
-          SizedBox(height: 30.0,),
+          const SizedBox(height: 30.0,),
           Row(
             children: [
               Container(
                 height: 100.0,
                 alignment: Alignment.topLeft,
-                child: Image(
+                child: const Image(
                   image:AssetImage('assets/images/bg_logo.png'),
                 ),
               ),
-              SizedBox(width: 20.0,),
+              const SizedBox(width: 20.0,),
               SizedBox(
                 width: 320.0,
                 height: 70.0,
@@ -62,10 +62,10 @@ class psForgetSettings extends StatelessWidget {
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.black)
+                          borderSide: const BorderSide(color: Colors.black)
                       ),
                       labelText: "Email:",
-                      labelStyle: TextStyle(
+                      labelStyle: const TextStyle(
                         fontSize: 15.0,
                         fontFamily: 'Wellfleet',
                         fontWeight: FontWeight.w500,
@@ -76,8 +76,8 @@ class psForgetSettings extends StatelessWidget {
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+          const Padding(
+            padding:  EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
             child: SizedBox(
               width: 305.0,
               height: 70.0,
@@ -93,15 +93,12 @@ class psForgetSettings extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => PSSettings()),
+                    MaterialPageRoute(builder: (context) => const PSSettings()),
                   );
                 },
-                child: Text(
-                  'SUBMIT',
-                ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromRGBO(11, 39, 143, 1.0),
-                  textStyle: TextStyle(
+                  backgroundColor: const Color.fromRGBO(11, 39, 143, 1.0),
+                  textStyle: const TextStyle(
                     fontSize: 20.0,
                     fontFamily: 'Wellfleet',
                     fontWeight: FontWeight.w500,
@@ -110,10 +107,13 @@ class psForgetSettings extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(40.0)
                   ),
+                ),
+                child: Text(
+                  'SUBMIT',
                 )
             ),
           ),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [

@@ -47,7 +47,7 @@ class BDSettings extends StatelessWidget {
               const Row(
                 children: [
                   CircleAvatar(
-                    backgroundImage: AssetImage('images/logo.png'),
+                    backgroundImage: AssetImage('assets/images/logo.png'),
                     backgroundColor: Colors.transparent,
                     radius: 40.0,
                   ),

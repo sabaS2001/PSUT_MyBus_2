@@ -17,10 +17,10 @@ class PSProfile extends StatelessWidget {
             onPressed: (){
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => PSSettings()),
+                MaterialPageRoute(builder: (context) => const PSSettings()),
               );
             },
-            icon: Icon(Icons.arrow_circle_left_outlined, size: 40.0,),
+            icon: const Icon(Icons.arrow_circle_left_outlined, size: 40.0,),
             color: Colors.blue[900],
           ),
         ),
@@ -29,20 +29,20 @@ class PSProfile extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Center(
+            const Center(
               child: Text('Profile',
                   style: TextStyle(
                     fontFamily: 'Wellfleet',
                     fontSize: 30.0,
                   )),
             ),
-            SizedBox(height: 20.0,),
-            CircleAvatar(
+            const SizedBox(height: 20.0,),
+            const CircleAvatar(
               backgroundImage: AssetImage('assets/images/logo.png'),
               backgroundColor: Colors.transparent,
               radius: 80.0,
             ),
-            SizedBox(height: 40.0,),
+            const SizedBox(height: 40.0,),
             Column(
               children: [
                 SizedBox(
@@ -53,10 +53,10 @@ class PSProfile extends StatelessWidget {
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: Colors.black)
+                            borderSide: const BorderSide(color: Colors.black)
                         ),
                         labelText: "First Name:",
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                           fontSize: 15.0,
                           fontFamily: 'Wellfleet',
                           fontWeight: FontWeight.w500,
@@ -65,7 +65,7 @@ class PSProfile extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 10.0,),
+                const SizedBox(height: 10.0,),
                 SizedBox(
                   width: 340.0,
                   height: 40.0,
@@ -74,10 +74,10 @@ class PSProfile extends StatelessWidget {
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: Colors.black)
+                            borderSide: const BorderSide(color: Colors.black)
                         ),
                         labelText: "Last Name:",
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                           fontSize: 15.0,
                           fontFamily: 'Wellfleet',
                           fontWeight: FontWeight.w500,
@@ -86,7 +86,7 @@ class PSProfile extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 10.0,),
+                const SizedBox(height: 10.0,),
                 SizedBox(
                   width: 340.0,
                   height: 40.0,
@@ -95,10 +95,10 @@ class PSProfile extends StatelessWidget {
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: Colors.black)
+                            borderSide: const BorderSide(color: Colors.black)
                         ),
                         labelText: "Student ID:",
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                           fontSize: 15.0,
                           fontFamily: 'Wellfleet',
                           fontWeight: FontWeight.w500,
@@ -107,7 +107,7 @@ class PSProfile extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 10.0,),
+                const SizedBox(height: 10.0,),
                 SizedBox(
                   width: 340.0,
                   height: 40.0,
@@ -116,10 +116,10 @@ class PSProfile extends StatelessWidget {
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: Colors.black)
+                            borderSide:const BorderSide(color: Colors.black)
                         ),
                         labelText: "Student Email:",
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                           fontSize: 15.0,
                           fontFamily: 'Wellfleet',
                           fontWeight: FontWeight.w500,
@@ -128,7 +128,7 @@ class PSProfile extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 10.0,),
+                const SizedBox(height: 10.0,),
                 SizedBox(
                   width: 340.0,
                   height: 40.0,
@@ -138,10 +138,10 @@ class PSProfile extends StatelessWidget {
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(width: 5.0, color: Colors.black)
+                            borderSide: const BorderSide(width: 5.0, color: Colors.black)
                         ),
                         labelText: "Bus Line (Read-Only):",
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                           fontSize: 15.0,
                           fontFamily: 'Wellfleet',
                           fontWeight: FontWeight.w500,
@@ -150,7 +150,7 @@ class PSProfile extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height:70.0),
+                const SizedBox(height:70.0),
                 SizedBox(
                   width: 310.0,
                   height: 50.0,
@@ -161,7 +161,7 @@ class PSProfile extends StatelessWidget {
                           MaterialPageRoute(builder: (context) => const PSSettings()),
                         );
                       },
-                      child: Text('Save',
+                      child: const Text('Save',
                           style: TextStyle(
                             color: Color.fromRGBO(0, 169, 224, 1.0),
                             fontSize: 16.0,
@@ -169,7 +169,7 @@ class PSProfile extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                           )),
                       style: ElevatedButton.styleFrom(
-                        side: BorderSide(width:1.8,color: Color.fromRGBO(0, 24, 113, 1.0)),
+                        side: const BorderSide(width:1.8,color: Color.fromRGBO(0, 24, 113, 1.0)),
                         backgroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(40.0),

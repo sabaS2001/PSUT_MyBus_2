@@ -1,8 +1,5 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'dart:io';
-import 'package:flutter/foundation.dart';
-import 'psHome.dart';
 import 'psBottomNavBar.dart';
 import 'psProfile.dart';
 import 'psChangePassword.dart';
@@ -170,7 +167,7 @@ class PSSettings extends StatelessWidget {
                     onPressed: (){
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const psForgetSettings()),
+                        MaterialPageRoute(builder: (context) => const PSForgetSettings()),
                       );
                     },
                     icon: const Icon(Icons.arrow_forward_ios_sharp,
@@ -248,15 +245,15 @@ class PSSettings extends StatelessWidget {
                       onPressed: (){
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const psLogin()),
+                          MaterialPageRoute(builder: (context) => const PSLogin()),
                         );
                       },
-                      child: Text('Log Out',
+                      child: const Text('Log Out',
                           style: const TextStyle(
                             fontSize: 13.0,
                             fontFamily: 'Wellfleet',
                             fontWeight: FontWeight.w500,
-                            color: Color.fromRGBO(0, 169, 224, 1.0),
+                            color: const Color.fromRGBO(0, 169, 224, 1.0),
                           )),
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,

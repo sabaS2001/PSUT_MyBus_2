@@ -28,7 +28,7 @@ class PSChat extends StatelessWidget {
             onPressed: (){
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => PSNavBar()),
+                MaterialPageRoute(builder: (context) => const PSNavBar()),
               );
             },
             icon: const Icon(Icons.arrow_circle_left_outlined, size: 40.0,),

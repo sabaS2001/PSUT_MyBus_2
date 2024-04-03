@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:label="psut_mybus"
+        android:label="psut_my_bus"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 

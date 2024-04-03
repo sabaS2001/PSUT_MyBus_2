@@ -5,18 +5,39 @@ class BDLogin extends StatelessWidget {
   const BDLogin({super.key});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
+    return const Scaffold(
+      backgroundColor: Colors.white,
+      body: LoginValidation(),
+    );
+  }
+}
+class LoginValidation extends StatefulWidget {
+  const LoginValidation({super.key});
+  @override
+  State<LoginValidation> createState() => _LoginValidationState();
+}
+
+class _LoginValidationState extends State<LoginValidation> {
+
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              height: 100.0,
-              alignment: Alignment.topLeft,
-              child: const Image(
-                image: AssetImage('images/bg_logo.png'),
-              ),
+            const Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Image(
+                  image: AssetImage('assets/images/bg_logo.png',),
+                ),
+              ],
             ),
+            const SizedBox(height: 50.0,),
             const Text('PSUT MyBus',
                 style: TextStyle(
                   fontFamily: 'Wellfleet',
@@ -26,17 +47,32 @@ class BDLogin extends StatelessWidget {
             const CircleAvatar(
               //Logo of PSUT
               backgroundColor: Colors.white30,
-              backgroundImage: AssetImage('images/logo.png'),
+              backgroundImage: AssetImage('assets/images/logo.png'),
               radius: 100.0,
             ),
-            const SizedBox(height: 10.0), //Space between logo and input box
+            const SizedBox(height: 20.0), //Space between logo and input box
             SizedBox(
               //Input Box of Bus Driver ID
               width: 350.0,
               height: 48.0,
-              child: TextField(
+              child: TextFormField(
+                // The validator receives the text that the user has entered.
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
                 obscureText: true,
                 decoration: InputDecoration(
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    errorStyle: TextStyle(
+                      color: Colors.blue[900],
+                      fontSize: 16.0,
+                      fontFamily: 'Wellfleet',
+                    ),
                     hintText: 'Enter Your Staff ID',
                     hintStyle: TextStyle(
                       color: Colors.blue[900],
@@ -55,12 +91,12 @@ class BDLogin extends StatelessWidget {
                     )),
               ),
             ),
-            const SizedBox(height: 10.0), //Space between input boxes
+            const SizedBox(height: 15.0), //Space between input boxes
             SizedBox(
               // Input Box of Password
               width: 350.0,
               height: 48.0,
-              child: TextField(
+              child: TextFormField(
                 obscureText: true,
                 decoration: InputDecoration(
                     hintText: 'Enter Your Password',
@@ -81,44 +117,50 @@ class BDLogin extends StatelessWidget {
                     )),
               ),
             ),
-            const SizedBox(height: 20.0), //Space between input box and the button
+            const SizedBox(height: 30.0), //Space between input box and the button
             SizedBox(
               width: 320.0,
               height: 48.0,
               child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
+                      // Validate returns true if the form is valid, or false otherwise.
+                      if (_formKey.currentState!.validate()) {
+                      // If the form is valid, display a snackbar. In the real world,
+                      // you'd often call a server or save the information in a database.
+                      Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const NavBar()),
-                    );
+                       );
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromRGBO(11, 39, 143, 1.0),
-                    textStyle: const TextStyle(
-                      fontSize: 16.0,
-                      fontFamily: 'Wellfleet',
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                    ),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(40.0)),
                   ),
                   child: const Text(
                     'Login',
+                    style: const TextStyle(
+                      fontSize: 20.0,
+                      fontFamily: 'Wellfleet',
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
                   )),
             ),
-            const SizedBox(height: 45.0),
+            const Padding(padding: EdgeInsets.symmetric(vertical: 90.0, horizontal: 0.0) ),
             const Row(
-              mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                SizedBox(width: 20.0),
-                Image(image: AssetImage('images/bg_logo2.png'))
-              ],
+                Image(image: AssetImage('assets/images/bg_logo2.png'))
+                ],
             )
           ],
         ),
       ),
+
     );
   }
 }
+

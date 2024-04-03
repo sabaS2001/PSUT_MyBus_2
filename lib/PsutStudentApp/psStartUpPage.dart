@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:psut_my_bus/BusDriverApp/bdLogin.dart';
 import 'psLogin.dart';
-class psStartUp extends StatelessWidget {
-  const psStartUp({super.key});
+class PSStartUp extends StatelessWidget {
+  const PSStartUp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,16 +14,16 @@ class psStartUp extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CircleAvatar(  //Logo of PSUT
+                const CircleAvatar(  //Logo of PSUT
                   backgroundColor: Colors.white30,
                   backgroundImage: AssetImage('assets/images/logo.png'),
                   radius: 130.0,
                 ),
-                SizedBox(height: 30.0),
+                const SizedBox(height: 30.0),
                 Container(
                   width: 270.0,
-                  alignment: FractionalOffset(0,0),
-                  child: Center(
+                  alignment: const FractionalOffset(0,0),
+                  child: const Center(
                     child: Text('PSUT MyBus',
                         style: TextStyle(
                           fontFamily: 'Wellfleet',
@@ -33,7 +32,7 @@ class psStartUp extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 60.0),
+                const SizedBox(height: 60.0),
                 SizedBox(
                   width: 350.0,
                   height: 65.0,
@@ -41,15 +40,12 @@ class psStartUp extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => psLogin()),
+                          MaterialPageRoute(builder: (context) => const PSLogin()),
                         );
                       },
-                      child: Text(
-                        'Login',
-                      ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromRGBO(11, 39, 143, 1.0),
-                        textStyle: TextStyle(
+                        backgroundColor: const Color.fromRGBO(11, 39, 143, 1.0),
+                        textStyle: const TextStyle(
                           fontSize: 22.0,
                           fontFamily: 'Wellfleet',
                           fontWeight: FontWeight.w500,
@@ -58,10 +54,13 @@ class psStartUp extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40.0)
                         ),
+                      ),
+                      child: Text(
+                        'Login',
                       )
                   ),
                 ),
-                SizedBox(height: 20.0),
+                const SizedBox(height: 20.0),
                 SizedBox(
                   width: 350.0,
                   height: 65.0,
@@ -69,15 +68,12 @@ class psStartUp extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => psLogin()),
+                          MaterialPageRoute(builder: (context) => PSLogin()),
                         );
                       },
-                      child: Text(
-                        'New Account',
-                      ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromRGBO(11, 39, 143, 1.0),
-                        textStyle: TextStyle(
+                        backgroundColor: const Color.fromRGBO(11, 39, 143, 1.0),
+                        textStyle: const  TextStyle(
                           fontSize: 22.0,
                           fontFamily: 'Wellfleet',
                           fontWeight: FontWeight.w500,
@@ -86,6 +82,9 @@ class psStartUp extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40.0)
                         ),
+                      ),
+                      child: const Text(
+                        'New Account',
                       )
                   ),
                 ),

@@ -43,7 +43,7 @@ class BDProfile extends StatelessWidget {
               height: 20.0,
             ),
             const CircleAvatar(
-              backgroundImage: AssetImage('images/logo.png'),
+              backgroundImage: AssetImage('assets/images/logo.png'),
               backgroundColor: Colors.transparent,
               radius: 80.0,
             ),
