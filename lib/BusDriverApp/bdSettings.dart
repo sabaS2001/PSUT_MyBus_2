@@ -31,173 +31,185 @@ class BDSettings extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 50.0),
-          alignment: Alignment.bottomRight,
-          child: Column(
-            children: [
-              Container(
-                child: const Text('Settings',
-                    style: TextStyle(
-                      fontFamily: 'Wellfleet',
-                      fontSize: 30.0,
-                    )),
-              ),
-              const SizedBox(height: 20.0),
-              const Row(
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.all(30.0),
+              margin: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 30.0),
+              child: Column(
                 children: [
-                  CircleAvatar(
-                    backgroundImage: AssetImage('assets/images/logo.png'),
-                    backgroundColor: Colors.transparent,
-                    radius: 40.0,
-                  ),
-                  SizedBox(
-                    width: 10.0,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  const Text('Settings',
+                      style: TextStyle(
+                        fontFamily: 'Wellfleet',
+                        fontSize: 30.0,
+                      )),
+                  const SizedBox(height: 20.0),
+                  const Row(
                     children: [
-                      Text(
-                        'Bus Driver Name',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontFamily: 'Wellfleet',
-                          fontWeight: FontWeight.bold,
-                        ),
+                      CircleAvatar(
+                        backgroundImage: AssetImage('assets/images/logo.png'),
+                        backgroundColor: Colors.transparent,
+                        radius: 40.0,
                       ),
                       SizedBox(
-                        height: 20.0,
+                        width: 10.0,
                       ),
-                      Text(
-                        'Bus Driver Email',
-                        style: TextStyle(
-                          fontSize: 10.0,
-                          fontFamily: 'Wellfleet',
-                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Bus Driver Name',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontFamily: 'Wellfleet',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          Text(
+                            'Bus Driver Email',
+                            style: TextStyle(
+                              fontSize: 10.0,
+                              fontFamily: 'Wellfleet',
+                            ),
+                          )
+                        ],
                       )
                     ],
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 10.0,
-              ),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text('Personal Info',
-                      style: TextStyle(
-                        fontSize: 13.0,
-                        fontFamily: 'Wellfleet',
-                      )),
-                ],
-              ),
-              Row(
-                children: [
+                  ),
                   const SizedBox(
-                    width: 10.0,
-                    height: 40.0,
+                    height: 10.0,
                   ),
-                  const Icon(
-                    Icons.person_outline_rounded,
-                    size: 20.0,
-                  ),
-                  const SizedBox(width: 10.0),
-                  const Text(
-                    'Profile',
-                    style: TextStyle(
-                      fontFamily: 'Wellfleet',
-                      fontSize: 16.0,
-                    ),
-                  ),
-                  const SizedBox(width: 160.0),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const BDProfile()),
-                      );
-                    },
-                    icon: const Icon(
-                      Icons.arrow_forward_ios_sharp,
-                      size: 15.0,
-                    ),
-                  ),
-                ],
-              ),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text('Emergency',
-                      style: TextStyle(
-                        fontSize: 13.0,
-                        fontFamily: 'Wellfleet',
-                      )),
-                ],
-              ),
-              const SizedBox(
-                height: 10.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 245.0,
-                    height: 37.0,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromRGBO(237, 23, 23, 1.0),
-                          textStyle: const TextStyle(
-                            fontSize: 14.0,
-                            fontFamily: 'Wellfleet',
-                            fontWeight: FontWeight.w500,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40.0),
-                          )),
-                      child: const Text('EMERGENCY BUTTON'),
-                    ),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 225.0,
-                    height: 37.0,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const BDLogin()),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          side: BorderSide(color: Colors.blue.shade900),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40.0),
-                          )),
-                      child: const Text('Log Out',
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text('Personal Info',
                           style: TextStyle(
                             fontSize: 13.0,
                             fontFamily: 'Wellfleet',
-                            fontWeight: FontWeight.w500,
-                            color: Color.fromRGBO(0, 169, 224, 1.0),
                           )),
-                    ),
-                  )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const SizedBox(
+                        width: 10.0,
+                        height: 40.0,
+                      ),
+                      const Icon(
+                        Icons.person_outline_rounded,
+                        size: 20.0,
+                      ),
+                      const SizedBox(width: 10.0),
+                      const Text(
+                        'Profile',
+                        style: TextStyle(
+                          fontFamily: 'Wellfleet',
+                          fontSize: 16.0,
+                        ),
+                      ),
+                      const SizedBox(width: 160.0),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BDProfile()),
+                          );
+                        },
+                        icon: const Icon(
+                          Icons.arrow_forward_ios_sharp,
+                          size: 15.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text('Emergency',
+                          style: TextStyle(
+                            fontSize: 13.0,
+                            fontFamily: 'Wellfleet',
+                          )),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 290.0,
+                        height: 50.0,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color.fromRGBO(237, 23, 23, 1.0),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40.0),
+                              )),
+                          child: const Text('EMERGENCY BUTTON',
+                            style:  TextStyle(
+                              color: Colors.white,
+                              fontSize: 20.0,
+                              fontFamily: 'Wellfleet',
+                              fontWeight: FontWeight.w500,
+                            ),),
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 30.0,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 235.0,
+                        height: 37.0,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const BDLogin()),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              side: BorderSide(color: Colors.blue.shade900),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40.0),
+                              )),
+                          child: const Text('Log Out',
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                fontFamily: 'Wellfleet',
+                                fontWeight: FontWeight.w500,
+                                color: Color.fromRGBO(0, 169, 224, 1.0),
+                              )),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
-            ],
-          ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 200.0, horizontal: 0.0),
+              child:  Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Image(image: AssetImage('assets/images/bg_logo2.png'))
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );

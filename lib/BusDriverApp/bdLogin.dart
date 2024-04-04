@@ -1,7 +1,6 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'bdBottomNavBar.dart';
-import 'package:flutter_regex/flutter_regex.dart';
 
 
 //Bus Driver Login Page
@@ -19,7 +18,7 @@ class LoginValidation extends StatelessWidget with InputValidationMixin {
   LoginValidation({super.key});
   final _formKey = GlobalKey<FormState>();
 
-  @override
+   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
@@ -56,11 +55,11 @@ class LoginValidation extends StatelessWidget with InputValidationMixin {
                     if (isIDValid(id!)) {
                       return null;
                     } else {
-                      return 'Enter a valid email address';
+                      return 'Invalid ID!';
                     }
                   },
                 decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                     errorBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                       borderSide: const BorderSide(color: Colors.red),
@@ -96,7 +95,7 @@ class LoginValidation extends StatelessWidget with InputValidationMixin {
                   if (isPasswordValid(password!)) {
                     return null;
                   } else {
-                    return 'Enter a valid password';
+                    return 'Invalid Password!';
                   }
                 },
                 obscureText: true,
@@ -110,7 +109,7 @@ class LoginValidation extends StatelessWidget with InputValidationMixin {
                       fontSize: 16.0,
                       fontFamily: 'Wellfleet',
                     ),
-                    contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                     hintText: 'Enter Your Password',
                     hintStyle: TextStyle(
                       color: Colors.blue[900],
@@ -184,3 +183,5 @@ mixin InputValidationMixin {
     return regex.hasMatch(id) && id.length == 8;
   }
 }
+
+

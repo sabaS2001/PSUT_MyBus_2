@@ -21,6 +21,7 @@ class _NavBar extends State<NavBar> {
     return Scaffold(
       body: _tabs[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
         currentIndex: _currentIndex,
         onTap: (int index) {
           setState(() {
