@@ -1,24 +1,22 @@
+import 'dart:core';
 import 'package:flutter/material.dart';
 import 'bdBottomNavBar.dart';
+import 'package:flutter_regex/flutter_regex.dart';
+
+
 //Bus Driver Login Page
 class BDLogin extends StatelessWidget {
   const BDLogin({super.key});
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       backgroundColor: Colors.white,
       body: LoginValidation(),
     );
   }
 }
-class LoginValidation extends StatefulWidget {
-  const LoginValidation({super.key});
-  @override
-  State<LoginValidation> createState() => _LoginValidationState();
-}
-
-class _LoginValidationState extends State<LoginValidation> {
-
+class LoginValidation extends StatelessWidget with InputValidationMixin {
+  LoginValidation({super.key});
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -52,24 +50,23 @@ class _LoginValidationState extends State<LoginValidation> {
             ),
             const SizedBox(height: 20.0), //Space between logo and input box
             SizedBox(
-              //Input Box of Bus Driver ID
               width: 350.0,
-              height: 48.0,
               child: TextFormField(
-                // The validator receives the text that the user has entered.
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
-                obscureText: true,
+                  validator: (id) {
+                    if (isIDValid(id!)) {
+                      return null;
+                    } else {
+                      return 'Enter a valid email address';
+                    }
+                  },
                 decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                     errorBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
+                      borderSide: const BorderSide(color: Colors.red),
                     ),
                     errorStyle: TextStyle(
-                      color: Colors.blue[900],
+                      color: Colors.red[900],
                       fontSize: 16.0,
                       fontFamily: 'Wellfleet',
                     ),
@@ -93,12 +90,27 @@ class _LoginValidationState extends State<LoginValidation> {
             ),
             const SizedBox(height: 15.0), //Space between input boxes
             SizedBox(
-              // Input Box of Password
               width: 350.0,
-              height: 48.0,
               child: TextFormField(
+                validator: (password) {
+                  if (isPasswordValid(password!)) {
+                    return null;
+                  } else {
+                    return 'Enter a valid password';
+                  }
+                },
                 obscureText: true,
                 decoration: InputDecoration(
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: const BorderSide(color: Colors.red),
+                    ),
+                    errorStyle: TextStyle(
+                      color: Colors.red[900],
+                      fontSize: 16.0,
+                      fontFamily: 'Wellfleet',
+                    ),
+                    contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                     hintText: 'Enter Your Password',
                     hintStyle: TextStyle(
                       color: Colors.blue[900],
@@ -122,15 +134,9 @@ class _LoginValidationState extends State<LoginValidation> {
               width: 320.0,
               height: 48.0,
               child: ElevatedButton(
-                  onPressed: () {
-                      // Validate returns true if the form is valid, or false otherwise.
-                      if (_formKey.currentState!.validate()) {
-                      // If the form is valid, display a snackbar. In the real world,
-                      // you'd often call a server or save the information in a database.
-                      Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const NavBar()),
-                       );
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const NavBar()));
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -140,7 +146,7 @@ class _LoginValidationState extends State<LoginValidation> {
                   ),
                   child: const Text(
                     'Login',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 20.0,
                       fontFamily: 'Wellfleet',
                       fontWeight: FontWeight.w500,
@@ -164,3 +170,17 @@ class _LoginValidationState extends State<LoginValidation> {
   }
 }
 
+mixin InputValidationMixin {
+  bool isPasswordValid(String password){
+    if (password.length == 8) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  bool isIDValid(String id) {
+    const pattern = r'^\d+$';
+    RegExp regex = RegExp(pattern.toString());
+    return regex.hasMatch(id) && id.length == 8;
+  }
+}
