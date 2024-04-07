@@ -7,7 +7,7 @@ class PSStartUp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Container(
+        child: SizedBox(
           height: 600.0,
           child: SingleChildScrollView(
             child: Column(
@@ -55,7 +55,7 @@ class PSStartUp extends StatelessWidget {
                             borderRadius: BorderRadius.circular(40.0)
                         ),
                       ),
-                      child: Text(
+                      child: const Text(
                         'Login',
                       )
                   ),
@@ -68,7 +68,7 @@ class PSStartUp extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => PSLogin()),
+                          MaterialPageRoute(builder: (context) => const PSLogin()),
                         );
                       },
                       style: ElevatedButton.styleFrom(

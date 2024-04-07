@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'psBottomNavBar.dart';
 import 'psProfile.dart';
@@ -10,6 +10,10 @@ import 'package:psut_my_bus/PsutStudentApp/psLogin.dart';
 
 class PSSettings extends StatelessWidget {
   const PSSettings({super.key});
+
+  void signUserOut(){
+    FirebaseAuth.instance.signOut();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +27,7 @@ class PSSettings extends StatelessWidget {
             onPressed: (){
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => PSNavBar()),
+                MaterialPageRoute(builder: (context) => const PSNavBar()),
               );
             },
             icon: const Icon(Icons.arrow_circle_left_outlined, size: 40.0,),
@@ -98,7 +102,7 @@ class PSSettings extends StatelessWidget {
                   const Text('Profile',
                     style: TextStyle(
                       fontFamily: 'Wellfleet',
-                      fontSize: 13.0,
+                      fontSize: 15.0,
                     ),
                   ),
                   const SizedBox(width: 160.0),
@@ -106,7 +110,7 @@ class PSSettings extends StatelessWidget {
                     onPressed: (){
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const PSProfile()),
+                        MaterialPageRoute(builder: (context) => PSProfile()),
                       );
                     },
                     icon: const Icon(Icons.arrow_forward_ios_sharp,
@@ -134,7 +138,7 @@ class PSSettings extends StatelessWidget {
                   const Text('Change Password',
                     style: TextStyle(
                       fontFamily: 'Wellfleet',
-                      fontSize: 13.0,
+                      fontSize: 15.0,
                     ),
                   ),
                   const SizedBox(width: 100.0),
@@ -159,7 +163,7 @@ class PSSettings extends StatelessWidget {
                   const Text('Forget Password',
                     style: TextStyle(
                       fontFamily: 'Wellfleet',
-                      fontSize: 13.0,
+                      fontSize: 15.0,
                     ),
                   ),
                   const SizedBox(width: 105.0),
@@ -195,7 +199,7 @@ class PSSettings extends StatelessWidget {
                   Text('Bus Arrival Notification',
                     style: TextStyle(
                       fontFamily: 'Wellfleet',
-                      fontSize: 13.0,
+                      fontSize: 15.0,
                     ),
                   ),
                   SizedBox(width: 50.0),
@@ -211,7 +215,7 @@ class PSSettings extends StatelessWidget {
                   Text('Emergency Notification',
                     style: TextStyle(
                       fontFamily: 'Wellfleet',
-                      fontSize: 13.0,
+                      fontSize: 15.0,
                     ),
                   ),
                   SizedBox(width: 50.0),
@@ -227,7 +231,7 @@ class PSSettings extends StatelessWidget {
                   Text('Financial Notification',
                     style: TextStyle(
                       fontFamily: 'Wellfleet',
-                      fontSize: 13.0,
+                      fontSize: 15.0,
                     ),
                   ),
                   SizedBox(width: 60.0),
@@ -239,22 +243,16 @@ class PSSettings extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    width: 225.0,
-                    height: 37.0,
+                    width: 320.0,
+                    height: 48.0,
                     child: ElevatedButton(
                       onPressed: (){
+                        signUserOut();
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => const PSLogin()),
                         );
                       },
-                      child: const Text('Log Out',
-                          style: const TextStyle(
-                            fontSize: 13.0,
-                            fontFamily: 'Wellfleet',
-                            fontWeight: FontWeight.w500,
-                            color: const Color.fromRGBO(0, 169, 224, 1.0),
-                          )),
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
                           side: BorderSide(
@@ -264,6 +262,13 @@ class PSSettings extends StatelessWidget {
                             borderRadius: BorderRadius.circular(40.0),
                           )
                       ),
+                      child: const Text('Log Out',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontFamily: 'Wellfleet',
+                            fontWeight: FontWeight.w500,
+                            color: Color.fromRGBO(0, 169, 224, 1.0),
+                          )),
                     ),
                   )
                 ],
@@ -287,10 +292,10 @@ class SwitchExample extends StatefulWidget {
 class _SwitchExampleState extends State<SwitchExample> {
   bool light0 = true;
 
-  final MaterialStateProperty<Icon?> thumbIcon =
-  MaterialStateProperty.resolveWith<Icon?>(
-        (Set<MaterialState> states) {
-      if (states.contains(MaterialState.selected)) {
+  final WidgetStateProperty<Icon?> thumbIcon =
+  WidgetStateProperty.resolveWith<Icon?>(
+        (Set<WidgetState> states) {
+      if (states.contains(WidgetState.selected)) {
         return const Icon(Icons.check);
       }
       return const Icon(Icons.close);

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'psBottomNavBar.dart';
-import 'package:psut_my_bus/main.dart';
 
 class PSChat extends StatelessWidget {
   const PSChat({super.key});

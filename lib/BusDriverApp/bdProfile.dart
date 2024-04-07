@@ -5,7 +5,6 @@ class BDProfile extends StatelessWidget with InputValidationProfileMixin {
   BDProfile({super.key});
   final _formKey = GlobalKey<FormState>();
 
-
   @override
   Widget build(BuildContext context) {
     return Form(

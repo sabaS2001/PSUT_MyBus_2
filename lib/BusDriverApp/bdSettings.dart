@@ -34,7 +34,7 @@ class BDSettings extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.all(30.0),
+              padding: const EdgeInsets.all(30.0),
               margin: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 30.0),
               child: Column(
                 children: [
