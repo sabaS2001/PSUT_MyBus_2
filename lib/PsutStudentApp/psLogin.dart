@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'psBottomNavBar.dart';
 import 'psForgetPassword.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

@@ -45,18 +45,18 @@ class PSStartUp extends StatelessWidget {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromRGBO(11, 39, 143, 1.0),
-                        textStyle: const TextStyle(
-                          fontSize: 22.0,
-                          fontFamily: 'Wellfleet',
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40.0)
                         ),
                       ),
                       child: const Text(
                         'Login',
+                        style: TextStyle(
+                          fontSize: 22.0,
+                          fontFamily: 'Wellfleet',
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
                       )
                   ),
                 ),
@@ -73,18 +73,18 @@ class PSStartUp extends StatelessWidget {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromRGBO(11, 39, 143, 1.0),
-                        textStyle: const  TextStyle(
-                          fontSize: 22.0,
-                          fontFamily: 'Wellfleet',
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40.0)
                         ),
                       ),
                       child: const Text(
                         'New Account',
+                        style: TextStyle(
+                          fontSize: 22.0,
+                          fontFamily: 'Wellfleet',
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
                       )
                   ),
                 ),

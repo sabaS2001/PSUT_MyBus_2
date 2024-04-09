@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:psut_my_bus/PsutStudentApp/psBottomNavBar.dart';
 import 'psLogin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
