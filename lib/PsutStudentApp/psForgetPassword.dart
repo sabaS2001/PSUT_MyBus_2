@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'psLogin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
 class PSForget extends StatefulWidget {
   const PSForget({super.key});
 
@@ -15,11 +14,10 @@ class _PSForgetState extends State<PSForget> {
   final _emailController = TextEditingController();
 
   @override
-  void dispose(){
+  void dispose() {
     _emailController.dispose();
     super.dispose();
   }
-
 
 //Regression Expression for Student Email
   bool isEmailValid(String email) {
@@ -27,6 +25,8 @@ class _PSForgetState extends State<PSForget> {
     RegExp regex = RegExp(pattern.toString());
     return regex.hasMatch(email);
   }
+
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -39,20 +39,24 @@ class _PSForgetState extends State<PSForget> {
           leading: Padding(
             padding: const EdgeInsets.all(11.0),
             child: IconButton(
-              onPressed: (){
+              onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const PSLogin()),
                 );
               },
-              icon: const Icon(Icons.arrow_circle_left_outlined, size: 40.0,),
+              icon: const Icon(
+                Icons.arrow_circle_left_outlined,
+                size: 40.0,
+              ),
               color: Colors.blue[900],
             ),
           ),
           title: const Center(
-            child:  SizedBox(
+            child: SizedBox(
               width: 190.0,
-              child: Text('Forget Password',
+              child: Text(
+                'Forget Password',
                 textAlign: TextAlign.start,
                 style: TextStyle(
                   fontFamily: 'Wellfleet',
@@ -67,12 +71,14 @@ class _PSForgetState extends State<PSForget> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const SizedBox(height: 50.0,),
+              const SizedBox(
+                height: 50.0,
+              ),
               Container(
                 height: 150.0,
                 alignment: Alignment.topLeft,
                 child: const Image(
-                  image:AssetImage('assets/images/bg_logo.png'),
+                  image: AssetImage('assets/images/bg_logo.png'),
                 ),
               ),
               Row(
@@ -92,27 +98,28 @@ class _PSForgetState extends State<PSForget> {
                             }
                           },
                           decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.fromLTRB(10.0, 0.0, 15.0, 0.0),
+                              contentPadding: const EdgeInsets.fromLTRB(
+                                  10.0, 0.0, 15.0, 0.0),
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: const BorderSide(color: Colors.black)
-                              ),
+                                  borderSide:
+                                      const BorderSide(color: Colors.black)),
                               labelText: "Student Email:",
                               labelStyle: const TextStyle(
                                 fontSize: 15.0,
                                 fontFamily: 'Wellfleet',
                                 fontWeight: FontWeight.w500,
                                 color: Colors.black,
-                              )
-                          ),
+                              )),
                         ),
-                        const SizedBox(height: 20.0,),
+                        const SizedBox(
+                          height: 20.0,
+                        ),
                         const SizedBox(
                           width: 370.0,
                           height: 70.0,
                           child: Text(
-                              'Enters the email address you used to register with Dynamic Layers. You will receive an email to define a new password.'
-                          ),
+                              'Enters the email address you used to register with Dynamic Layers. You will receive an email to define a new password.'),
                         ),
                       ],
                     ),
@@ -126,38 +133,41 @@ class _PSForgetState extends State<PSForget> {
                 child: ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        try{
-                          await FirebaseAuth.instance.sendPasswordResetEmail(email: _emailController.text.trim());
-                        } on FirebaseAuthException catch(e){
+                        try {
+                          await FirebaseAuth.instance.sendPasswordResetEmail(
+                              email: _emailController.text.trim());
+                          _showAlertDialog(context);
+                          MaterialPageRoute(builder: (context) => const PSLogin());
+                        } on FirebaseAuthException catch (e) {
                           throw Exception(e.message.toString());
-                        } catch (e){
+                        } catch (e) {
                           throw Exception(e.toString());
                         }
                       }
-
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromRGBO(11, 39, 143, 1.0),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40.0)
-                      ),
+                          borderRadius: BorderRadius.circular(40.0)),
                     ),
                     child: const Text(
                       'SUBMIT',
                       style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'Wellfleet',
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                    ),
-                    )
-                ),
+                        fontSize: 20.0,
+                        fontFamily: 'Wellfleet',
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                      ),
+                    )),
               ),
               const Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  SizedBox(width: 20.0, height: 500.0,),
+                  SizedBox(
+                    width: 20.0,
+                    height: 500.0,
+                  ),
                   Image(image: AssetImage('assets/images/bg_logo2.png'))
                 ],
               )
@@ -167,4 +177,46 @@ class _PSForgetState extends State<PSForget> {
       ),
     );
   }
+}
+
+void _showAlertDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        shadowColor: Colors.blue[900],
+        backgroundColor: Colors.white,
+        title: const Center(
+          child:  Text('Forget Password',
+              style: TextStyle(
+                fontFamily: 'Wellfleet',
+                fontSize: 20.0,
+                color: Colors.black,
+              )),
+        ),
+        content: const Text('Please Check Your Email to Reset Your Password!',
+            textAlign: TextAlign.justify,
+            style: TextStyle(
+              fontFamily: 'Wellfleet',
+              fontSize: 16.0,
+              color: Colors.black,
+            )),
+        actions:  <Widget>[
+          Center(
+            child: ElevatedButton(
+              child: const Text('OK',
+                  style: TextStyle(
+                    fontFamily: 'Wellfleet',
+                    fontSize: 15.0,
+                    color: Colors.black,
+                  )),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ),
+        ],
+      );
+    },
+  );
 }

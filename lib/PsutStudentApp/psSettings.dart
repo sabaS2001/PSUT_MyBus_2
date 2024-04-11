@@ -4,16 +4,12 @@ import 'psBottomNavBar.dart';
 import 'psProfile.dart';
 import 'psChangePassword.dart';
 import 'package:psut_my_bus/PsutStudentApp/psForgetPasswordSettings.dart';
-import 'package:psut_my_bus/PsutStudentApp/psLogin.dart';
 
 
 
 class PSSettings extends StatelessWidget {
   const PSSettings({super.key});
 
-  void signUserOut(){
-    FirebaseAuth.instance.signOut();
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -247,11 +243,7 @@ class PSSettings extends StatelessWidget {
                     height: 48.0,
                     child: ElevatedButton(
                       onPressed: (){
-                        signUserOut();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const PSLogin()),
-                        );
+                        FirebaseAuth.instance.signOut();
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,

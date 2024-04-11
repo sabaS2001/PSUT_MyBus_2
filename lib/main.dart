@@ -4,12 +4,13 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:psut_my_bus/firebase_options.dart';
 
-import 'PsutStudentApp/psSignUpPage.dart';
+import 'PsutStudentApp/psLogin.dart';
+import 'PsutStudentApp/psStartUpPage.dart';
 
 // import 'StartUpPsutMyBus.dart';
 //this is a new version of psut_bus
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -19,7 +20,8 @@ void main() async{
     FlutterError.presentError(details);
     if (kReleaseMode) exit(1);
   };
-  runApp( MaterialApp(
-    home:PSSignUp(),
+  runApp(const MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: PSStartUp(),
   ));
 }

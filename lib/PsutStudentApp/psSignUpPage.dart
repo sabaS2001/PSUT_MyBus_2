@@ -1,58 +1,82 @@
 import 'package:flutter/material.dart';
+import 'package:psut_my_bus/PsutStudentApp/psLogin.dart';
 import 'package:psut_my_bus/PsutStudentApp/psStartUpPage.dart';
-import 'psLogin.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'FireAuth.dart';
 
-class PSSignUp extends StatelessWidget with InputValidationPSProfileMixin{
-  PSSignUp({super.key});
+class PSSignUp extends StatefulWidget{
+  const PSSignUp({super.key});
+
+  @override
+  State<PSSignUp> createState() => _PSSignUpState();
+}
+
+class _PSSignUpState extends State<PSSignUp>  with InputValidationPSSignUpMixin {
   final _formKey = GlobalKey<FormState>();
+
+  final _emailController = TextEditingController();
+
+  final _passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        print('User is not signed in');
+      } else {
+        print('User is signed in: ${user.email}');
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return  Form (
+    return Form(
       key: _formKey,
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.white,
-          shadowColor: Colors.transparent,
+          shadowColor: Colors.white,
           leading: Padding(
             padding: const EdgeInsets.all(11.0),
             child: IconButton(
-              onPressed: (){
+              onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const PSStartUp()),
+                  MaterialPageRoute(builder: (context) => const PSLogin()),
                 );
               },
-              icon: const Icon(Icons.arrow_circle_left_outlined, size: 40.0,),
+              icon: const Icon(
+                Icons.arrow_circle_left_outlined,
+                size: 40.0,
+              ),
               color: Colors.blue[900],
             ),
           ),
         ),
         body: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Center(
-                child: Text('Sign Up',
-                    style: TextStyle(
-                      fontFamily: 'Wellfleet',
-                      fontSize: 30.0,
-                    )),
+              const Row(
+                children: [
+                  Image(
+                    image: AssetImage('assets/images/bg_logo.png'),
+                  ),
+                  SizedBox(
+                    width: 300.0,
+                    child: Text('Sign Up',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Wellfleet',
+                          fontSize: 30.0,
+                        )),
+                  ),
+                ],
               ),
-              const SizedBox(height: 20.0,),
-              const SizedBox(height: 40.0,),
               Column(
                 children: [
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      SizedBox(width: 20.0, height: 250.0,),
-                      Image(image: AssetImage('assets/images/Roundel.png'))
-                    ],
-                  ),
-
                   SizedBox(
                     width: 340.0,
                     child: TextFormField(
@@ -64,10 +88,20 @@ class PSSignUp extends StatelessWidget with InputValidationPSProfileMixin{
                         }
                       },
                       decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 10.0),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
-                              borderSide: const BorderSide(color: Colors.black)
+                              borderSide:
+                                  const BorderSide(color: Colors.black)),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: const BorderSide(color: Colors.red),
+                          ),
+                          errorStyle: TextStyle(
+                            color: Colors.red[900],
+                            fontSize: 16.0,
+                            fontFamily: 'Wellfleet',
                           ),
                           labelText: "First Name:",
                           labelStyle: const TextStyle(
@@ -75,11 +109,12 @@ class PSSignUp extends StatelessWidget with InputValidationPSProfileMixin{
                             fontFamily: 'Wellfleet',
                             fontWeight: FontWeight.w500,
                             color: Colors.black,
-                          )
-                      ),
+                          )),
                     ),
                   ),
-                  const SizedBox(height: 10.0,),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
                   SizedBox(
                     width: 340.0,
                     child: TextFormField(
@@ -91,10 +126,20 @@ class PSSignUp extends StatelessWidget with InputValidationPSProfileMixin{
                         }
                       },
                       decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 10.0),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
-                              borderSide: const BorderSide(color: Colors.black)
+                              borderSide:
+                                  const BorderSide(color: Colors.black)),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: const BorderSide(color: Colors.red),
+                          ),
+                          errorStyle: TextStyle(
+                            color: Colors.red[900],
+                            fontSize: 16.0,
+                            fontFamily: 'Wellfleet',
                           ),
                           labelText: "Last Name:",
                           labelStyle: const TextStyle(
@@ -102,11 +147,12 @@ class PSSignUp extends StatelessWidget with InputValidationPSProfileMixin{
                             fontFamily: 'Wellfleet',
                             fontWeight: FontWeight.w500,
                             color: Colors.black,
-                          )
-                      ),
+                          )),
                     ),
                   ),
-                  const SizedBox(height: 10.0,),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
                   SizedBox(
                     width: 340.0,
                     child: TextFormField(
@@ -118,10 +164,20 @@ class PSSignUp extends StatelessWidget with InputValidationPSProfileMixin{
                         }
                       },
                       decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 10.0),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
-                              borderSide: const BorderSide(color: Colors.black)
+                              borderSide:
+                                  const BorderSide(color: Colors.black)),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: const BorderSide(color: Colors.red),
+                          ),
+                          errorStyle: TextStyle(
+                            color: Colors.red[900],
+                            fontSize: 16.0,
+                            fontFamily: 'Wellfleet',
                           ),
                           labelText: "Student ID Number:",
                           labelStyle: const TextStyle(
@@ -129,16 +185,17 @@ class PSSignUp extends StatelessWidget with InputValidationPSProfileMixin{
                             fontFamily: 'Wellfleet',
                             fontWeight: FontWeight.w500,
                             color: Colors.black,
-                          )
-                      ),
+                          )),
                     ),
                   ),
-                  const SizedBox(height: 10.0,),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
                   SizedBox(
                     width: 335.0,
                     child: Text(
                       textAlign: TextAlign.justify,
-                      'Make sure it matches the name on your student ID.',
+                      'Make sure it matches the numbers on your student ID.',
                       style: TextStyle(
                         fontFamily: 'Wellfleet',
                         fontSize: 12.0,
@@ -146,10 +203,13 @@ class PSSignUp extends StatelessWidget with InputValidationPSProfileMixin{
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20.0,),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
                   SizedBox(
                     width: 340.0,
                     child: TextFormField(
+                      controller: _emailController,
                       validator: (psEmail) {
                         if (isEmailValid(psEmail!)) {
                           return null;
@@ -158,10 +218,20 @@ class PSSignUp extends StatelessWidget with InputValidationPSProfileMixin{
                         }
                       },
                       decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 10.0),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
-                              borderSide:const BorderSide(color: Colors.black)
+                              borderSide:
+                                  const BorderSide(color: Colors.black)),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: const BorderSide(color: Colors.red),
+                          ),
+                          errorStyle: TextStyle(
+                            color: Colors.red[900],
+                            fontSize: 16.0,
+                            fontFamily: 'Wellfleet',
                           ),
                           labelText: "University Email:",
                           labelStyle: const TextStyle(
@@ -169,39 +239,53 @@ class PSSignUp extends StatelessWidget with InputValidationPSProfileMixin{
                             fontFamily: 'Wellfleet',
                             fontWeight: FontWeight.w500,
                             color: Colors.black,
-                          )
-                      ),
+                          )),
                     ),
                   ),
-                  const SizedBox(height: 10.0,),
-                   SizedBox(
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  SizedBox(
                     width: 335.0,
                     child: Text(
                       textAlign: TextAlign.justify,
-                        'We will email you any important notifications regarding to the bus.',
-                        style: TextStyle(
-                          fontFamily: 'Wellfleet',
-                          fontSize: 12.0,
-                          color: Colors.grey[600],
-                        ),
+                      'We will email you any important notifications regarding to the bus.',
+                      style: TextStyle(
+                        fontFamily: 'Wellfleet',
+                        fontSize: 12.0,
+                        color: Colors.grey[600],
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 20.0,),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
                   SizedBox(
                     width: 340.0,
                     child: TextFormField(
-                      validator: (lName) {
-                        if (isNameValid(lName!)) {
+                      validator: (password) {
+                        if (isPasswordValid(password!)) {
                           return null;
                         } else {
                           return 'Invalid Password!';
                         }
                       },
+                      controller: _passwordController,
                       decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 10.0),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
-                              borderSide: const BorderSide(color: Colors.black)
+                              borderSide:
+                                  const BorderSide(color: Colors.black)),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: const BorderSide(color: Colors.red),
+                          ),
+                          errorStyle: TextStyle(
+                            color: Colors.red[900],
+                            fontSize: 16.0,
+                            fontFamily: 'Wellfleet',
                           ),
                           labelText: "Password:",
                           labelStyle: const TextStyle(
@@ -209,26 +293,37 @@ class PSSignUp extends StatelessWidget with InputValidationPSProfileMixin{
                             fontFamily: 'Wellfleet',
                             fontWeight: FontWeight.w500,
                             color: Colors.black,
-                          )
-                      ),
+                          )),
                     ),
                   ),
-                  const SizedBox(height: 10.0,),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
                   SizedBox(
                     width: 340.0,
                     child: TextFormField(
-                      validator: (lName) {
-                        if (isNameValid(lName!)) {
+                      validator: (password) {
+                        if (isPasswordValid(password!)) {
                           return null;
                         } else {
                           return 'Invalid Confirmed Password!';
                         }
                       },
                       decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 10.0),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
-                              borderSide: const BorderSide(color: Colors.black)
+                              borderSide:
+                                  const BorderSide(color: Colors.black)),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: const BorderSide(color: Colors.red),
+                          ),
+                          errorStyle: TextStyle(
+                            color: Colors.red[900],
+                            fontSize: 16.0,
+                            fontFamily: 'Wellfleet',
                           ),
                           labelText: "Confirmed Password:",
                           labelStyle: const TextStyle(
@@ -236,26 +331,36 @@ class PSSignUp extends StatelessWidget with InputValidationPSProfileMixin{
                             fontFamily: 'Wellfleet',
                             fontWeight: FontWeight.w500,
                             color: Colors.black,
-                          )
-                      ),
+                          )),
                     ),
                   ),
-                  const SizedBox(height:50.0),
+                  const SizedBox(height: 50.0),
                   SizedBox(
                     width: 340.0,
                     height: 50.0,
                     child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const PSLogin()),
-                          );
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            try {
+                              User? user = await FireAuth.registerThroughEmail(
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                              );
+                              if (user != null) {
+                                _showSucessDialog(context);
+                                MaterialPageRoute(
+                                    builder: (context) => const PSLogin());
+                              }
+                            } on FirebaseAuthException catch (e) {
+                              print(e);
+                            }
+                          }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromRGBO(11, 39, 143, 1.0),
+                          backgroundColor:
+                              const Color.fromRGBO(11, 39, 143, 1.0),
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40.0)
-                          ),
+                              borderRadius: BorderRadius.circular(40.0)),
                         ),
                         child: const Text(
                           'Agree & Continue',
@@ -265,14 +370,16 @@ class PSSignUp extends StatelessWidget with InputValidationPSProfileMixin{
                             fontWeight: FontWeight.w500,
                             color: Colors.white,
                           ),
-                        )
-                    ),
+                        )),
                   ),
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      SizedBox(width: 20.0, height: 250.0,),
+                      SizedBox(
+                        width: 20.0,
+                        height: 250.0,
+                      ),
                       Image(image: AssetImage('assets/images/bg_logo2.png'))
                     ],
                   ),
@@ -286,7 +393,7 @@ class PSSignUp extends StatelessWidget with InputValidationPSProfileMixin{
   }
 }
 
-mixin InputValidationPSProfileMixin {
+mixin InputValidationPSSignUpMixin {
   //regression expression for first name and last name
   bool isNameValid(String name){
     const pattern = r'^[a-zA-Z]+$';
@@ -300,10 +407,59 @@ mixin InputValidationPSProfileMixin {
     return regex.hasMatch(bdId) && bdId.length == 8;
   }
   //regression expression for psut student email
-  bool isEmailValid(String email){
-    const pattern = r'^\d{8}@std.psut.edu.jo$';
+  bool isEmailValid(String email) {
+    const pattern = r'^[a-zA-Z]{3}\d{8}@std.psut.edu.jo$'; //r'^[a-zA-Z]{3}\d{8}@std.psut.edu.jo$';
     RegExp regex = RegExp(pattern.toString());
     return regex.hasMatch(email);
   }
+  bool isPasswordValid(String password) {
+    if (password.length == 8) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
+}
+
+void _showSucessDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        shadowColor: Colors.blue[900],
+        backgroundColor: Colors.white,
+        title: const Center(
+          child: Text('Account is Created!',
+              style: TextStyle(
+                fontFamily: 'Wellfleet',
+                fontSize: 20.0,
+                color: Colors.black,
+              )),
+        ),
+        content: const Text('Please login with same email and password!',
+            textAlign: TextAlign.justify,
+            style: TextStyle(
+              fontFamily: 'Wellfleet',
+              fontSize: 16.0,
+              color: Colors.black,
+            )),
+        actions: <Widget>[
+          Center(
+            child: ElevatedButton(
+              child: const Text('OK',
+                  style: TextStyle(
+                    fontFamily: 'Wellfleet',
+                    fontSize: 15.0,
+                    color: Colors.black,
+                  )),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+          ),
+        ],
+      );
+    },
+  );
 }

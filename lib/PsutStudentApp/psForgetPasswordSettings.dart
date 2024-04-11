@@ -25,8 +25,6 @@ class _PSForgetSettingsState extends State<PSForgetSettings> {
     RegExp regex = RegExp(pattern.toString());
     return regex.hasMatch(email);
   }
-
-
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -128,6 +126,7 @@ class _PSForgetSettingsState extends State<PSForgetSettings> {
                       if (_formKey.currentState!.validate()) {
                         try{
                           await FirebaseAuth.instance.sendPasswordResetEmail(email: _emailController.text);
+                          _showAlertDialog(context);
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => const PSSettings()),
@@ -168,4 +167,45 @@ class _PSForgetSettingsState extends State<PSForgetSettings> {
       ),
     );
   }
+}
+void _showAlertDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        shadowColor: Colors.blue[900],
+        backgroundColor: Colors.white,
+        title: const Center(
+          child:  Text('Forget Password',
+              style: TextStyle(
+                fontFamily: 'Wellfleet',
+                fontSize: 20.0,
+                color: Colors.black,
+              )),
+        ),
+        content: const Text('Please Check Your Email to Reset Your Password!',
+            textAlign: TextAlign.justify,
+            style: TextStyle(
+              fontFamily: 'Wellfleet',
+              fontSize: 16.0,
+              color: Colors.black,
+            )),
+        actions:  <Widget>[
+          Center(
+            child: ElevatedButton(
+              child: const Text('OK',
+                  style: TextStyle(
+                    fontFamily: 'Wellfleet',
+                    fontSize: 15.0,
+                    color: Colors.black,
+                  )),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ),
+        ],
+      );
+    },
+  );
 }

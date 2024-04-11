@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'psLogin.dart';
+import 'psSignUpPage.dart';
 class PSStartUp extends StatelessWidget {
   const PSStartUp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: SizedBox(
           height: 600.0,
@@ -68,7 +70,7 @@ class PSStartUp extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const PSLogin()),
+                          MaterialPageRoute(builder: (context) => const PSSignUp()),
                         );
                       },
                       style: ElevatedButton.styleFrom(

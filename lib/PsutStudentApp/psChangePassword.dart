@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'FireAuth.dart';
 import 'psSettings.dart';
 
 class PSChangePassword extends StatefulWidget {
@@ -30,7 +32,7 @@ class _PSChangePasswordState extends State<PSChangePassword> {
   }
 
   bool isPasswordValid(String password) {
-    if (password.length == 9) {
+    if (password.length == 8) {
       return true;
     } else {
       return false;
@@ -88,7 +90,7 @@ class _PSChangePasswordState extends State<PSChangePassword> {
                   height: 50.0,
                 ),
                 Container(
-                  height: 150.0,
+                  height: 100.0,
                   alignment: Alignment.topLeft,
                   child: const Image(
                     image: AssetImage('assets/images/bg_logo.png'),
@@ -200,12 +202,20 @@ class _PSChangePasswordState extends State<PSChangePassword> {
                   width: 320.0,
                   height: 48.0,
                   child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const PSSettings()),
-                        );
+                      onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        try {
+                          User? user = (await FireAuth.changePassword(
+                            currentPassword: _oldPassword.text,
+                            newPassword: _newPassword.text,
+                            email: _emailController.text,
+                          ));
+                          _showChangedPasswordDialog(context);
+                        }
+                        on FirebaseAuthException catch(e) {
+                          print(e);
+                        }
+                      }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromRGBO(11, 39, 143, 1.0),
@@ -227,4 +237,45 @@ class _PSChangePasswordState extends State<PSChangePassword> {
           ),
         ));
   }
+}
+void _showChangedPasswordDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        shadowColor: Colors.blue[900],
+        backgroundColor: Colors.white,
+        title: const Center(
+          child:  Text('Password Changed!',
+              style: TextStyle(
+                fontFamily: 'Wellfleet',
+                fontSize: 20.0,
+                color: Colors.black,
+              )),
+        ),
+        content: const Text('The Password have changed!',
+            textAlign: TextAlign.justify,
+            style: TextStyle(
+              fontFamily: 'Wellfleet',
+              fontSize: 16.0,
+              color: Colors.black,
+            )),
+        actions:  <Widget>[
+          Center(
+            child: ElevatedButton(
+              child: const Text('OK',
+                  style: TextStyle(
+                    fontFamily: 'Wellfleet',
+                    fontSize: 15.0,
+                    color: Colors.black,
+                  )),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ),
+        ],
+      );
+    },
+  );
 }
