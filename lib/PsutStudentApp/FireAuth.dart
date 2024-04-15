@@ -1,6 +1,14 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FireAuth {
+  Future<String>getCurrentUID() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    return (auth.currentUser!).uid;
+  }
+
+
   //This method is for registering new student into our application and making each user our object in our firebase application
   static Future<User?> registerThroughEmail(
       {required String password, required String email}) async {
@@ -81,5 +89,6 @@ class FireAuth {
       // Handle reauthentication errors and password change errors.
       print('Error changing password: $e') ;
     }
+    return null;
   }
 }

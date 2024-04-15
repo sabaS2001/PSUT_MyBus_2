@@ -25,6 +25,7 @@ class _PSHomePage extends State<PSHomePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: GoogleMap(
           initialCameraPosition: _initialLocation,

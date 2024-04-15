@@ -30,6 +30,13 @@ class _PSLoginState extends State<PSLogin> {
     return firebaseApp;
   }
 
+  @override
+  void dispose (){
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   //Regression Expression for Student Email
   bool isEmailValid(String email) {
     const pattern = r'^[a-zA-Z]{3}\d{8}@std.psut.edu.jo$'; //r'^[a-zA-Z]{3}\d{8}@std.psut.edu.jo$';
@@ -45,7 +52,8 @@ class _PSLoginState extends State<PSLogin> {
   @override
   void initState() {
     super.initState();
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    User? user = FirebaseAuth.instance.currentUser;
+    FirebaseAuth.instance.authStateChanges().listen((user) {
       if (user == null) {
         print('User is not signed in');
       } else {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:psut_my_bus/PsutStudentApp/psLogin.dart';
-import 'package:psut_my_bus/PsutStudentApp/psStartUpPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'FireAuth.dart';
 
 class PSSignUp extends StatefulWidget{
@@ -13,10 +13,38 @@ class PSSignUp extends StatefulWidget{
 
 class _PSSignUpState extends State<PSSignUp>  with InputValidationPSSignUpMixin {
   final _formKey = GlobalKey<FormState>();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   final _emailController = TextEditingController();
-
   final _passwordController = TextEditingController();
+  final _confirmedPasswordController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _studentIDController = TextEditingController();
+
+
+  storeNewUser(user) async {
+    var firebaseUser = FirebaseAuth.instance.currentUser;
+    _firestore.collection('students').doc(firebaseUser!.uid).set({
+      'firstName': _firstNameController.text,
+      'lastName': _lastNameController.text,
+      'email': _emailController.text,
+      'studentID': _studentIDController.text,
+      'password': _passwordController.text,
+    });
+  }
+
+
+  @override
+  void dispose (){
+   _emailController.dispose();
+   _passwordController.dispose();
+   _confirmedPasswordController.dispose();
+   _firstNameController.dispose();
+   _lastNameController.dispose();
+   _studentIDController.dispose();
+   super.dispose();
+ }
 
   @override
   void initState() {
@@ -80,6 +108,7 @@ class _PSSignUpState extends State<PSSignUp>  with InputValidationPSSignUpMixin 
                   SizedBox(
                     width: 340.0,
                     child: TextFormField(
+                      controller: _firstNameController,
                       validator: (fName) {
                         if (isNameValid(fName!)) {
                           return null;
@@ -118,6 +147,7 @@ class _PSSignUpState extends State<PSSignUp>  with InputValidationPSSignUpMixin 
                   SizedBox(
                     width: 340.0,
                     child: TextFormField(
+                      controller: _lastNameController,
                       validator: (lName) {
                         if (isNameValid(lName!)) {
                           return null;
@@ -156,6 +186,7 @@ class _PSSignUpState extends State<PSSignUp>  with InputValidationPSSignUpMixin 
                   SizedBox(
                     width: 340.0,
                     child: TextFormField(
+                      controller: _studentIDController,
                       validator: (psID) {
                         if (isIDValid(psID!)) {
                           return null;
@@ -263,6 +294,7 @@ class _PSSignUpState extends State<PSSignUp>  with InputValidationPSSignUpMixin 
                   SizedBox(
                     width: 340.0,
                     child: TextFormField(
+                      controller: _passwordController,
                       validator: (password) {
                         if (isPasswordValid(password!)) {
                           return null;
@@ -270,7 +302,6 @@ class _PSSignUpState extends State<PSSignUp>  with InputValidationPSSignUpMixin 
                           return 'Invalid Password!';
                         }
                       },
-                      controller: _passwordController,
                       decoration: InputDecoration(
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 10.0),
@@ -302,6 +333,7 @@ class _PSSignUpState extends State<PSSignUp>  with InputValidationPSSignUpMixin 
                   SizedBox(
                     width: 340.0,
                     child: TextFormField(
+                      controller: _confirmedPasswordController,
                       validator: (password) {
                         if (isPasswordValid(password!)) {
                           return null;
@@ -340,21 +372,29 @@ class _PSSignUpState extends State<PSSignUp>  with InputValidationPSSignUpMixin 
                     height: 50.0,
                     child: ElevatedButton(
                         onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            try {
-                              User? user = await FireAuth.registerThroughEmail(
-                                email: _emailController.text,
-                                password: _passwordController.text,
-                              );
-                              if (user != null) {
-                                _showSucessDialog(context);
-                                MaterialPageRoute(
-                                    builder: (context) => const PSLogin());
+                          if(_passwordController.text == _confirmedPasswordController.text){
+                            if (_formKey.currentState!.validate()) {
+                              try {
+                                User? user = await FireAuth.registerThroughEmail(
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                );
+                                storeNewUser(user);
+                                  _showSucessDialog(context);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const PSLogin()),
+                                  );
+
+                              } on FirebaseAuthException catch (e) {
+                                debugPrint(e as String?);
                               }
-                            } on FirebaseAuthException catch (e) {
-                              print(e);
                             }
                           }
+                          else {
+                            _showErrorDialog(context);
+                          }
+
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor:
@@ -438,6 +478,47 @@ void _showSucessDialog(BuildContext context) {
               )),
         ),
         content: const Text('Please login with same email and password!',
+            textAlign: TextAlign.justify,
+            style: TextStyle(
+              fontFamily: 'Wellfleet',
+              fontSize: 16.0,
+              color: Colors.black,
+            )),
+        actions: <Widget>[
+          Center(
+            child: ElevatedButton(
+              child: const Text('OK',
+                  style: TextStyle(
+                    fontFamily: 'Wellfleet',
+                    fontSize: 15.0,
+                    color: Colors.black,
+                  )),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
+void _showErrorDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        shadowColor: Colors.blue[900],
+        backgroundColor: Colors.white,
+        title: const Center(
+          child: Text('Incorrect Password!',
+              style: TextStyle(
+                fontFamily: 'Wellfleet',
+                fontSize: 20.0,
+                color: Colors.black,
+              )),
+        ),
+        content: const Text('The Confirmed Password Does Not Match With Password Field',
             textAlign: TextAlign.justify,
             style: TextStyle(
               fontFamily: 'Wellfleet',

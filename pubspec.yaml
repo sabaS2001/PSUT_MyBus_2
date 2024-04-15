@@ -55,8 +55,9 @@ dependencies:
   #firebase authentication using google email
   firebase_auth: ^4.19.0
   firebase_app_check: ^0.2.2
-  firebase_storage: ^11.7.0
+  firebase_storage: ^11.7.1
   firebase_ui_auth: ^1.13.1
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:
