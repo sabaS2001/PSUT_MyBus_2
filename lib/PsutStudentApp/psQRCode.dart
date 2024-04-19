@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'psBottomNavBar.dart';
-
+import 'package:qr_flutter/qr_flutter.dart';
 class PSQRCode extends StatelessWidget {
   const PSQRCode({super.key});
 
@@ -24,6 +24,7 @@ class PSQRCode extends StatelessWidget {
         ),
         backgroundColor: Colors.white,
         shadowColor: Colors.transparent,
+
         leading: Padding(
           padding: const EdgeInsets.all(10.0),
           child: IconButton(
@@ -38,6 +39,26 @@ class PSQRCode extends StatelessWidget {
           ),
         ),
       ),
+      body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const CircleAvatar(
+                backgroundImage: AssetImage('assets/images/logo.png'), // to be changed to users profile picture
+                backgroundColor: Colors.transparent,
+                radius: 80.0,
+              ),
+              const SizedBox(height: 10.0),
+              QrImageView(
+                data: 'https://www.psut.edu.jo/', //userName+uniID+busLine+Image to use later as variables for qr data
+                version: QrVersions.auto,
+                size: 200.0,
+              ),
+            ],
+          )
+      ),
+
     );
   }
+
 }

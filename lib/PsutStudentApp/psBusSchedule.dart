@@ -19,6 +19,7 @@ class PSBusSchedule extends StatelessWidget {
             ),
           ),
         ),
+
         backgroundColor: Colors.white,
         shadowColor: Colors.transparent,
         leading: Padding(

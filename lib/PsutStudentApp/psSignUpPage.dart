@@ -372,29 +372,38 @@ class _PSSignUpState extends State<PSSignUp>  with InputValidationPSSignUpMixin 
                     height: 50.0,
                     child: ElevatedButton(
                         onPressed: () async {
-                          if(_passwordController.text == _confirmedPasswordController.text){
+                          if(_passwordController.text == _confirmedPasswordController.text) {
                             if (_formKey.currentState!.validate()) {
                               try {
-                                User? user = await FireAuth.registerThroughEmail(
+                                User? user = await FireAuth
+                                    .registerThroughEmail(
                                   email: _emailController.text,
                                   password: _passwordController.text,
                                 );
-                                storeNewUser(user);
-                                  _showSucessDialog(context);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => const PSLogin()),
+                                if (user != null) {
+                                  if (await FireAuth.checkEmailExists(
+                                      _emailController.text)) {
+                                    storeNewUser(user);
+                                    _showSucessDialog(context);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (
+                                          context) => const PSLogin()),
+                                    );
+                                  }
+                                }
+                                else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content:
+                                        Text('The Email Already Exist for Another User')),
                                   );
-
+                                }
                               } on FirebaseAuthException catch (e) {
                                 debugPrint(e as String?);
                               }
                             }
                           }
-                          else {
-                            _showErrorDialog(context);
-                          }
-
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor:

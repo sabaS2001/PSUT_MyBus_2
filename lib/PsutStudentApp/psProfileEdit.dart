@@ -2,10 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:psut_my_bus/PsutStudentApp/psProfile.dart';
-import 'psSettings.dart';
 
 class PSProfileEdit extends StatefulWidget {
-  PSProfileEdit({super.key});
+  const PSProfileEdit({super.key});
 
   @override
   State<PSProfileEdit> createState() => _PSProfileState();
@@ -57,7 +56,7 @@ class _PSProfileState extends State<PSProfileEdit> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => PSProfile()),
+                  MaterialPageRoute(builder: (context) => const PSProfile()),
                 );
               },
               icon: const Icon(

@@ -106,7 +106,7 @@ class PSSettings extends StatelessWidget {
                     onPressed: (){
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => PSProfile()),
+                        MaterialPageRoute(builder: (context) => const PSProfile()),
                       );
                     },
                     icon: const Icon(Icons.arrow_forward_ios_sharp,

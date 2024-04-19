@@ -1,8 +1,72 @@
 import 'package:flutter/material.dart';
 import 'bdBottomNavBar.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
+import 'dart:typed_data';
+
+MobileScannerController cameraController = MobileScannerController();
+bool _screenOpened = false;
+
+class FoundCodeScreen extends StatefulWidget {
+  final String value;
+  final Function() screenClosed;
+  const FoundCodeScreen({
+    super.key,
+    required this.value,
+    required this.screenClosed,
+  });
+
+  @override
+  State<FoundCodeScreen> createState() => _FoundCodeScreenState();
+}
+
+class _FoundCodeScreenState extends State<FoundCodeScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Found Code"),
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            widget.screenClosed();
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back_outlined,),
+        ),
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text("Scanned Code:", style: TextStyle(fontSize: 20,),),
+              const SizedBox(height: 20,),
+              Text(widget.value, style: const TextStyle(fontSize: 16,),),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 class BDQRScan extends StatelessWidget {
   const BDQRScan({super.key});
+
+  void _foundBarcode(BuildContext context, Barcode barcode, MobileScannerArguments? args) {
+    if (!_screenOpened) {
+      final String code = barcode.rawValue ?? "---";
+      debugPrint('Barcode found! $code');
+      _screenOpened = true;
+      Navigator.push(context, MaterialPageRoute(builder: (context) =>
+          FoundCodeScreen(screenClosed: _screenWasClosed, value: code),));
+    }
+  }
+
+  void _screenWasClosed() {
+    _screenOpened = false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +77,7 @@ class BDQRScan extends StatelessWidget {
           margin: const EdgeInsets.fromLTRB(0.0, 30.0, 30.0, 0.0),
           child: const Center(
             child: Text(
-              'QR Scanner',
+              'QR Code Scanner',
               style: TextStyle(
                 fontSize: 22.0,
                 fontFamily: 'Wellfleet',
@@ -36,6 +100,64 @@ class BDQRScan extends StatelessWidget {
             icon: const Icon(Icons.arrow_circle_left_outlined, size: 40.0,),
             color: Colors.blue[900],
           ),
+        ),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 300.0, // specify your desired width
+              height: 300.0, // specify your desired height
+              child: MobileScanner(
+                controller: cameraController,
+                onDetect: (capture){
+                  final List<Barcode> barcodes = capture.barcodes;
+                  final Uint8List? image = capture.image;
+                  for(final barcode in barcodes){
+                    debugPrint('Barcode Found! ${barcode.rawValue}');
+                  }
+                },
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                IconButton(
+                  color: Colors.black,
+                  icon: ValueListenableBuilder(
+                    valueListenable: cameraController.torchState,
+                    builder: (context, state, child) {
+                      switch (state) {
+                        case TorchState.off:
+                          return const Icon(Icons.flash_off, color: Colors.grey);
+                        case TorchState.on:
+                          return const Icon(Icons.flash_on, color: Colors.yellow);
+                      }
+                    },
+                  ),
+                  iconSize: 32.0,
+                  onPressed: () => cameraController.toggleTorch(),
+                ),
+                IconButton(
+                  color: Colors.black,
+                  icon: ValueListenableBuilder(
+                    valueListenable: cameraController.cameraFacingState,
+                    builder: (context, state, child) {
+                      switch (state) {
+                        case CameraFacing.front:
+                          return const Icon(Icons.camera_front);
+                        case CameraFacing.back:
+                          return const Icon(Icons.camera_rear);
+                      }
+                    },
+                  ),
+                  iconSize: 32.0,
+                  onPressed: () => cameraController.switchCamera(),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

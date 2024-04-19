@@ -58,6 +58,9 @@ dependencies:
   firebase_storage: ^11.7.1
   firebase_ui_auth: ^1.13.1
   provider: ^6.1.2
+  qr_flutter: ^4.1.0
+  mobile_scanner: ^4.0.1
+
 
 dev_dependencies:
   flutter_test:
