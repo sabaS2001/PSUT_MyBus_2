@@ -1,8 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'psBottomNavBar.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-class PSQRCode extends StatelessWidget {
+class PSQRCode extends StatefulWidget {
   const PSQRCode({super.key});
+
+  @override
+  State<PSQRCode> createState() => _PSQRCodeState();
+}
+
+class _PSQRCodeState extends State<PSQRCode> {
+
+  CollectionReference users = FirebaseFirestore.instance.collection('students');
+  User? user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -39,26 +50,77 @@ class PSQRCode extends StatelessWidget {
           ),
         ),
       ),
-      body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const CircleAvatar(
-                backgroundImage: AssetImage('assets/images/logo.png'), // to be changed to users profile picture
-                backgroundColor: Colors.transparent,
-                radius: 80.0,
-              ),
-              const SizedBox(height: 10.0),
-              QrImageView(
-                data: 'https://www.psut.edu.jo/', //userName+uniID+busLine+Image to use later as variables for qr data
-                version: QrVersions.auto,
-                size: 200.0,
-              ),
-            ],
-          )
-      ),
+      body: FutureBuilder(
+          future: users.doc(user?.uid).get(),
+          builder: (context, snapshot){
+            if(snapshot.connectionState == ConnectionState.done){
+              if(snapshot.hasData && snapshot.data!.exists){
+                Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+                // return Text('First Name: ${data['firstName']}');
+                return Scaffold(
+                  backgroundColor: Colors.white,
+                  body: Column(
+                    children: [
+                      const SizedBox(height: 30.0,),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(70.0, 30.0, 40.0, 20.0),
+                        child: SizedBox(
+                          width: 500,
+                          height: 300,
+                          child: Center(
+                            child: QrImageView(
+                              data: data['firstName'] + data['lastName']  + data['studentID'],
+                              size: 600,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const Text('Student Information',
+                        style: TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'Wellfleet',
+                      ),),
+                      Container(
+                        width: 320,
+                        height: 100,
+                        padding: const EdgeInsets.all(10.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.blue,
+                            width:  2.0,
+                            style: BorderStyle.solid,
+                          )
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text('First Name: ${ data['firstName']}',
+                            style: const TextStyle(
+                              fontSize: 17.0,
+                              fontFamily: 'Wellfleet',
+                            ),),
+                            Text('Last Name: ${data['lastName']}',
+                              style: const TextStyle(
+                                fontSize: 17.0,
+                                fontFamily: 'Wellfleet',
+                              ),),
+                            Text('Student ID: ${data['studentID']}',
+                              style: const TextStyle(
+                                fontSize: 17.0,
+                                fontFamily: 'Wellfleet',
+                              ),),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              }
+              return  Text('${user?.uid}');
+            }
+            return const Text('loading....');
+          }),
 
     );
   }
-
 }

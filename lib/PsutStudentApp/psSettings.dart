@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:psut_my_bus/PsutStudentApp/psLogin.dart';
 import 'psBottomNavBar.dart';
 import 'psProfile.dart';
 import 'psChangePassword.dart';
@@ -244,6 +245,7 @@ class PSSettings extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: (){
                         FirebaseAuth.instance.signOut();
+                        Navigator.push(context,MaterialPageRoute(builder: (context) => const PSLogin()));
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,

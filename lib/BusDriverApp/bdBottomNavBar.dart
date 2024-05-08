@@ -14,7 +14,7 @@ class NavBar extends StatefulWidget {
 class _NavBar extends State<NavBar> {
   int _currentIndex = 0;
 
-  final List<Widget> _tabs = [const BDHomePage(), const BDChat(), const BDQRScan(), const BDSettings()];
+  final List<Widget> _tabs = [const BDHomePage(), const BDChat(),  const BDQRScan(), const BDSettings()];
 
   @override
   Widget build(BuildContext context) {

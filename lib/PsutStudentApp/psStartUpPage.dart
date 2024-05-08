@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'psLogin.dart';
 import 'psSignUpPage.dart';
-class PSStartUp extends StatelessWidget {
+class PSStartUp extends StatefulWidget {
   const PSStartUp({super.key});
 
+  @override
+  State<PSStartUp> createState() => _PSStartUpState();
+}
+
+class _PSStartUpState extends State<PSStartUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

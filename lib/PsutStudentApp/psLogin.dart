@@ -39,7 +39,7 @@ class _PSLoginState extends State<PSLogin> {
 
   //Regression Expression for Student Email
   bool isEmailValid(String email) {
-    const pattern = r'^[a-zA-Z]{3}\d{8}@std.psut.edu.jo$'; //r'^[a-zA-Z]{3}\d{8}@std.psut.edu.jo$';
+    const pattern = r'^[a-zA-Z]{3}\d{8}@std.psut.edu.jo$';
     RegExp regex = RegExp(pattern.toString());
     return regex.hasMatch(email);
   }

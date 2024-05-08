@@ -134,9 +134,9 @@ class _BDHomePageState extends State<BDHomePage> {
           onMapCreated: (GoogleMapController controller){
             _controller.complete(controller);
           },
-          mapType: MapType.terrain,
+          mapType: MapType.normal,
           initialCameraPosition: const CameraPosition(
-            target: LatLng(37.42796133580664, -122.085749655962),
+            target:  LatLng(32.02363463930013, 35.87613106096076),
             zoom: 14.4746,
           ),
         ),

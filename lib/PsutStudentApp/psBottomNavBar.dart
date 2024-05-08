@@ -28,6 +28,7 @@ class _PSNavBar extends State<PSNavBar> {
     return Scaffold(
       body: _tabs[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
         currentIndex: _currentIndex,
         onTap: (int index) {
           setState(() {

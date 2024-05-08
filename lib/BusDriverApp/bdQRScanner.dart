@@ -51,13 +51,19 @@ class _FoundCodeScreenState extends State<FoundCodeScreen> {
   }
 }
 
-class BDQRScan extends StatelessWidget {
+class BDQRScan extends StatefulWidget {
   const BDQRScan({super.key});
 
-  void _foundBarcode(BuildContext context, Barcode barcode, MobileScannerArguments? args) {
+  @override
+  State<BDQRScan> createState() => _BDQRScanState();
+}
+
+class _BDQRScanState extends State<BDQRScan> {
+  void _foundBarcode(BuildContext context, Barcode barcode,
+      MobileScannerArguments? args) {
     if (!_screenOpened) {
       final String code = barcode.rawValue ?? "---";
-      debugPrint('Barcode found! $code');
+      debugPrint('QR Code found! $code');
       _screenOpened = true;
       Navigator.push(context, MaterialPageRoute(builder: (context) =>
           FoundCodeScreen(screenClosed: _screenWasClosed, value: code),));
@@ -66,6 +72,10 @@ class BDQRScan extends StatelessWidget {
 
   void _screenWasClosed() {
     _screenOpened = false;
+  }
+
+  Widget note(String x) {
+    return Text('Hello $x');
   }
 
   @override
@@ -91,7 +101,7 @@ class BDQRScan extends StatelessWidget {
         leading: Padding(
           padding: const EdgeInsets.all(10.0),
           child: IconButton(
-            onPressed: (){
+            onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const NavBar()),
@@ -111,11 +121,11 @@ class BDQRScan extends StatelessWidget {
               height: 300.0, // specify your desired height
               child: MobileScanner(
                 controller: cameraController,
-                onDetect: (capture){
+                onDetect: (capture) {
                   final List<Barcode> barcodes = capture.barcodes;
                   final Uint8List? image = capture.image;
-                  for(final barcode in barcodes){
-                    debugPrint('Barcode Found! ${barcode.rawValue}');
+                  for (final barcode in barcodes) {
+                    debugPrint('QR Code Found! ${barcode.rawValue}');
                   }
                 },
               ),
@@ -130,9 +140,11 @@ class BDQRScan extends StatelessWidget {
                     builder: (context, state, child) {
                       switch (state) {
                         case TorchState.off:
-                          return const Icon(Icons.flash_off, color: Colors.grey);
+                          return const Icon(
+                              Icons.flash_off, color: Colors.grey);
                         case TorchState.on:
-                          return const Icon(Icons.flash_on, color: Colors.yellow);
+                          return const Icon(
+                              Icons.flash_on, color: Colors.yellow);
                       }
                     },
                   ),
@@ -163,3 +175,4 @@ class BDQRScan extends StatelessWidget {
     );
   }
 }
+

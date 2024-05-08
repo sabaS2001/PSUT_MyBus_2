@@ -31,6 +31,7 @@ class _PSSignUpState extends State<PSSignUp>  with InputValidationPSSignUpMixin 
       'email': _emailController.text,
       'studentID': _studentIDController.text,
       'password': _passwordController.text,
+      'busLine': 'none',
     });
   }
 
@@ -383,14 +384,13 @@ class _PSSignUpState extends State<PSSignUp>  with InputValidationPSSignUpMixin 
                                 if (user != null) {
                                   if (await FireAuth.checkEmailExists(
                                       _emailController.text)) {
+                                    await user.sendEmailVerification();
                                     storeNewUser(user);
-                                    _showSucessDialog(context);
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (
-                                          context) => const PSLogin()),
-                                    );
                                   }
+                                  Navigator.push(context,
+                                    MaterialPageRoute(builder: (
+                                        context) => const PSLogin()),
+                                  );
                                 }
                                 else {
                                   ScaffoldMessenger.of(context).showSnackBar(
