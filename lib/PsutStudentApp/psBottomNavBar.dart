@@ -18,8 +18,8 @@ class _PSNavBar extends State<PSNavBar> {
     //pages
     const PSHomePage(),
     const PSChat(),
-    const PSBusSchedule(),
-    const PSQRCode(),
+    PSBusSchedule(),
+    PSQRCode(),
     const PSSettings()
   ];
 

@@ -4,18 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:psut_my_bus/PsutStudentApp/psProfileEdit.dart';
 import 'psSettings.dart';
 
-class PSProfile extends StatefulWidget {
-  const PSProfile({super.key});
-
-  @override
-  State<PSProfile> createState() => _PSProfileState();
-}
-
-class _PSProfileState extends State<PSProfile> {
+class PSProfile extends StatelessWidget {
+  PSProfile({super.key});
 
   CollectionReference users = FirebaseFirestore.instance.collection('students');
-  User? user = FirebaseAuth.instance.currentUser;
 
+  User? user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -172,7 +166,7 @@ class _PSProfileState extends State<PSProfile> {
                                       borderRadius: BorderRadius.circular(10.0),
                                       borderSide: const BorderSide(
                                           width: 5.0, color: Colors.black)),
-                                  labelText: "Bus Line (Read-Only):",
+                                  labelText: "Bus Line (Read-Only): ${data['busLine']}",
                                   labelStyle: const TextStyle(
                                     fontSize: 15.0,
                                     fontFamily: 'Wellfleet',
@@ -189,7 +183,7 @@ class _PSProfileState extends State<PSProfile> {
                                 onPressed: () async {
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
-                                            builder: (context) =>  const PSProfileEdit()));
+                                            builder: (context) =>  PSProfileEdit()));
                                 },
                                 style: ElevatedButton.styleFrom(
                                   side: const BorderSide(
@@ -216,7 +210,12 @@ class _PSProfileState extends State<PSProfile> {
               }
               return  Text('${user?.uid}');
             }
-            return const Text('loading....');
+            return Center(
+              child: CircularProgressIndicator(
+                color: Colors.blue[900],
+                strokeWidth: 3.0,
+              ),
+            );
           }
       ),
       );

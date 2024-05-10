@@ -4,20 +4,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:psut_my_bus/PsutStudentApp/psProfile.dart';
 
 
-class PSProfileEdit extends StatefulWidget {
-  const PSProfileEdit({super.key});
+class PSProfileEdit extends StatelessWidget {
+  PSProfileEdit({super.key});
 
-  @override
-  State<PSProfileEdit> createState() => _PSProfileState();
-}
-
-class _PSProfileState extends State<PSProfileEdit> {
   final _formKey = GlobalKey<FormState>();
+
   final _firstNameController = TextEditingController();
+
   final _lastNameController = TextEditingController();
+
   final _studentIDController = TextEditingController();
 
   CollectionReference users = FirebaseFirestore.instance.collection('students');
+
   User? user = FirebaseAuth.instance.currentUser;
 
   //regression expression for first name and last name
@@ -33,7 +32,6 @@ class _PSProfileState extends State<PSProfileEdit> {
     RegExp regex = RegExp(pattern.toString());
     return regex.hasMatch(bdId) && bdId.length == 8;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +55,7 @@ class _PSProfileState extends State<PSProfileEdit> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const PSProfile()),
+                          MaterialPageRoute(builder: (context) =>  PSProfile()),
                         );
                       },
                       icon: const Icon(

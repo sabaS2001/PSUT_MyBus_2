@@ -19,11 +19,36 @@ class _PSHomePageState extends State<PSHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              size: 30.0,
+              Icons.notifications_sharp,
+              color: Color.fromRGBO(0, 169, 224, 1.0),
+            ),
+            onPressed: () {
+              // do something
+            },
+          )
+        ],
+      ),
       body: StreamBuilder(
         //Get all the routes that's available in Madinah called Routes
-        stream: FirebaseFirestore.instance.collectionGroup('Routes').snapshots(),
+        stream: FirebaseFirestore.instance.collection('markersAdmin').snapshots(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) return const Text('loading map');
+          if (!snapshot.hasData) {
+            return Center(
+            child: CircularProgressIndicator(
+              color: Colors.blue[900],
+              strokeWidth: 3.0,
+            ),
+          );
+          }
           markers.clear(); // Clear the markers before adding new ones
           for (var element in snapshot.data!.docs) {
             //For each document in the routes, retrieve their data

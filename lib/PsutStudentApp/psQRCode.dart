@@ -3,16 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'psBottomNavBar.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-class PSQRCode extends StatefulWidget {
-  const PSQRCode({super.key});
-
-  @override
-  State<PSQRCode> createState() => _PSQRCodeState();
-}
-
-class _PSQRCodeState extends State<PSQRCode> {
+class PSQRCode extends StatelessWidget {
+  PSQRCode({super.key});
 
   CollectionReference users = FirebaseFirestore.instance.collection('students');
+
   User? user = FirebaseAuth.instance.currentUser;
 
   @override
@@ -118,7 +113,12 @@ class _PSQRCodeState extends State<PSQRCode> {
               }
               return  Text('${user?.uid}');
             }
-            return const Text('loading....');
+            return Center(
+              child: CircularProgressIndicator(
+                color: Colors.blue[900],
+                strokeWidth: 3.0,
+              ),
+            );
           }),
 
     );
