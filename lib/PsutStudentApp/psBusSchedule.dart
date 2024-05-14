@@ -6,7 +6,7 @@ import 'psBottomNavBar.dart';
 
 
 class PSBusSchedule extends StatefulWidget {
-  PSBusSchedule({super.key});
+  const PSBusSchedule({super.key});
 
   @override
   State<PSBusSchedule> createState() => _PSBusScheduleState();
@@ -50,6 +50,8 @@ class _PSBusScheduleState extends State<PSBusSchedule> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0.0,
         title: Center(
           child: Container(
             margin: const EdgeInsets.fromLTRB(30.0, 30.0, 50.0, 0.0),
@@ -65,7 +67,6 @@ class _PSBusScheduleState extends State<PSBusSchedule> {
             ),
           ),
         ),
-        backgroundColor: Colors.white,
         shadowColor: Colors.transparent,
         leading: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -122,10 +123,10 @@ class _PSBusScheduleState extends State<PSBusSchedule> {
                 return Column(
                   children: [
                     Container(
-                      padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+                      padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
                       margin: const EdgeInsets.all(14.0),
-                      width: MediaQuery.of(context).size.width,
-                      height: 170,
+                      width: MediaQuery.of(context).size.width - 20 ,
+                      height: MediaQuery.of(context).size.height - MediaQuery.of(context).size.height *.83,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20.0),
                         border: Border.all(
@@ -135,56 +136,58 @@ class _PSBusScheduleState extends State<PSBusSchedule> {
                       ),
                       child: Column(
                         children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                dateFormat,
-                                style: const TextStyle(
-                                    fontSize: 15.0, fontFamily: 'Wellfleet'),
-                              ),
-                              Text(
-                                'Arriving ${data['arrivaltimeR1']}',
-                                style: const TextStyle(
-                                    fontSize: 15.0, fontFamily: 'Wellfleet'),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10.0,
-                          ),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.directions_bus_sharp,
-                                color: Colors.blue[900],
-                              ),
-                              const SizedBox(
-                                width: 10.0,
-                              ),
-                              Container(
-                                width: 40.0,
-                                decoration: BoxDecoration(
-                                  color: const Color.fromRGBO(0, 169, 224, 1.0),
-                                  borderRadius: BorderRadius.circular(20.0),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 10.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  dateFormat,
+                                  style: const TextStyle(
+                                      fontSize: 13.0, fontFamily: 'Wellfleet'),
                                 ),
-                                child: Center(
-                                  child: Text(
-                                    '${data['busNumber']}',
-                                    style: const TextStyle(
-                                      fontSize: 15.0,
-                                      fontFamily: 'Wellfleet',
+                                Text(
+                                  'Arriving ${data['arrivaltimeR1']}',
+                                  style: const TextStyle(
+                                      fontSize: 13.0, fontFamily: 'Wellfleet'),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+                            width: MediaQuery.of(context).size.width - 20,
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.directions_bus_sharp,
+                                  color: Colors.blue[900],
+                                  size: 30,
+                                ),
+                                const SizedBox(
+                                  width: 10.0,
+                                ),
+                                Container(
+                                  width: 40.0,
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromRGBO(0, 169, 224, 1.0),
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      '${data['busNumber']}',
+                                      style: const TextStyle(
+                                        fontSize: 15.0,
+                                        fontFamily: 'Wellfleet',
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 10.0,
-                              ),
-                              SizedBox(
-                                width: 120.0,
-                                child: Center(
+                                const SizedBox(
+                                  width: 20.0,
+                                ),
+                                Center(
                                   child: Text(
                                     '${data['originalPlace']}',
                                     style: const TextStyle(
@@ -193,17 +196,15 @@ class _PSBusScheduleState extends State<PSBusSchedule> {
                                     ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 5.0,
-                              ),
-                              const Text('------->'),
-                              const SizedBox(
-                                width: 5.0,
-                              ),
-                              SizedBox(
-                                width: 130.0,
-                                child: Center(
+                                const SizedBox(
+                                  width: 10.0,
+                                ),
+                                const Text('------->'),
+                                const SizedBox(
+                                  width: 10.0,
+                                ),
+                                SizedBox(
+                                  width: 100,
                                   child: Text(
                                     document.id,
                                     style: const TextStyle(
@@ -212,17 +213,17 @@ class _PSBusScheduleState extends State<PSBusSchedule> {
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           )
                         ],
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+                      padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
                       margin: const EdgeInsets.all(14.0),
-                      width: MediaQuery.of(context).size.width,
-                      height: 170,
+                      width: MediaQuery.of(context).size.width - 20 ,
+                      height: MediaQuery.of(context).size.height - MediaQuery.of(context).size.height *.83,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20.0),
                         border: Border.all(
@@ -232,56 +233,58 @@ class _PSBusScheduleState extends State<PSBusSchedule> {
                       ),
                       child: Column(
                         children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                dateFormat,
-                                style: const TextStyle(
-                                    fontSize: 15.0, fontFamily: 'Wellfleet'),
-                              ),
-                              Text(
-                                'Arriving ${data['arrivaltimeR2']}',
-                                style: const TextStyle(
-                                    fontSize: 15.0, fontFamily: 'Wellfleet'),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10.0,
-                          ),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.directions_bus_sharp,
-                                color: Colors.blue[900],
-                              ),
-                              const SizedBox(
-                                width: 10.0,
-                              ),
-                              Container(
-                                width: 40.0,
-                                decoration: BoxDecoration(
-                                  color: const Color.fromRGBO(0, 169, 224, 1.0),
-                                  borderRadius: BorderRadius.circular(20.0),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 10.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  dateFormat,
+                                  style: const TextStyle(
+                                      fontSize: 13.0, fontFamily: 'Wellfleet'),
                                 ),
-                                child: Center(
-                                  child: Text(
-                                    '${data['busNumber']}',
-                                    style: const TextStyle(
-                                      fontSize: 15.0,
-                                      fontFamily: 'Wellfleet',
+                                Text(
+                                  'Arriving ${data['arrivaltimeR2']}',
+                                  style: const TextStyle(
+                                      fontSize: 13.0, fontFamily: 'Wellfleet'),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+                            width: MediaQuery.of(context).size.width - 20,
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.directions_bus_sharp,
+                                  color: Colors.blue[900],
+                                  size: 30,
+                                ),
+                                const SizedBox(
+                                  width: 10.0,
+                                ),
+                                Container(
+                                  width: 40.0,
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromRGBO(0, 169, 224, 1.0),
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      '${data['busNumber']}',
+                                      style: const TextStyle(
+                                        fontSize: 15.0,
+                                        fontFamily: 'Wellfleet',
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 10.0,
-                              ),
-                              SizedBox(
-                                width: 120.0,
-                                child: Center(
+                                const SizedBox(
+                                  width: 20.0,
+                                ),
+                                Center(
                                   child: Text(
                                     '${data['originalPlace']}',
                                     style: const TextStyle(
@@ -290,17 +293,15 @@ class _PSBusScheduleState extends State<PSBusSchedule> {
                                     ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 5.0,
-                              ),
-                              const Text('------->'),
-                              const SizedBox(
-                                width: 5.0,
-                              ),
-                              SizedBox(
-                                width: 130.0,
-                                child: Center(
+                                const SizedBox(
+                                  width: 10.0,
+                                ),
+                                const Text('------->'),
+                                const SizedBox(
+                                  width: 10.0,
+                                ),
+                                SizedBox(
+                                  width: 100,
                                   child: Text(
                                     document.id,
                                     style: const TextStyle(
@@ -309,23 +310,17 @@ class _PSBusScheduleState extends State<PSBusSchedule> {
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           )
                         ],
                       ),
-                    )
+                    ),
                   ],
                 );
               },
             );
           }
-          return Center(
-            child: CircularProgressIndicator(
-              color: Colors.blue[900],
-              strokeWidth: 3.0,
-            ),
-          );
         },
       ),
     );

@@ -19,7 +19,10 @@ class PSSettings extends StatefulWidget {
 class _PSSettingsState extends State<PSSettings> {
   CollectionReference studentInfo = FirebaseFirestore.instance.collection('students');
   User? user = FirebaseAuth.instance.currentUser;
-
+  double getScreenWidth(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    return screenWidth;
+  }
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(future: studentInfo.doc(user?.uid).get(),
@@ -49,17 +52,17 @@ class _PSSettingsState extends State<PSSettings> {
                 ),
                 body: SingleChildScrollView(
                   child: Container(
-                    margin: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 50.0),
+                    width: getScreenWidth(context),
+
+                    margin: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 10.0),
                     alignment: Alignment.bottomRight,
                     child: Column(
                       children: [
-                        Container(
-                          child: const Text('Settings',
-                              style: TextStyle(
-                                fontFamily: 'Wellfleet',
-                                fontSize: 30.0,
-                              )),
-                        ),
+                        const Text('Settings',
+                            style: TextStyle(
+                              fontFamily: 'Wellfleet',
+                              fontSize: 30.0,
+                            )),
                         const SizedBox(height: 20.0),
                         Row(
                           children: [
@@ -69,7 +72,7 @@ class _PSSettingsState extends State<PSSettings> {
                               radius: 40.0,
                             ),
                             const SizedBox(
-                              width: 10.0,
+                              width: 5.0,
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,14 +113,14 @@ class _PSSettingsState extends State<PSSettings> {
                             const SizedBox(width: 10.0, height: 40.0,),
                             const Icon(Icons.person_outline_rounded,
                               size: 20.0,),
-                            const SizedBox(width: 10.0),
+                            const SizedBox(width: 5.0),
                             const Text('Profile',
                               style: TextStyle(
                                 fontFamily: 'Wellfleet',
                                 fontSize: 15.0,
                               ),
                             ),
-                            const SizedBox(width: 160.0),
+                            const SizedBox(width: 185.0),
                             IconButton(
                               onPressed: (){
                                 Navigator.push(

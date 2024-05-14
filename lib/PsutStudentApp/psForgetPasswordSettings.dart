@@ -17,7 +17,10 @@ class _PSForgetSettingsState extends State<PSForgetSettings> {
     _emailController.dispose();
     super.dispose();
   }
-
+  double getScreenWidth(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    return screenWidth;
+  }
 
 //Regression Expression for Student Email
   bool isEmailValid(String email) {
@@ -62,106 +65,113 @@ class _PSForgetSettingsState extends State<PSForgetSettings> {
           ),
         ),
         body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const SizedBox(height: 50.0,),
-              Container(
-                height: 150.0,
-                alignment: Alignment.topLeft,
-                child: const Image(
-                  image:AssetImage('assets/images/bg_logo.png'),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 380.0,
-                    child: Column(
+          child: StreamBuilder<Object>(
+            stream: null,
+            builder: (context, snapshot) {
+              return Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const SizedBox(height: 50.0,),
+                    Container(
+                      height: 150.0,
+                      alignment: Alignment.topLeft,
+                      child: const Image(
+                        image:AssetImage('assets/images/bg_logo.png'),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        TextFormField(
-                          controller: _emailController,
-                          validator: (psEmail) {
-                            if (isEmailValid(psEmail!)) {
-                              return null;
-                            } else {
-                              return 'Invalid Student Email!';
-                            }
-                          },
-                          decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.fromLTRB(10.0, 0.0, 15.0, 0.0),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: const BorderSide(color: Colors.black)
+                        SizedBox(
+                          width: getScreenWidth(context) - 20,
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                controller: _emailController,
+                                validator: (psEmail) {
+                                  if (isEmailValid(psEmail!)) {
+                                    return null;
+                                  } else {
+                                    return 'Invalid Student Email!';
+                                  }
+                                },
+                                decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.fromLTRB(10.0, 0.0, 15.0, 0.0),
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10.0),
+                                        borderSide: const BorderSide(color: Colors.black)
+                                    ),
+                                    labelText: "Student Email:",
+                                    labelStyle: const TextStyle(
+                                      fontSize: 15.0,
+                                      fontFamily: 'Wellfleet',
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black,
+                                    )
+                                ),
                               ),
-                              labelText: "Student Email:",
-                              labelStyle: const TextStyle(
-                                fontSize: 15.0,
-                                fontFamily: 'Wellfleet',
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black,
-                              )
-                          ),
-                        ),
-                        const SizedBox(height: 20.0,),
-                        const SizedBox(
-                          width: 370.0,
-                          height: 70.0,
-                          child: Text(
-                              'Enters the email address you used to register with Dynamic Layers. You will receive an email to define a new password.'
+                              const SizedBox(height: 20.0,),
+                              const SizedBox(
+                                width: 370.0,
+                                height: 70.0,
+                                child: Text(
+                                    'Enters the email address you used to register with Dynamic Layers. You will receive an email to define a new password.'
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20.0),
-              SizedBox(
-                width: 320.0,
-                height: 48.0,
-                child: ElevatedButton(
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        try{
-                          await FirebaseAuth.instance.sendPasswordResetEmail(email: _emailController.text);
-                          _showAlertDialog(context);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const PSSettings()),
-                          );
-                        } on FirebaseAuthException catch(e){
-                          print(e);
-                        }
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromRGBO(11, 39, 143, 1.0),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40.0)
+                    const SizedBox(height: 20.0),
+                    SizedBox(
+                      width: 320.0,
+                      height: 48.0,
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              try{
+                                await FirebaseAuth.instance.sendPasswordResetEmail(email: _emailController.text);
+                                _showAlertDialog(context);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const PSSettings()),
+                                );
+                              } on FirebaseAuthException catch(e){
+                                print(e);
+                              }
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color.fromRGBO(11, 39, 143, 1.0),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40.0)
+                            ),
+                          ),
+                          child: const Text(
+                            'SUBMIT',
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontFamily: 'Wellfleet',
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                            ),
+                          )
                       ),
                     ),
-                    child: const Text(
-                      'SUBMIT',
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'Wellfleet',
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white,
-                      ),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        SizedBox(width: 20.0, height: 500.0,),
+                        Image(image: AssetImage('assets/images/bg_logo2.png'))
+                      ],
                     )
+                  ],
                 ),
-              ),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  SizedBox(width: 20.0, height: 500.0,),
-                  Image(image: AssetImage('assets/images/bg_logo2.png'))
-                ],
-              )
-            ],
+              );
+            }
           ),
         ),
       ),

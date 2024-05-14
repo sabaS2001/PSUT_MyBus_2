@@ -7,6 +7,8 @@ import 'psSettings.dart';
 class PSProfile extends StatelessWidget {
   PSProfile({super.key});
 
+
+
   CollectionReference users = FirebaseFirestore.instance.collection('students');
 
   User? user = FirebaseAuth.instance.currentUser;
@@ -69,6 +71,7 @@ class PSProfile extends StatelessWidget {
                           SizedBox(
                             width: 340.0,
                             child: TextField(
+                              enabled: false,
                               decoration: InputDecoration(
                                   contentPadding: const EdgeInsets.symmetric(
                                       vertical: 10.0, horizontal: 10.0),
@@ -91,6 +94,7 @@ class PSProfile extends StatelessWidget {
                           SizedBox(
                             width: 340.0,
                             child: TextField(
+                              enabled: false,
                               decoration: InputDecoration(
                                   contentPadding: const EdgeInsets.symmetric(
                                       vertical: 10.0, horizontal: 10.0),
@@ -113,6 +117,7 @@ class PSProfile extends StatelessWidget {
                           SizedBox(
                             width: 340.0,
                             child: TextField(
+                              enabled: false,
                               decoration: InputDecoration(
                                   contentPadding: const EdgeInsets.symmetric(
                                       vertical: 10.0, horizontal: 10.0),
@@ -135,6 +140,7 @@ class PSProfile extends StatelessWidget {
                           SizedBox(
                             width: 340.0,
                             child: TextField(
+                              enabled: false,
                               decoration: InputDecoration(
                                   contentPadding: const EdgeInsets.symmetric(
                                       vertical: 10.0, horizontal: 10.0),
@@ -157,6 +163,7 @@ class PSProfile extends StatelessWidget {
                           SizedBox(
                             width: 340.0,
                             child: TextField(
+                              enabled: false,
                               readOnly: true,
                               cursorColor: Colors.redAccent,
                               decoration: InputDecoration(

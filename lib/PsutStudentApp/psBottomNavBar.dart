@@ -11,6 +11,7 @@ class PSNavBar extends StatefulWidget {
   @override
   _PSNavBar createState() => _PSNavBar();
 }
+
 class _PSNavBar extends State<PSNavBar> {
   int _currentIndex = 0;
 
@@ -18,7 +19,7 @@ class _PSNavBar extends State<PSNavBar> {
     //pages
     const PSHomePage(),
     const PSChat(),
-    PSBusSchedule(),
+    const PSBusSchedule(),
     PSQRCode(),
     const PSSettings()
   ];
@@ -35,25 +36,30 @@ class _PSNavBar extends State<PSNavBar> {
             _currentIndex = index;
           });
         },
-        items: const [
+        items:  const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            backgroundColor: Colors.white,
+            icon:  Icon(Icons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble_outlined),
+            backgroundColor: Colors.white,
+            icon:  Icon(Icons.chat_bubble_outlined),
             label: 'Chat',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu_book_outlined),
-            label: 'Bus Schedule',
+           BottomNavigationBarItem(
+            backgroundColor: Colors.white,
+            icon:  Icon(Icons.menu_book_outlined),
+            label: 'Schedule',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.qr_code_scanner_sharp),
+            backgroundColor: Colors.white,
+            icon:  Icon(Icons.qr_code_scanner_sharp),
             label: 'QR Code',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings_rounded),
+            backgroundColor: Colors.white,
+            icon:  Icon(Icons.settings_rounded),
             label: 'Settings',
           ),
         ],

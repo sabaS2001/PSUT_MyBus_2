@@ -26,7 +26,10 @@ class _PSForgetState extends State<PSForget> {
     return regex.hasMatch(email);
   }
 
-
+  double getScreenWidth(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    return screenWidth;
+  }
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -85,7 +88,7 @@ class _PSForgetState extends State<PSForget> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    width: 380.0,
+                    width: getScreenWidth(context)- 20,
                     child: Column(
                       children: [
                         TextFormField(
@@ -115,10 +118,10 @@ class _PSForgetState extends State<PSForget> {
                         const SizedBox(
                           height: 20.0,
                         ),
-                        const SizedBox(
-                          width: 370.0,
+                         SizedBox(
+                          width: getScreenWidth(context)- 30,
                           height: 70.0,
-                          child: Text(
+                          child: const Text(
                               'Enters the email address you used to register with Dynamic Layers. You will receive an email to define a new password.'),
                         ),
                       ],

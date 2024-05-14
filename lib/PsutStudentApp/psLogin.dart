@@ -48,6 +48,11 @@ class _PSLoginState extends State<PSLogin> {
     return password.length == 8;
   }
 
+  double getScreenWidth(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    return screenWidth;
+  }
+
 
   @override
   void initState() {
@@ -102,7 +107,7 @@ class _PSLoginState extends State<PSLogin> {
                       ),
                       SizedBox(
                         //Input Box of Bus Driver ID
-                        width: 350.0,
+                        width: getScreenWidth(context)- 20,
                         child: TextFormField(
                           controller: _emailController,
                           validator: (psEmail) {
@@ -140,7 +145,7 @@ class _PSLoginState extends State<PSLogin> {
                       //Space between input boxes
                       SizedBox(
                         // Input Box of Password
-                        width: 350.0,
+                        width: getScreenWidth(context)- 20,
                         child: TextFormField(
                           controller: _passwordController,
                           validator: (psPassword) {

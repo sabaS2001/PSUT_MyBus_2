@@ -54,60 +54,59 @@ class PSQRCode extends StatelessWidget {
                 // return Text('First Name: ${data['firstName']}');
                 return Scaffold(
                   backgroundColor: Colors.white,
-                  body: Column(
-                    children: [
-                      const SizedBox(height: 30.0,),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(70.0, 30.0, 40.0, 20.0),
-                        child: SizedBox(
-                          width: 500,
+                  body: Center(
+                    // margin: EdgeInsets.all(60.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 30.0,),
+                        SizedBox(
+                          width: 300,
                           height: 300,
-                          child: Center(
-                            child: QrImageView(
-                              data: data['firstName'] + data['lastName']  + data['studentID'],
-                              size: 600,
-                            ),
+                          child: QrImageView(
+                            data: data['firstName'] + data['lastName']  + data['studentID'],
+                            size: 300,
                           ),
                         ),
-                      ),
-                      const Text('Student Information',
-                        style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'Wellfleet',
-                      ),),
-                      Container(
-                        width: 320,
-                        height: 100,
-                        padding: const EdgeInsets.all(10.0),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.blue,
-                            width:  2.0,
-                            style: BorderStyle.solid,
-                          )
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text('First Name: ${ data['firstName']}',
-                            style: const TextStyle(
-                              fontSize: 17.0,
-                              fontFamily: 'Wellfleet',
-                            ),),
-                            Text('Last Name: ${data['lastName']}',
+                        const Text('Student Information',
+                          style: TextStyle(
+                          fontSize: 20.0,
+                          fontFamily: 'Wellfleet',
+                        ),),
+                        Container(
+                          width: 320,
+                          height: 110,
+                          padding: const EdgeInsets.all(10.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.blue,
+                              width:  2.0,
+                              style: BorderStyle.solid,
+                            )
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text('First Name: ${ data['firstName']}',
                               style: const TextStyle(
                                 fontSize: 17.0,
                                 fontFamily: 'Wellfleet',
                               ),),
-                            Text('Student ID: ${data['studentID']}',
-                              style: const TextStyle(
-                                fontSize: 17.0,
-                                fontFamily: 'Wellfleet',
-                              ),),
-                          ],
-                        ),
-                      )
-                    ],
+                              Text('Last Name: ${data['lastName']}',
+                                style: const TextStyle(
+                                  fontSize: 17.0,
+                                  fontFamily: 'Wellfleet',
+                                ),),
+                              Text('Student ID: ${data['studentID']}',
+                                style: const TextStyle(
+                                  fontSize: 17.0,
+                                  fontFamily: 'Wellfleet',
+                                ),),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 );
               }
