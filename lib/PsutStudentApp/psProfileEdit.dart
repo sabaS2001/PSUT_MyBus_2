@@ -1,12 +1,20 @@
+import 'dart:typed_data' ;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:psut_my_bus/PsutStudentApp/psProfile.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:psut_my_bus/utils/utils.dart';
+import 'package:psut_my_bus/resources/addData.dart';
 
+class PSProfileEdit extends StatefulWidget {
+  const PSProfileEdit({super.key});
 
-class PSProfileEdit extends StatelessWidget {
-  PSProfileEdit({super.key});
+  @override
+  State<PSProfileEdit> createState() => _PSProfileEditState();
+}
 
+class _PSProfileEditState extends State<PSProfileEdit> {
   final _formKey = GlobalKey<FormState>();
 
   final _firstNameController = TextEditingController();
@@ -14,6 +22,8 @@ class PSProfileEdit extends StatelessWidget {
   final _lastNameController = TextEditingController();
 
   final _studentIDController = TextEditingController();
+
+  Uint8List? _image;
 
   CollectionReference users = FirebaseFirestore.instance.collection('students');
 
@@ -31,6 +41,13 @@ class PSProfileEdit extends StatelessWidget {
     const pattern = r'^\d+$';
     RegExp regex = RegExp(pattern.toString());
     return regex.hasMatch(bdId) && bdId.length == 8;
+  }
+
+  void selectImage() async {
+    Uint8List image = await pickImage(ImageSource.gallery);
+    setState((){
+      _image = image;
+    });
   }
 
   @override
@@ -80,10 +97,36 @@ class PSProfileEdit extends StatelessWidget {
                       const SizedBox(
                         height: 20.0,
                       ),
-                      const CircleAvatar(
-                        backgroundImage: AssetImage('assets/images/logo.png'),
-                        backgroundColor: Colors.transparent,
-                        radius: 80.0,
+                      Stack(
+                        children: [
+                          _image != null ?
+                              CircleAvatar(
+                                  radius: 80.0,
+                                backgroundImage: MemoryImage(_image!),
+                              ) :
+                          const CircleAvatar(
+                            backgroundImage: AssetImage('assets/images/logo.png'),
+                            backgroundColor: Colors.transparent,
+                            radius: 80.0,
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            left:100,
+                            child: IconButton(
+                              style: ButtonStyle(
+                                backgroundColor: WidgetStateProperty.all(Colors.white70),
+                              ),
+                              onPressed: () {
+                                selectImage();
+                              },
+                              icon: Icon(
+                                Icons.add_a_photo_rounded,
+                                color: Colors.blue.shade900,
+                              ),
+                            ),
+                          )
+                        ],
+
                       ),
                       const SizedBox(
                         height: 40.0,
@@ -234,18 +277,16 @@ class PSProfileEdit extends StatelessWidget {
                                     final user = this.user;
                                     if (user != null) {
                                       try {
+                                        String imageURL = await StoreData().uploadImageToStorage('profileImage', _image!);
                                         await FirebaseFirestore.instance
                                             .collection('students')
                                             .doc(user.uid)
                                             .update({
-                                          'firstName':
-                                          _firstNameController.text.toString(),
-                                          'lastName':
-                                          _lastNameController.text,
-                                          'studentID':
-                                          _studentIDController.text
+                                          'firstName': _firstNameController.text,
+                                          'lastName': _lastNameController.text,
+                                          'studentID': _studentIDController.text,
+                                          'imageLink': imageURL,
                                         });
-
                                         ScaffoldMessenger.of(context).showSnackBar(
                                           const SnackBar(
                                               content:

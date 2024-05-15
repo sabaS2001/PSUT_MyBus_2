@@ -65,9 +65,11 @@ class _PSSettingsState extends State<PSSettings> {
                             )),
                         const SizedBox(height: 20.0),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            const CircleAvatar(
-                              backgroundImage: AssetImage('assets/images/logo.png'),
+                            CircleAvatar(
+                              backgroundImage: NetworkImage(data['imageLink']),
                               backgroundColor: Colors.transparent,
                               radius: 40.0,
                             ),

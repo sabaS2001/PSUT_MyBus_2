@@ -25,11 +25,9 @@ class LoginValidation extends StatelessWidget with InputValidationMixin {
 
   Future<FirebaseApp> _initializeFirebase() async {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
-    User? user = FirebaseAuth.instance.currentUser;
     return firebaseApp;
   }
 
-  @override
   void initState() {
     User? user = FirebaseAuth.instance.currentUser;
     FirebaseAuth.instance.authStateChanges().listen((user) {

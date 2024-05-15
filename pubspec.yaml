@@ -55,22 +55,16 @@ dependencies:
   #firebase authentication using google email
   firebase_auth: ^4.19.0
   firebase_app_check: ^0.2.2
-  firebase_storage: ^11.7.1
+  firebase_storage: ^11.7.5
   firebase_ui_auth: ^1.13.1
   provider: ^6.1.2
   qr_flutter: ^4.1.0
   mobile_scanner: ^4.0.1
   intl: ^0.19.0
-  flutter_chat_ui: ^1.6.12
-  file_picker: ^8.0.3
+  pubnub: ^4.3.4
   image_picker: ^1.1.1
-  flutter_chat_types: ^3.6.2
-  mime: ^1.0.5
-  open_filex: ^4.4.0
-  path_provider: ^2.1.3
-  uuid: ^4.4.0
 
-
+psut_my_bus: ^3.4.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -2,16 +2,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:psut_my_bus/PsutStudentApp/psProfileEdit.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'psSettings.dart';
 
 class PSProfile extends StatelessWidget {
   PSProfile({super.key});
 
-
-
-  CollectionReference users = FirebaseFirestore.instance.collection('students');
-
-  User? user = FirebaseAuth.instance.currentUser;
+  final storage = FirebaseStorage.instance;
+  final CollectionReference users = FirebaseFirestore.instance.collection('students');
+  final  User? user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +57,8 @@ class PSProfile extends StatelessWidget {
                       const SizedBox(
                         height: 20.0,
                       ),
-                      const CircleAvatar(
-                        backgroundImage: AssetImage('assets/images/logo.png'),
+                      CircleAvatar(
+                        backgroundImage: NetworkImage(data['imageLink']),
                         backgroundColor: Colors.transparent,
                         radius: 80.0,
                       ),
@@ -190,7 +189,7 @@ class PSProfile extends StatelessWidget {
                                 onPressed: () async {
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
-                                            builder: (context) =>  PSProfileEdit()));
+                                            builder: (context) =>  const PSProfileEdit()));
                                 },
                                 style: ElevatedButton.styleFrom(
                                   side: const BorderSide(
