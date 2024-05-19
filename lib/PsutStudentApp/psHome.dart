@@ -98,8 +98,8 @@ class _PSHomePageState extends State<PSHomePage> {
                         return Align(
                           alignment:Alignment.bottomCenter,
                           child: Container(
-                            width: 300,
-                            height: 200,
+                            width: MediaQuery.sizeOf(context).width - MediaQuery.sizeOf(context).width * .20,
+                            height: MediaQuery.sizeOf(context).height - MediaQuery.sizeOf(context).height *.71,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
                             ),
@@ -207,7 +207,7 @@ class _PSHomePageState extends State<PSHomePage> {
                                           color: Colors.white,
                                         ),
                                         child: Center(
-                                          child: Text(data['busNumber'],
+                                          child: Text(data['busNumber']?? '0' ?? data['busNumber'] ,
                                             style: const TextStyle(
                                                 fontSize: 40.0,
                                                 fontFamily: 'Wellfleet'

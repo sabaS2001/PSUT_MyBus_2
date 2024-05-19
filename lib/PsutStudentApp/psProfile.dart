@@ -58,8 +58,8 @@ class PSProfile extends StatelessWidget {
                         height: 20.0,
                       ),
                       CircleAvatar(
-                        backgroundImage: NetworkImage(data['imageLink']),
-                        backgroundColor: Colors.transparent,
+                        backgroundImage: NetworkImage(data['imageLink'] ?? 'none'),
+                        backgroundColor: Colors.blue.shade900,
                         radius: 80.0,
                       ),
                       const SizedBox(
@@ -78,7 +78,7 @@ class PSProfile extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(10.0),
                                       borderSide:
                                       const BorderSide(color: Colors.black)),
-                                  labelText: 'First Name: ${data['firstName']}',
+                                  labelText: 'First Name: ${data['firstName'] ?? 'none'}',
                                   labelStyle: const TextStyle(
                                     fontSize: 15.0,
                                     fontFamily: 'Wellfleet',
@@ -101,7 +101,7 @@ class PSProfile extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(10.0),
                                       borderSide:
                                       const BorderSide(color: Colors.black)),
-                                  labelText: 'Last Name: ${data['lastName']}',
+                                  labelText: 'Last Name: ${data['lastName'] ?? 'none'}',
                                   labelStyle: const TextStyle(
                                     fontSize: 15.0,
                                     fontFamily: 'Wellfleet',
@@ -124,7 +124,7 @@ class PSProfile extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(10.0),
                                       borderSide:
                                       const BorderSide(color: Colors.black)),
-                                  labelText: 'Student ID: ${data['studentID']}',
+                                  labelText: 'Student ID: ${data['studentID'] ?? 'none'}',
                                   labelStyle: const TextStyle(
                                     fontSize: 15.0,
                                     fontFamily: 'Wellfleet',
@@ -147,7 +147,7 @@ class PSProfile extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(10.0),
                                       borderSide:
                                       const BorderSide(color: Colors.black)),
-                                  labelText: 'Email: ${data['email']}',
+                                  labelText: 'Email: ${data['email'] ?? 'none' }',
                                   labelStyle: const TextStyle(
                                     fontSize: 15.0,
                                     fontFamily: 'Wellfleet',
@@ -172,7 +172,7 @@ class PSProfile extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(10.0),
                                       borderSide: const BorderSide(
                                           width: 5.0, color: Colors.black)),
-                                  labelText: "Bus Line (Read-Only): ${data['busLine']}",
+                                  labelText: "Bus Line (Read-Only): ${data['busLine'] ?? 'none'}",
                                   labelStyle: const TextStyle(
                                     fontSize: 15.0,
                                     fontFamily: 'Wellfleet',

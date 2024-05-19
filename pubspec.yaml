@@ -61,7 +61,6 @@ dependencies:
   qr_flutter: ^4.1.0
   mobile_scanner: ^4.0.1
   intl: ^0.19.0
-  pubnub: ^4.3.4
   image_picker: ^1.1.1
 
 psut_my_bus: ^3.4.0

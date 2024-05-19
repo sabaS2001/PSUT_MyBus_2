@@ -1,8 +1,26 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:psut_my_bus/PsutStudentApp/psHome.dart';
-class PSChat extends StatelessWidget {
-  const PSChat({super.key});
+import 'package:psut_my_bus/PsutStudentApp/model/message.dart';
+import 'package:psut_my_bus/PsutStudentApp/psBottomNavBar.dart';
 
+class PSChat extends StatefulWidget {
+  String email;
+  PSChat({super.key, required this.email});
+
+  @override
+  State<PSChat> createState() => _PSChatState(email: email);
+}
+
+class _PSChatState extends State<PSChat> {
+  String email;
+  _PSChatState({required this.email});
+
+  final _firestore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
+
+  final TextEditingController message = TextEditingController();
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +47,7 @@ class PSChat extends StatelessWidget {
             onPressed: (){
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const PSHomePage()),
+                MaterialPageRoute(builder: (context) => const PSNavBar()),
               );
             },
             icon: const Icon(Icons.arrow_circle_left_outlined, size: 40.0,),
@@ -37,6 +55,82 @@ class PSChat extends StatelessWidget {
           ),
         ),
       ),
+      body: Container(
+        height: MediaQuery.sizeOf(context).height,
+        margin: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
+        child: Column(
+          children: [
+            SingleChildScrollView(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height - MediaQuery.of(context).size.height*.25 ,
+                child: Messages(
+                  email: email,
+                ),
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.blue.shade900,
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 15.0,
+                          fontFamily: 'Wellfleet'),
+                      controller: message,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.blue[900],
+                        hintText: 'Message',
+                        hintStyle: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 15.0,
+                            fontFamily: 'Wellfleet'),
+                        enabled: true,
+                        contentPadding: const EdgeInsets.only(
+                            left: 14.0, bottom: 8.0, top: 8.0),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.blue),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.blue),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      validator: (value) {},
+                      onSaved: (value) {
+                        message.text = value!;
+                      },
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      if (message.text.isNotEmpty) {
+                        _firestore.collection('Messages').doc().set({
+                          'message': message.text.trim(),
+                          'time': DateTime.now(),
+                          'email': email,
+                        });
+
+                        message.clear();
+                      }
+                    },
+                    icon: const Icon(
+                      Icons.send_sharp,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      )
     );
   }
 }

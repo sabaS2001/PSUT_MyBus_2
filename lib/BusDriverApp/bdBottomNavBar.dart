@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:psut_my_bus/BusDriverApp/bdStudentList.dart';
 import 'bdHomePage.dart';
 import 'bdSettings.dart';
-import 'bdChat.dart';
-import 'bdQRScanner.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({super.key});
@@ -14,7 +13,7 @@ class NavBar extends StatefulWidget {
 class _NavBar extends State<NavBar> {
   int _currentIndex = 0;
 
-  final List<Widget> _tabs = [const BDHomePage(), const BDChat(),  const BDQRScan(), const BDSettings()];
+  final List<Widget> _tabs = [const BDHomePage(), const BDStudentList(), BDSettings()];
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +33,8 @@ class _NavBar extends State<NavBar> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble_outlined),
-            label: 'Chat',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.qr_code_scanner_sharp),
-            label: 'QR Code Student',
+            label: 'QR Code Student List',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings_rounded),

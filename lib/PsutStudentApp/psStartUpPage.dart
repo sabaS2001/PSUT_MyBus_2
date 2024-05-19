@@ -10,7 +10,6 @@ class PSStartUp extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Center(
         child: SizedBox(
-          height: 600.0,
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -23,7 +22,6 @@ class PSStartUp extends StatelessWidget {
                 ),
                 const SizedBox(height: 30.0),
                 Container(
-                  width: 270.0,
                   alignment: const FractionalOffset(0,0),
                   child: const Center(
                     child: Text('PSUT MyBus',

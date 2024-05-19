@@ -63,7 +63,7 @@ class PSQRCode extends StatelessWidget {
                           width: 300,
                           height: 300,
                           child: QrImageView(
-                            data: data['firstName'] + data['lastName']  + data['studentID'] + data['imageLink'],
+                            data: data['firstName'] ?? 'none' + data["lastName"] ?? 'none'  + data['studentID'] ?? 'none'+ data['imageLink'] ?? 'none',
                             size: 300,
                           ),
                         ),
@@ -89,7 +89,7 @@ class PSQRCode extends StatelessWidget {
                               SizedBox(
                                 width: 120,
                                 child: CircleAvatar(
-                                  backgroundImage: NetworkImage(data['imageLink']),
+                                  backgroundImage: NetworkImage(data['imageLink'] ?? 'none'),
                                   backgroundColor: Colors.blue.shade900,
                                   radius: 50.0,
                                 ),
@@ -100,17 +100,17 @@ class PSQRCode extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('First Name: ${ data['firstName']}',
+                                    Text('First Name: ${ data['firstName'] ?? 'none'}',
                                     style: const TextStyle(
                                       fontSize: 15.0,
                                       fontFamily: 'Wellfleet',
                                     ),),
-                                    Text('Last Name: ${data['lastName']}',
+                                    Text('Last Name: ${data['lastName'] ?? 'none'}',
                                       style: const TextStyle(
                                         fontSize: 15.0,
                                         fontFamily: 'Wellfleet',
                                       ),),
-                                    Text('Student ID: ${data['studentID']}',
+                                    Text('Student ID: ${data['studentID'] ?? 'none'}',
                                       style: const TextStyle(
                                         fontSize: 15.0,
                                         fontFamily: 'Wellfleet',

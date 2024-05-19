@@ -69,8 +69,8 @@ class _PSSettingsState extends State<PSSettings> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             CircleAvatar(
-                              backgroundImage: NetworkImage(data['imageLink']),
-                              backgroundColor: Colors.transparent,
+                              backgroundImage: NetworkImage(data['imageLink'] ?? 'none'),
+                              backgroundColor: Colors.blue.shade900,
                               radius: 40.0,
                             ),
                             const SizedBox(
@@ -80,7 +80,7 @@ class _PSSettingsState extends State<PSSettings> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  data['firstName'] + ' ' + data['lastName'] ,
+                                  data['firstName'] ?? 'none' ' ' + data['lastName'] ?? 'none' ,
                                   style: const TextStyle(
                                     fontSize: 20.0,
                                     fontFamily: 'Wellfleet',
@@ -89,7 +89,7 @@ class _PSSettingsState extends State<PSSettings> {
                                 ),
                                 const SizedBox(height: 20.0,),
                                 Text(
-                                  data['email'] ,
+                                  data['email'] ?? 'none' ,
                                   style: const TextStyle(
                                     fontSize: 13.0,
                                     fontFamily: 'Wellfleet',
@@ -264,8 +264,8 @@ class _PSSettingsState extends State<PSSettings> {
                               height: 48.0,
                               child: ElevatedButton(
                                 onPressed: (){
-                                  FirebaseAuth.instance.signOut();
                                   Navigator.push(context,MaterialPageRoute(builder: (context) => const PSLogin()));
+                                  FirebaseAuth.instance.signOut();
                                 },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.white,

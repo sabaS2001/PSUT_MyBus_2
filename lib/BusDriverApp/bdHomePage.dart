@@ -1,9 +1,11 @@
 import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'locationServices.dart' ;
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
 
 class BDHomePage extends StatefulWidget {
@@ -14,169 +16,363 @@ class BDHomePage extends StatefulWidget {
 }
 
 class _BDHomePageState extends State<BDHomePage> {
-  final Completer<GoogleMapController> _controller = Completer();
-  final TextEditingController _origin = TextEditingController();
-  final TextEditingController _destination = TextEditingController();
 
-  final Set<Marker> _markers = <Marker>{};
-  final Set<Polygon> _polygons = <Polygon>{};
-  final Set<Polyline> _polylines = <Polyline>{};
-  List<LatLng> polygonLatLngs = <LatLng>[];
+  late StreamSubscription<Position> _positionStreamSubscription;
+  late Marker userMarker;
 
-  late  int _polygonIdCounter = 1;
-  late int _polylineIdCounter = 1;
+  final DateTime _currentTime = DateTime.now();
+  late GoogleMapController mapController;
+  static const CameraPosition _initialLocation = CameraPosition(
+      target: LatLng(32.02363463930013, 35.87613106096076), zoom: 13);
 
-  @override
-  void initState() {
-    super.initState();
-    _setMarker(const LatLng(31.89946887031427, 35.83674782804591));
-  }
+  Set<Marker> markers = {}; // Use a Set to avoid duplicate markers
 
-  void _setMarker(LatLng point) {
-    setState(() {
-      _markers.add(
-        Marker(
-          markerId: const MarkerId('marker'),
-          position: point,
-        ),
-      );
+  CollectionReference users = FirebaseFirestore.instance.collection('drivers');
+  User? user = FirebaseAuth.instance.currentUser;
+  Future<void> _initLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location services are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error('Location services are permanently denied');
+    }
+
+    _positionStreamSubscription = Geolocator.getPositionStream().listen((Position position) {
+      _updateMarker(position);
     });
   }
 
-  void _setPolygon() {
-    final String polygonIdVal = 'polygon_$_polygonIdCounter';
-    _polygonIdCounter++;
-
-    _polygons.add(
-      Polygon(
-        polygonId: PolygonId(polygonIdVal),
-        points: polygonLatLngs,
-        strokeWidth: 2,
-        fillColor: Colors.transparent,
-      ),
-    );
+  void _updateMarker(Position position) {
+    setState(() {
+      userMarker = Marker(
+        markerId: userMarker.markerId,
+        position: LatLng(position.latitude, position.longitude),
+        infoWindow: userMarker.infoWindow,
+      );
+        });
+  }
+  @override
+  void initState() {
+    super.initState();
+    _initLocation();
   }
 
-  void _setPolyline(List<PointLatLng> points) {
-    final String polylineIdVal = 'polyline_$_polylineIdCounter';
-    _polylineIdCounter++;
-
-    _polylines.add(
-      Polyline(
-        polylineId: PolylineId(polylineIdVal),
-        width: 2,
-        color: Colors.blue,
-        points: points
-            .map(
-              (point) => LatLng(point.latitude, point.longitude),
-        )
-            .toList(),
-      ),
-    );
+  @override
+  void dispose() {
+    _positionStreamSubscription.cancel();
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          title: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    TextFormField(
-                      textCapitalization: TextCapitalization.words ,
-                      controller: _origin,
-                      decoration: const InputDecoration(
-                        hintText: 'Current Location',
-                      ),
-                      onChanged: (value){
-                        print(value);
-                      },
-                    ),
-                    TextFormField(
-                      textCapitalization: TextCapitalization.words ,
-                      controller: _destination,
-                      decoration: const InputDecoration(
-                        hintText: 'Destination',
-                      ),
-                      onChanged: (value){
-                        print(value);
-                      },
-                    ),
-                  ],
-                ),
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              size: 30.0,
+              Icons.notifications_sharp,
+              color: Color.fromRGBO(0, 169, 224, 1.0),
+            ),
+            onPressed: () {
+              // do something
+            },
+          )
+        ],
+      ),
+      body: StreamBuilder(
+        //Get all the routes that's available in Madinah called Routes
+        stream:
+        FirebaseFirestore.instance.collection('markersAdmin').snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: Colors.blue[900],
+                strokeWidth: 3.0,
               ),
-              IconButton(onPressed: () async {
-                var directions = await LocationService().getDirections(
-                  _origin.text,
-                  _destination.text,
-                );
-                goToPlace(
-                  directions['start_location']['lat'],
-                  directions['start_location']['lng'],
-                  directions['bounds_ne'],
-                  directions['bounds_sw'],
-                );
+            );
+          }
+          markers.clear(); // Clear the markers before adding new ones
+          for (var element in snapshot.data!.docs) {
+            //For each document in the routes, retrieve their data
+            final data = element.data();
+            if (data['location'] != null) {
+              // the marker id is the document title exists in the firestore
+              final MarkerId markerId = MarkerId(element.id.toString());
+              final Marker marker = Marker(
+                markerId: markerId,
+                //retrieve each marker's latitude and longitude from firestore
+                position: LatLng(
+                    data['location'].latitude, data['location'].longitude),
+                //display the marker title
+                infoWindow: InfoWindow(title: element.id.toString()),
+              );
+              markers.add(marker);
+            }
+          }
+          return Stack(
+            children: [
+              GoogleMap(
+                zoomControlsEnabled: false,
+                mapToolbarEnabled: false,
+                initialCameraPosition: _initialLocation,
+                onMapCreated: onMapCreated,
+                markers: markers,
+              ),
+              FutureBuilder(
+                  future: users.doc(user?.uid).get(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      if (snapshot.hasData && snapshot.data!.exists) {
+                        Map<String, dynamic> data =
+                        snapshot.data!.data() as Map<String, dynamic>;
 
-                _setPolyline(directions['polyline_decoded']);
-              },
-                  icon: const Icon(Icons.search,
-                    color: Colors.black,)),
+                        return Align(
+                          alignment:Alignment.bottomCenter,
+                          child: Container(
+                            width: 300,
+                            height: 300,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: LayoutBuilder(
+                              builder: (context, constraints){
+                                double innerHeight = constraints.maxHeight;
+                                double innerWidth = constraints.maxWidth;
+                                return Stack(
+                                  children: [
+                                    Positioned(
+                                        bottom:10,
+                                        left: 0,
+                                        right: 0,
+                                        child: Container(
+                                          height: innerHeight *0.80,
+                                          decoration: BoxDecoration(
+                                border: Border.all(
+                                                width: 1.0,
+                                                color: Colors.grey
+                                            ),
+                                            borderRadius: BorderRadius.circular(30),
+                                            color: Colors.white,
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Column(
+                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: [
+                                                  Column(
+                                                    children: [
+                                                      const Text('Driver Name',
+                                                        style: TextStyle(
+                                                          fontSize: 16.0,
+                                                          fontFamily: 'Wellfleet',
+                                                          fontWeight: FontWeight.bold,
+                                                        ),),
+                                                      Text(data['firstName'] + ' ' + data['lastName'],
+                                                        style: const TextStyle(
+                                                            fontSize: 15.0,
+                                                            fontFamily: 'Wellfleet'
+                                                        ),),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    children: [
+                                                      const Text('Timer',
+                                                        style: TextStyle(
+                                                          fontSize: 16.0,
+                                                          fontFamily: 'Wellfleet',
+                                                          fontWeight: FontWeight.bold,
+                                                        ),),
+                                                      Text( DateFormat.jm().format(_currentTime).toString(),
+                                                        style: const TextStyle(
+                                                            fontSize: 15.0,
+                                                            fontFamily: 'Wellfleet'
+                                                        ),),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    width: 110,
+                                                    child: ElevatedButton(
+                                                        style: ElevatedButton.styleFrom(
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius.circular(30),
+                                                              side: BorderSide(
+                                                                color: Colors.blue.shade900,
+                                                              )
+                                                          ),
+                                                          backgroundColor: Colors.white,
+                                                        ),
+                                                        onPressed: () {
+                                                          _currentLocation().then((position) {
+                                                            userMarker = Marker(
+                                                              markerId: const MarkerId('current_location'),
+                                                              position: LatLng(position.latitude, position.longitude),
+                                                              infoWindow: const InfoWindow(title: 'Current Location'),
+                                                            );
+                                                            markers.add(userMarker);
+                                                          });
+                                                        },
+                                                        child: const Text('Start',
+                                                          style: TextStyle(
+                                                            color: Color.fromRGBO(0, 169, 224, 1.0),
+                                                            fontFamily: 'Wellfleet',
+                                                            fontSize: 14.0,
+                                                          ),)),
+                                                  ),
+
+                                                ],
+                                              ),
+                                              Column(
+                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: [
+                                                  const Column(
+                                                    children: [
+                                                      Text('Bus Stop',
+                                                        style: TextStyle(
+                                                          fontSize: 16.0,
+                                                          fontFamily: 'Wellfleet',
+                                                          fontWeight: FontWeight.bold,
+                                                        ),),
+                                                      Text('Name',
+                                                        style: TextStyle(
+                                                            fontSize: 15.0,
+                                                            fontFamily: 'Wellfleet'
+                                                        ),),
+                                                    ],
+                                                  ),
+                                                  const Column(
+                                                    children: [
+                                                      Text('Delivery Time',
+                                                        style: TextStyle(
+                                                          fontSize: 16.0,
+                                                          fontFamily: 'Wellfleet',
+                                                          fontWeight: FontWeight.bold,
+                                                        ),),
+                                                      Text('time',
+                                                        style: TextStyle(
+                                                            fontSize: 15.0,
+                                                            fontFamily: 'Wellfleet'
+                                                        ),),
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    width: 110,
+                                                    child: ElevatedButton(
+                                                        style: ElevatedButton.styleFrom(
+                                                          shape: RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius.circular(30),
+                                                              side: BorderSide(
+                                                                color: Colors.blue.shade900,
+                                                              )
+                                                          ),
+                                                          backgroundColor: Colors.white,
+                                                        ),
+                                                        onPressed: () {},
+                                                        child: const Text('Finish',
+                                                          style: TextStyle(
+                                                            color: Color.fromRGBO(0, 169, 224, 1.0),
+                                                            fontFamily: 'Wellfleet',
+                                                            fontSize: 14.0,
+                                                          ),)),
+                                                  )
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        )),
+                                    Align(
+                                      alignment: Alignment.topCenter,
+                                      child: Container(
+                                        width: innerWidth * .22,
+                                        height: innerWidth * .22,
+                                        decoration: BoxDecoration(
+                                          boxShadow: [
+                                            BoxShadow(
+                                              offset: const Offset(0, 1),
+                                              blurRadius: 5,
+                                              color: Colors.black.withOpacity(0.3),
+                                            ),
+                                          ],
+                                          borderRadius: BorderRadius.circular(70),
+                                          color: Colors.white,
+                                        ),
+                                        child: Center(
+                                          child: Text(data['busNumber'],
+                                            style: const TextStyle(
+                                                fontSize: 40.0,
+                                                fontFamily: 'Wellfleet'
+                                            ),),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                        );
+                      }
+                      return Text('${user?.uid}');
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.blue[900],
+                        strokeWidth: 3.0,
+                      ),
+                    );
+                  })
             ],
-          ),
-        ),
-        body: GoogleMap(
-          polygons: _polygons,
-          polylines: _polylines,
-          markers: _markers,
-          onMapCreated: (GoogleMapController controller){
-            _controller.complete(controller);
-          },
-          mapType: MapType.normal,
-          initialCameraPosition: const CameraPosition(
-            target:  LatLng(32.02363463930013, 35.87613106096076),
-            zoom: 14.4746,
-          ),
-        ),
-
+          );
+        },
       ),
     );
   }
 
-  Future<void> goToPlace( double lat, double lng, Map<String, dynamic> boundsNe, Map<String, dynamic> boundsSw,) async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(
-      CameraUpdate.newCameraPosition(
-        CameraPosition(target: LatLng(lat, lng), zoom: 12),
-      ),
-    );
-    controller.animateCamera(
-      CameraUpdate.newLatLngBounds(
-          LatLngBounds(
-            southwest: LatLng(boundsSw['lat'], boundsSw['lng']),
-            northeast: LatLng(boundsNe['lat'], boundsNe['lng']),
-          ),
-          25),
-    );
-    _setMarker(LatLng(lat, lng));
+
+  Future <Position> _currentLocation() async {
+   bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+   if(!serviceEnabled){
+     return Future.error('Location services are disabled');
+   }
+   LocationPermission permission = await Geolocator.checkPermission();
+   if (permission == LocationPermission.denied){
+     permission = await Geolocator.requestPermission();
+     if(permission == LocationPermission.denied){
+       return Future.error('Location services are denied');
+     }
+     if(permission == LocationPermission.deniedForever){
+       return Future.error('Location services are permanently denied');
+     }
+   }
+   return await Geolocator.getCurrentPosition();
+  }
+  void onMapCreated(GoogleMapController controller) {
+    setState(() {
+      mapController = controller;
+    });
   }
 }
 
-//Getting the current bus driver's location
-Future <Position> getCurrentLocation() async {
-  bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  if(!serviceEnabled){
-    return Future.error('Location Servies Disabled');
-  }
 
-  LocationPermission permission = await Geolocator.checkPermission();
-  if(permission == LocationPermission.denied){
-    permission = await Geolocator.requestPermission();
-    if(permission == LocationPermission.denied){
-      Future.error("Permission is denied");
-    }
-  }
-  return await Geolocator.getCurrentPosition();
-}
+

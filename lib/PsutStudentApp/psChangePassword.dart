@@ -125,7 +125,7 @@ class _PSChangePasswordState extends State<PSChangePassword> {
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10.0),
                                       borderSide:
-                                          const BorderSide(color: Colors.black)),
+                                      const BorderSide(color: Colors.black)),
                                   labelText: "Student Email:",
                                   labelStyle: const TextStyle(
                                     fontSize: 15.0,
@@ -152,7 +152,7 @@ class _PSChangePasswordState extends State<PSChangePassword> {
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10.0),
                                       borderSide:
-                                          const BorderSide(color: Colors.black)),
+                                      const BorderSide(color: Colors.black)),
                                   labelText: "Current Password:",
                                   labelStyle: const TextStyle(
                                     fontSize: 15.0,
@@ -187,7 +187,7 @@ class _PSChangePasswordState extends State<PSChangePassword> {
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10.0),
                                       borderSide:
-                                          const BorderSide(color: Colors.black)),
+                                      const BorderSide(color: Colors.black)),
                                   labelText: "New Password:",
                                   labelStyle: const TextStyle(
                                     fontSize: 15.0,
@@ -210,19 +210,19 @@ class _PSChangePasswordState extends State<PSChangePassword> {
                     height: 48.0,
                     child: ElevatedButton(
                         onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          try {
-                            User? user = (await FireAuth.changePassword(
-                              currentPassword: _oldPassword.text,
-                              newPassword: _newPassword.text,
-                              email: _emailController.text,
-                            ));
-                            _showChangedPasswordDialog(context);
+                          if (_formKey.currentState!.validate()) {
+                            try {
+                              User? user = (await FireAuth.changePassword(
+                                currentPassword: _oldPassword.text,
+                                newPassword: _newPassword.text,
+                                email: _emailController.text,
+                              ));
+                              _showChangedPasswordDialog(context);
+                            }
+                            on FirebaseAuthException catch(e) {
+                              print(e);
+                            }
                           }
-                          on FirebaseAuthException catch(e) {
-                            print(e);
-                          }
-                        }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color.fromRGBO(11, 39, 143, 1.0),

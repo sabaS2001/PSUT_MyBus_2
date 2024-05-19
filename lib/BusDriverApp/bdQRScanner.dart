@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'bdBottomNavBar.dart';
+import 'package:psut_my_bus/BusDriverApp/bdStudentList.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'dart:typed_data';
 
@@ -58,17 +58,9 @@ class BDQRScan extends StatefulWidget {
   State<BDQRScan> createState() => _BDQRScanState();
 }
 
+
+
 class _BDQRScanState extends State<BDQRScan> {
-  void _foundBarcode(BuildContext context, Barcode barcode,
-      MobileScannerArguments? args) {
-    if (!_screenOpened) {
-      final String code = barcode.rawValue ?? "---";
-      debugPrint('QR Code found! $code');
-      _screenOpened = true;
-      Navigator.push(context, MaterialPageRoute(builder: (context) =>
-          FoundCodeScreen(screenClosed: _screenWasClosed, value: code),));
-    }
-  }
 
   void _screenWasClosed() {
     _screenOpened = false;
@@ -104,7 +96,7 @@ class _BDQRScanState extends State<BDQRScan> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const NavBar()),
+                MaterialPageRoute(builder: (context) => const BDStudentList()),
               );
             },
             icon: const Icon(Icons.arrow_circle_left_outlined, size: 40.0,),

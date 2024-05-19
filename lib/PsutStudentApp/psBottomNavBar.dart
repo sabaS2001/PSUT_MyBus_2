@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'psHome.dart';
 import 'psChat.dart';
@@ -13,12 +14,13 @@ class PSNavBar extends StatefulWidget {
 }
 
 class _PSNavBar extends State<PSNavBar> {
+  User? user = FirebaseAuth.instance.currentUser;
   int _currentIndex = 0;
 
   final List<Widget> _tabs = [
     //pages
     const PSHomePage(),
-    const PSChat(),
+    PSChat(email: FirebaseAuth.instance.currentUser!.email.toString(),),
     const PSBusSchedule(),
     PSQRCode(),
     const PSSettings()
