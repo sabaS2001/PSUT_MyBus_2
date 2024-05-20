@@ -326,9 +326,33 @@ class _PSProfileEditState extends State<PSProfileEdit> {
                 ),
               );
             }
-            return  Text('${user?.uid}');
+            return  Padding(
+              padding: const EdgeInsets.all(40.0),
+              child: Center(
+                child: SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 4.0,
+                    color: Colors.blue[900],
+                  ),
+                ),
+              ),
+            );;
           }
-          return const Text('loading....');
+          return Padding(
+            padding: const EdgeInsets.all(40.0),
+            child: Center(
+              child: SizedBox(
+                width: 100,
+                height: 100,
+                child: CircularProgressIndicator(
+                  strokeWidth: 4.0,
+                  color: Colors.blue[900],
+                ),
+              ),
+            ),
+          );;
         },
       )
       ,

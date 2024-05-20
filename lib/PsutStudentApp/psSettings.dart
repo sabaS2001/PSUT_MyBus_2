@@ -35,7 +35,6 @@ class _PSSettingsState extends State<PSSettings> {
                 backgroundColor: Colors.white,
                 appBar: AppBar(
                   backgroundColor: Colors.white,
-                  shadowColor: Colors.transparent,
                   leading: Padding(
                     padding: const EdgeInsets.all(11.0),
                     child: IconButton(
@@ -264,8 +263,8 @@ class _PSSettingsState extends State<PSSettings> {
                               height: 48.0,
                               child: ElevatedButton(
                                 onPressed: (){
-                                  Navigator.push(context,MaterialPageRoute(builder: (context) => const PSLogin()));
                                   FirebaseAuth.instance.signOut();
+                                  Navigator.push(context,MaterialPageRoute(builder: (context) => const PSLogin()));
                                 },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.white,
@@ -295,12 +294,31 @@ class _PSSettingsState extends State<PSSettings> {
                 ),
               );
             }
-            return  Text('${user?.uid}');
+            return Padding(
+              padding: const EdgeInsets.all(40.0),
+              child: Center(
+                child: SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 4.0,
+                    color: Colors.blue[900],
+                  ),
+                ),
+              ),
+            );
           }
-          return  Center(
-            child: CircularProgressIndicator(
-              color: Colors.blue[900],
-              strokeWidth: 3.0,
+          return   Padding(
+            padding: const EdgeInsets.all(40.0),
+            child: Center(
+              child: SizedBox(
+                width: 100,
+                height: 100,
+                child: CircularProgressIndicator(
+                  strokeWidth: 4.0,
+                  color: Colors.blue[900],
+                ),
+              ),
             ),
           );
         });

@@ -29,7 +29,6 @@ class PSQRCode extends StatelessWidget {
         ),
         backgroundColor: Colors.white,
         shadowColor: Colors.transparent,
-
         leading: Padding(
           padding: const EdgeInsets.all(10.0),
           child: IconButton(
@@ -49,12 +48,10 @@ class PSQRCode extends StatelessWidget {
           builder: (context, snapshot){
             if(snapshot.connectionState == ConnectionState.done){
               if(snapshot.hasData && snapshot.data!.exists){
-                Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
-                // return Text('First Name: ${data['firstName']}');
+                Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;;
                 return Scaffold(
                   backgroundColor: Colors.white,
                   body: Center(
-                    // margin: EdgeInsets.all(60.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -87,7 +84,7 @@ class PSQRCode extends StatelessWidget {
                           child: Row(
                             children: [
                               SizedBox(
-                                width: 120,
+                                width: (MediaQuery.sizeOf(context).width - 20) * .40,
                                 child: CircleAvatar(
                                   backgroundImage: NetworkImage(data['imageLink'] ?? 'none'),
                                   backgroundColor: Colors.blue.shade900,
@@ -95,7 +92,7 @@ class PSQRCode extends StatelessWidget {
                                 ),
                               ),
                               SizedBox(
-                                width: 200,
+                                width: (MediaQuery.sizeOf(context).width - 20) * .50,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,12 +123,31 @@ class PSQRCode extends StatelessWidget {
                   ),
                 );
               }
-              return  Text('${user?.uid}');
+              return  Padding(
+                padding: const EdgeInsets.all(40.0),
+                child: Center(
+                  child: SizedBox(
+                    width: 100,
+                    height: 100,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 4.0,
+                      color: Colors.blue[900],
+                    ),
+                  ),
+                ),
+              );
             }
-            return Center(
-              child: CircularProgressIndicator(
-                color: Colors.blue[900],
-                strokeWidth: 3.0,
+            return  Padding(
+              padding: const EdgeInsets.all(40.0),
+              child: Center(
+                child: SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 4.0,
+                    color: Colors.blue[900],
+                  ),
+                ),
               ),
             );
           }),

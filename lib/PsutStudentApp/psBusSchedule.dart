@@ -100,17 +100,35 @@ class _PSBusScheduleState extends State<PSBusSchedule> {
             );
           }
           if(busLine == 'none') {
-              return  const Center(
-                child: SizedBox(
-                  width: 250.0,
-                  child: Center(
-                    child: Text('Please Wait For The Bus Administrator to Assign A Bus Line',
-                    style: TextStyle(
-                      fontFamily: 'Wellfleet',
-                      fontSize: 20.0,
-                    ),),
+              return  Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(40.0),
+                    child: Center(
+                      child: SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 4.0,
+                          color: Colors.blue[900],
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                   Center(
+                    child: SizedBox(
+                      width: MediaQuery.sizeOf(context).width - MediaQuery.sizeOf(context).width * .20,
+                      child: const Text('Please Wait For The Bus Administrator to Assign A Bus Line!',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Wellfleet',
+                        fontSize: 18.0,
+                      ),),
+                    ),
+                  ),
+                ],
               );
           }
           else{

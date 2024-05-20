@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:psut_my_bus/PsutStudentApp/model/message.dart';
 import 'package:psut_my_bus/PsutStudentApp/psBottomNavBar.dart';
@@ -17,8 +16,6 @@ class _PSChatState extends State<PSChat> {
   _PSChatState({required this.email});
 
   final _firestore = FirebaseFirestore.instance;
-  final _auth = FirebaseAuth.instance;
-
   final TextEditingController message = TextEditingController();
   
   @override
@@ -102,7 +99,9 @@ class _PSChatState extends State<PSChat> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      validator: (value) {},
+                      validator: (value) {
+                        return null;
+                      },
                       onSaved: (value) {
                         message.text = value!;
                       },
