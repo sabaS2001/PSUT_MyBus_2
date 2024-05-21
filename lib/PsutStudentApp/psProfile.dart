@@ -226,7 +226,7 @@ class PSProfile extends StatelessWidget {
                     ),
                   ),
                 ),
-              );;
+              );
             }
             return  Padding(
               padding: const EdgeInsets.all(40.0),

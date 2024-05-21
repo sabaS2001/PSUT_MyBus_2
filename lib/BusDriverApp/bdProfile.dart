@@ -42,209 +42,204 @@ class BDProfile extends StatelessWidget{
             if(snapshot.connectionState == ConnectionState.done){
               if(snapshot.hasData && snapshot.data!.exists){
                 Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
-                // return Text('First Name: ${data['firstName']}');
-                return SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Center(
-                        child: Text('Profile',
-                            style: TextStyle(
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    const Center(
+                      child: Text('Profile',
+                          style: TextStyle(
+                            fontFamily: 'Wellfleet',
+                            fontSize: 30.0,
+                          )),
+                    ),
+                    CircleAvatar(
+                      backgroundImage: NetworkImage(data['imageLink'] ?? 'none'),
+                      backgroundColor: Colors.blue[900],
+                      radius: 80.0,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.sizeOf(context).width - MediaQuery.sizeOf(context).width * .10,
+                      child: TextField(
+                        enabled: false,
+                        decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 10.0),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide:
+                                const BorderSide(color: Colors.black)),
+                            labelText: 'First Name: ${data['firstName'] ?? 'none'}',
+                            labelStyle: const TextStyle(
+                              fontSize: 15.0,
                               fontFamily: 'Wellfleet',
-                              fontSize: 30.0,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
                             )),
                       ),
-                      const SizedBox(
-                        height: 20.0,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.sizeOf(context).width - MediaQuery.sizeOf(context).width * .10,
+                      child: TextField(
+                        enabled: false,
+                        decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 10.0),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide:
+                                const BorderSide(color: Colors.black)),
+                            labelText: 'Last Name: ${data['lastName'] ?? 'none'}',
+                            labelStyle: const TextStyle(
+                              fontSize: 15.0,
+                              fontFamily: 'Wellfleet',
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                            )),
                       ),
-                      CircleAvatar(
-                        backgroundImage: NetworkImage(data['imageLink']),
-                        backgroundColor: Colors.transparent,
-                        radius: 80.0,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.sizeOf(context).width - MediaQuery.sizeOf(context).width * .10,
+                      child: TextField(
+                        enabled: false,
+                        decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 10.0),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide:
+                                const BorderSide(color: Colors.black)),
+                            labelText: 'Employee ID: ${data['empID'] ?? 'none'}',
+                            labelStyle: const TextStyle(
+                              fontSize: 15.0,
+                              fontFamily: 'Wellfleet',
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                            )),
                       ),
-                      const SizedBox(
-                        height: 40.0,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.sizeOf(context).width - MediaQuery.sizeOf(context).width * .10,
+                      child: TextField(
+                        enabled: false,
+                        decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 10.0),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide:
+                                const BorderSide(color: Colors.black)),
+                            labelText: 'Phone Number: ${data['phoneNumber'] ?? 'none'}',
+                            labelStyle: const TextStyle(
+                              fontSize: 15.0,
+                              fontFamily: 'Wellfleet',
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                            )),
                       ),
-                      Column(
-                        children: [
-                          SizedBox(
-                            width: 340.0,
-                            child: TextField(
-                              enabled: false,
-                              decoration: InputDecoration(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 10.0, horizontal: 10.0),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide:
-                                      const BorderSide(color: Colors.black)),
-                                  labelText: 'First Name: ${data['firstName']}',
-                                  labelStyle: const TextStyle(
-                                    fontSize: 15.0,
-                                    fontFamily: 'Wellfleet',
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black,
-                                  )),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10.0,
-                          ),
-                          SizedBox(
-                            width: 340.0,
-                            child: TextField(
-                              enabled: false,
-                              decoration: InputDecoration(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 10.0, horizontal: 10.0),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide:
-                                      const BorderSide(color: Colors.black)),
-                                  labelText: 'Last Name: ${data['lastName']}',
-                                  labelStyle: const TextStyle(
-                                    fontSize: 15.0,
-                                    fontFamily: 'Wellfleet',
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black,
-                                  )),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10.0,
-                          ),
-                          SizedBox(
-                            width: 340.0,
-                            child: TextField(
-                              enabled: false,
-                              decoration: InputDecoration(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 10.0, horizontal: 10.0),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide:
-                                      const BorderSide(color: Colors.black)),
-                                  labelText: 'Employee ID: ${data['empID']}',
-                                  labelStyle: const TextStyle(
-                                    fontSize: 15.0,
-                                    fontFamily: 'Wellfleet',
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black,
-                                  )),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10.0,
-                          ),
-                          SizedBox(
-                            width: 340.0,
-                            child: TextField(
-                              enabled: false,
-                              decoration: InputDecoration(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 10.0, horizontal: 10.0),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide:
-                                      const BorderSide(color: Colors.black)),
-                                  labelText: 'Phone Number: ${data['phoneNumber']}',
-                                  labelStyle: const TextStyle(
-                                    fontSize: 15.0,
-                                    fontFamily: 'Wellfleet',
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black,
-                                  )),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10.0,
-                          ),
-                          SizedBox(
-                            width: 340.0,
-                            child: TextField(
-                              enabled: false,
-                              readOnly: true,
-                              cursorColor: Colors.redAccent,
-                              decoration: InputDecoration(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 10.0, horizontal: 10.0),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: const BorderSide(
-                                          width: 5.0, color: Colors.black)),
-                                  labelText: "Email: ${data['email']}",
-                                  labelStyle: const TextStyle(
-                                    fontSize: 15.0,
-                                    fontFamily: 'Wellfleet',
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black,
-                                  )),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10.0,
-                          ),
-                          SizedBox(
-                            width: 340.0,
-                            child: TextField(
-                              enabled: false,
-                              readOnly: true,
-                              cursorColor: Colors.redAccent,
-                              decoration: InputDecoration(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 10.0, horizontal: 10.0),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: const BorderSide(
-                                          width: 5.0, color: Colors.black)),
-                                  labelText: "Bus Line: ${data['busLine']}",
-                                  labelStyle: const TextStyle(
-                                    fontSize: 15.0,
-                                    fontFamily: 'Wellfleet',
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black,
-                                  )),
-                            ),
-                          ),
-                          const SizedBox(height: 70.0),
-                          SizedBox(
-                            width: 310.0,
-                            height: 50.0,
-                            child: ElevatedButton(
-                                onPressed: () async {
-                                  Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                          builder: (context) =>  const BDProfileEdit()));
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  side: const BorderSide(
-                                      width: 1.8,
-                                      color: Color.fromRGBO(0, 24, 113, 1.0)),
-                                  backgroundColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40.0),
-                                  ),
-                                ),
-                                child: const Text('Edit',
-                                    style: TextStyle(
-                                      color: Color.fromRGBO(0, 169, 224, 1.0),
-                                      fontSize: 16.0,
-                                      fontFamily: 'Wellfleet',
-                                      fontWeight: FontWeight.w500,
-                                    ))),
-                          )
-                        ],
+                    ),
+                    SizedBox(
+                      width: MediaQuery.sizeOf(context).width - MediaQuery.sizeOf(context).width * .10,
+                      child: TextField(
+                        enabled: false,
+                        readOnly: true,
+                        cursorColor: Colors.redAccent,
+                        decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 10.0),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: const BorderSide(
+                                    width: 5.0, color: Colors.black)),
+                            labelText: "Email: ${data['email'] ?? 'none'}",
+                            labelStyle: const TextStyle(
+                              fontSize: 15.0,
+                              fontFamily: 'Wellfleet',
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                            )),
                       ),
-                    ],
-                  ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.sizeOf(context).width - MediaQuery.sizeOf(context).width * .10,
+                      child: TextField(
+                        enabled: false,
+                        readOnly: true,
+                        cursorColor: Colors.redAccent,
+                        decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 10.0),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: const BorderSide(
+                                    width: 5.0, color: Colors.black)),
+                            labelText: "Bus Line: ${data['busLine'] ?? 'none'}",
+                            labelStyle: const TextStyle(
+                              fontSize: 15.0,
+                              fontFamily: 'Wellfleet',
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                            )),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
+                      width: MediaQuery.sizeOf(context).width - MediaQuery.sizeOf(context).width * .10,
+                      height: 50.0,
+                      child: ElevatedButton(
+                          onPressed: () async {
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) =>  const BDProfileEdit()));
+                          },
+                          style: ElevatedButton.styleFrom(
+                            side: const BorderSide(
+                                width: 1.8,
+                                color: Color.fromRGBO(0, 24, 113, 1.0)),
+                            backgroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40.0),
+                            ),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Text('Edit',
+                                style: TextStyle(
+                                  color: Color.fromRGBO(0, 169, 224, 1.0),
+                                  fontSize: 16.0,
+                                  fontFamily: 'Wellfleet',
+                                  fontWeight: FontWeight.w500,
+                                )),
+                          )),
+                    ),
+                  ],
                 );
               }
-              return  Text('${user?.uid}');
+              return Padding(
+                padding: const EdgeInsets.all(40.0),
+                child: Center(
+                  child: SizedBox(
+                    width: 100,
+                    height: 100,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 4.0,
+                      color: Colors.blue[900],
+                    ),
+                  ),
+                ),
+              );
             }
-            return Center(
-              child: CircularProgressIndicator(
-                color: Colors.blue[900],
-                strokeWidth: 3.0,
+            return Padding(
+              padding: const EdgeInsets.all(40.0),
+              child: Center(
+                child: SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 4.0,
+                    color: Colors.blue[900],
+                  ),
+                ),
               ),
             );
           }

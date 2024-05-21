@@ -48,7 +48,7 @@ class PSQRCode extends StatelessWidget {
           builder: (context, snapshot){
             if(snapshot.connectionState == ConnectionState.done){
               if(snapshot.hasData && snapshot.data!.exists){
-                Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;;
+                Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
                 return Scaffold(
                   backgroundColor: Colors.white,
                   body: Center(

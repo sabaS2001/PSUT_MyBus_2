@@ -338,7 +338,7 @@ class _PSProfileEditState extends State<PSProfileEdit> {
                   ),
                 ),
               ),
-            );;
+            );
           }
           return Padding(
             padding: const EdgeInsets.all(40.0),
@@ -352,7 +352,7 @@ class _PSProfileEditState extends State<PSProfileEdit> {
                 ),
               ),
             ),
-          );;
+          );
         },
       )
       ,

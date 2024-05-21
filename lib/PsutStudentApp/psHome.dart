@@ -234,7 +234,7 @@ class _PSHomePageState extends State<PSHomePage> {
                             ),
                           ),
                         ),
-                      );;
+                      );
                     }
                     return  Padding(
                       padding: const EdgeInsets.all(40.0),

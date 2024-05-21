@@ -7,8 +7,6 @@ import 'psProfile.dart';
 import 'psChangePassword.dart';
 import 'package:psut_my_bus/PsutStudentApp/psForgetPasswordSettings.dart';
 
-
-
 class PSSettings extends StatefulWidget {
   const PSSettings({super.key});
 
@@ -17,43 +15,52 @@ class PSSettings extends StatefulWidget {
 }
 
 class _PSSettingsState extends State<PSSettings> {
-  CollectionReference studentInfo = FirebaseFirestore.instance.collection('students');
+  CollectionReference studentInfo =
+      FirebaseFirestore.instance.collection('students');
   User? user = FirebaseAuth.instance.currentUser;
   double getScreenWidth(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return screenWidth;
   }
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(future: studentInfo.doc(user?.uid).get(),
-        builder: (context, snapshot){
-          if(snapshot.connectionState == ConnectionState.done){
-            if(snapshot.hasData && snapshot.data!.exists){
-              Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+    return FutureBuilder(
+        future: studentInfo.doc(user?.uid).get(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasData && snapshot.data!.exists) {
+              Map<String, dynamic> data =
+                  snapshot.data!.data() as Map<String, dynamic>;
               // return Text('First Name: ${data['firstName']}');
-              return   Scaffold(
-                backgroundColor: Colors.white,
-                appBar: AppBar(
+              return SingleChildScrollView(
+                child: Scaffold(
                   backgroundColor: Colors.white,
-                  leading: Padding(
-                    padding: const EdgeInsets.all(11.0),
-                    child: IconButton(
-                      onPressed: (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const PSNavBar()),
-                        );
-                      },
-                      icon: const Icon(Icons.arrow_circle_left_outlined, size: 40.0,),
-                      color: Colors.blue[900],
+                  appBar: AppBar(
+                    backgroundColor: Colors.white,
+                    leading: Padding(
+                      padding: const EdgeInsets.all(11.0),
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const PSNavBar()),
+                          );
+                        },
+                        icon: const Icon(
+                          Icons.arrow_circle_left_outlined,
+                          size: 40.0,
+                        ),
+                        color: Colors.blue[900],
+                      ),
                     ),
                   ),
-                ),
-                body: SingleChildScrollView(
-                  child: Container(
+                  body: Container(
                     width: getScreenWidth(context),
-
-                    margin: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 10.0),
+                    height: MediaQuery.sizeOf(context).height,
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 30.0, horizontal: 10.0),
                     alignment: Alignment.bottomRight,
                     child: Column(
                       children: [
@@ -67,11 +74,13 @@ class _PSSettingsState extends State<PSSettings> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            CircleAvatar(
-                              backgroundImage: NetworkImage(data['imageLink'] ?? 'none'),
-                              backgroundColor: Colors.blue.shade900,
-                              radius: 40.0,
-                            ),
+                            // CircleAvatar(
+                            //   // backgroundImage: data['imageLink'] != null && data['imageLink'].isNotEmpty && Uri.parse(data['imageLink']).isAbsolute
+                            //   //     ? NetworkImage(data['imageLink'])
+                            //   //     : const AssetImage('assets/images/logo.png'),
+                            //   backgroundColor: Colors.blue.shade900,
+                            //   radius: 40.0,
+                            // ),
                             const SizedBox(
                               width: 5.0,
                             ),
@@ -79,16 +88,22 @@ class _PSSettingsState extends State<PSSettings> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  data['firstName'] ?? 'none' ' ' + data['lastName'] ?? 'none' ,
+                                  data['firstName'] != null
+                                      ? data['lastName'] != null
+                                          ? '${data['firstName']} ${data['lastName']}'
+                                          : '${data['firstName']} none'
+                                      : 'none none',
                                   style: const TextStyle(
                                     fontSize: 20.0,
                                     fontFamily: 'Wellfleet',
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const SizedBox(height: 20.0,),
+                                const SizedBox(
+                                  height: 20.0,
+                                ),
                                 Text(
-                                  data['email'] ?? 'none' ,
+                                  data['email'] ?? 'none',
                                   style: const TextStyle(
                                     fontSize: 13.0,
                                     fontFamily: 'Wellfleet',
@@ -98,7 +113,9 @@ class _PSSettingsState extends State<PSSettings> {
                             )
                           ],
                         ),
-                        const SizedBox(height: 10.0,),
+                        const SizedBox(
+                          height: 10.0,
+                        ),
                         const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -111,11 +128,17 @@ class _PSSettingsState extends State<PSSettings> {
                         ),
                         Row(
                           children: [
-                            const SizedBox(width: 10.0, height: 40.0,),
-                            const Icon(Icons.person_outline_rounded,
-                              size: 20.0,),
+                            const SizedBox(
+                              width: 10.0,
+                              height: 40.0,
+                            ),
+                            const Icon(
+                              Icons.person_outline_rounded,
+                              size: 20.0,
+                            ),
                             const SizedBox(width: 5.0),
-                            const Text('Profile',
+                            const Text(
+                              'Profile',
                               style: TextStyle(
                                 fontFamily: 'Wellfleet',
                                 fontSize: 15.0,
@@ -123,14 +146,17 @@ class _PSSettingsState extends State<PSSettings> {
                             ),
                             const SizedBox(width: 185.0),
                             IconButton(
-                              onPressed: (){
+                              onPressed: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => PSProfile()),
+                                  MaterialPageRoute(
+                                      builder: (context) => PSProfile()),
                                 );
                               },
-                              icon: const Icon(Icons.arrow_forward_ios_sharp,
-                                size: 15.0,),
+                              icon: const Icon(
+                                Icons.arrow_forward_ios_sharp,
+                                size: 15.0,
+                              ),
                             ),
                           ],
                         ),
@@ -144,14 +170,22 @@ class _PSSettingsState extends State<PSSettings> {
                                 )),
                           ],
                         ),
-                        const SizedBox(height: 5.0,),
+                        const SizedBox(
+                          height: 5.0,
+                        ),
                         Row(
                           children: [
-                            const SizedBox(width: 10.0, height: 20.0,),
-                            const Icon(Icons.lock_outline_rounded,
-                              size: 20.0,),
+                            const SizedBox(
+                              width: 10.0,
+                              height: 20.0,
+                            ),
+                            const Icon(
+                              Icons.lock_outline_rounded,
+                              size: 20.0,
+                            ),
                             const SizedBox(width: 10.0),
-                            const Text('Change Password',
+                            const Text(
+                              'Change Password',
                               style: TextStyle(
                                 fontFamily: 'Wellfleet',
                                 fontSize: 15.0,
@@ -159,24 +193,34 @@ class _PSSettingsState extends State<PSSettings> {
                             ),
                             const SizedBox(width: 100.0),
                             IconButton(
-                              onPressed: (){
+                              onPressed: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => const PSChangePassword()),
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const PSChangePassword()),
                                 );
                               },
-                              icon: const Icon(Icons.arrow_forward_ios_sharp,
-                                size: 15.0,),
+                              icon: const Icon(
+                                Icons.arrow_forward_ios_sharp,
+                                size: 15.0,
+                              ),
                             ),
                           ],
                         ),
                         Row(
                           children: [
-                            const SizedBox(width: 10.0, height: 20.0,),
-                            const Icon(Icons.lock_open_rounded,
-                              size: 20.0,),
+                            const SizedBox(
+                              width: 10.0,
+                              height: 20.0,
+                            ),
+                            const Icon(
+                              Icons.lock_open_rounded,
+                              size: 20.0,
+                            ),
                             const SizedBox(width: 10.0),
-                            const Text('Forget Password',
+                            const Text(
+                              'Forget Password',
                               style: TextStyle(
                                 fontFamily: 'Wellfleet',
                                 fontSize: 15.0,
@@ -184,18 +228,24 @@ class _PSSettingsState extends State<PSSettings> {
                             ),
                             const SizedBox(width: 105.0),
                             IconButton(
-                              onPressed: (){
+                              onPressed: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => const PSForgetSettings()),
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const PSForgetSettings()),
                                 );
                               },
-                              icon: const Icon(Icons.arrow_forward_ios_sharp,
-                                size: 15.0,),
+                              icon: const Icon(
+                                Icons.arrow_forward_ios_sharp,
+                                size: 15.0,
+                              ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 10.0,),
+                        const SizedBox(
+                          height: 10.0,
+                        ),
                         const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -208,11 +258,17 @@ class _PSSettingsState extends State<PSSettings> {
                         ),
                         const Row(
                           children: [
-                            SizedBox(width: 10.0, height: 20.0,),
-                            Icon(Icons.notifications_active_rounded,
-                              size: 20.0,),
+                            SizedBox(
+                              width: 10.0,
+                              height: 20.0,
+                            ),
+                            Icon(
+                              Icons.notifications_active_rounded,
+                              size: 20.0,
+                            ),
                             SizedBox(width: 10.0),
-                            Text('Bus Arrival Notification',
+                            Text(
+                              'Bus Arrival Notification',
                               style: TextStyle(
                                 fontFamily: 'Wellfleet',
                                 fontSize: 15.0,
@@ -224,11 +280,17 @@ class _PSSettingsState extends State<PSSettings> {
                         ),
                         const Row(
                           children: [
-                            SizedBox(width: 10.0, height: 20.0,),
-                            Icon(Icons.notifications_active_rounded,
-                              size: 20.0,),
+                            SizedBox(
+                              width: 10.0,
+                              height: 20.0,
+                            ),
+                            Icon(
+                              Icons.notifications_active_rounded,
+                              size: 20.0,
+                            ),
                             SizedBox(width: 10.0),
-                            Text('Emergency Notification',
+                            Text(
+                              'Emergency Notification',
                               style: TextStyle(
                                 fontFamily: 'Wellfleet',
                                 fontSize: 15.0,
@@ -240,11 +302,17 @@ class _PSSettingsState extends State<PSSettings> {
                         ),
                         const Row(
                           children: [
-                            SizedBox(width: 10.0, height: 20.0,),
-                            Icon(Icons.notifications_active_rounded,
-                              size: 20.0,),
+                            SizedBox(
+                              width: 10.0,
+                              height: 20.0,
+                            ),
+                            Icon(
+                              Icons.notifications_active_rounded,
+                              size: 20.0,
+                            ),
                             SizedBox(width: 10.0),
-                            Text('Financial Notification',
+                            Text(
+                              'Financial Notification',
                               style: TextStyle(
                                 fontFamily: 'Wellfleet',
                                 fontSize: 15.0,
@@ -262,19 +330,21 @@ class _PSSettingsState extends State<PSSettings> {
                               width: 320.0,
                               height: 48.0,
                               child: ElevatedButton(
-                                onPressed: (){
+                                onPressed: () {
                                   FirebaseAuth.instance.signOut();
-                                  Navigator.push(context,MaterialPageRoute(builder: (context) => const PSLogin()));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const PSLogin()));
                                 },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.white,
-                                    side: BorderSide(
-                                        color: Colors.blue.shade900
-                                    ),
+                                    side:
+                                        BorderSide(color: Colors.blue.shade900),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(40.0),
-                                    )
-                                ),
+                                    )),
                                 child: const Text('Log Out',
                                     style: TextStyle(
                                       fontSize: 20.0,
@@ -285,12 +355,10 @@ class _PSSettingsState extends State<PSSettings> {
                               ),
                             )
                           ],
-
                         ),
                       ],
                     ),
                   ),
-
                 ),
               );
             }
@@ -308,7 +376,7 @@ class _PSSettingsState extends State<PSSettings> {
               ),
             );
           }
-          return   Padding(
+          return Padding(
             padding: const EdgeInsets.all(40.0),
             child: Center(
               child: SizedBox(
@@ -322,9 +390,9 @@ class _PSSettingsState extends State<PSSettings> {
             ),
           );
         });
-
   }
 }
+
 class SwitchExample extends StatefulWidget {
   const SwitchExample({super.key});
 
@@ -336,8 +404,8 @@ class _SwitchExampleState extends State<SwitchExample> {
   bool light0 = true;
 
   final WidgetStateProperty<Icon?> thumbIcon =
-  WidgetStateProperty.resolveWith<Icon?>(
-        (Set<WidgetState> states) {
+      WidgetStateProperty.resolveWith<Icon?>(
+    (Set<WidgetState> states) {
       if (states.contains(WidgetState.selected)) {
         return const Icon(Icons.check);
       }
