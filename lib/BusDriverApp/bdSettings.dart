@@ -189,11 +189,13 @@ class BDSettings extends StatelessWidget {
                             height: 37.0,
                             child: ElevatedButton(
                               onPressed: () {
+                                FirebaseAuth.instance.signOut();
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => const BDLogin()),
                                 );
+
                               },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.white,

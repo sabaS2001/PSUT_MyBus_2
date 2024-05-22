@@ -1,7 +1,10 @@
 
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class PSHomePage extends StatefulWidget {
@@ -17,12 +20,42 @@ class _PSHomePageState extends State<PSHomePage> {
       target: LatLng(32.02363463930013, 35.87613106096076), zoom: 13);
 
   Set<Marker> markers = {}; // Use a Set to avoid duplicate markers
-
+  final Completer <GoogleMapController> _controller = Completer();
   CollectionReference users = FirebaseFirestore.instance.collection('students');
   User? user = FirebaseAuth.instance.currentUser;
 
+  static const LatLng sourceLocation = LatLng(
+      31.95660153733094, 35.847501396288415
+  );
+  static const LatLng destinationLocation = LatLng(31.974800402113246,
+      35.865451696782635
+  );
+
+
+  //Polylines; connect a line between 2 markers
+  List<LatLng> polylineCoordinates = [];
+
+  void getPolyPoints() async {
+    PolylinePoints polylinePoints = PolylinePoints();
+
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      'AIzaSyB6fVHZJJyDZUc4DNSreEZUy6tacqEqeQ0',
+      PointLatLng(sourceLocation.latitude, sourceLocation.longitude),
+      PointLatLng(destinationLocation.latitude, destinationLocation.longitude),
+    );
+
+    if (result.points.isNotEmpty) {
+      for (var point in result.points) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      }
+    }
+
+    setState(() {});
+  }
+
   @override
   void initState() {
+    getPolyPoints();
     super.initState();
   }
 
@@ -86,6 +119,12 @@ class _PSHomePageState extends State<PSHomePage> {
                 initialCameraPosition: _initialLocation,
                 onMapCreated: onMapCreated,
                 markers: markers,
+                  polylines: {
+                    Polyline(
+                        polylineId: const PolylineId('route'),
+                        points: polylineCoordinates,
+                        color: const Color.fromRGBO(0, 169, 224, 1.0))
+                  },
               ),
               FutureBuilder(
                   future: users.doc(user?.uid).get(),
@@ -259,6 +298,7 @@ class _PSHomePageState extends State<PSHomePage> {
 
   void onMapCreated(GoogleMapController controller) {
     setState(() {
+      getPolyPoints();
       mapController = controller;
     });
   }

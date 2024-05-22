@@ -4,11 +4,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:psut_my_bus/BusDriverApp/bdLogin.dart';
+import 'package:psut_my_bus/StartUpPage.dart';
 import 'package:psut_my_bus/firebase_options.dart';
 
-
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -18,8 +17,7 @@ void main() async {
     FlutterError.presentError(details);
     if (kReleaseMode) exit(1);
   };
-  runApp(
-     const MaterialApp(
+  runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
     home: BDLogin(),
   ));

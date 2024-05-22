@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -17,11 +18,21 @@ class BDHomePage extends StatefulWidget {
 }
 
 class _BDHomePageState extends State<BDHomePage> {
-  final DateTime _currentTime = DateTime.now();
+  final DateTime currentTime = DateTime(
+    DateTime.now().year,
+    DateTime.now().month,
+    DateTime.now().day,
+    DateTime.now().hour,
+    DateTime.now().minute,
+  );
+
+  late Timestamp t;
   late GoogleMapController mapController;
   final Completer <GoogleMapController> _controller = Completer();
   BitmapDescriptor BusUserIcon = BitmapDescriptor.defaultMarker;
-  List<Marker> markers = []; // Use a Set to avoid duplicate markers
+  List<Marker> markers = [];
+  List<DateTime> times = [];
+  late String arrivalTime = 'No Buses At this Time'; // Use a Set to avoid duplicate markers
   CollectionReference users = FirebaseFirestore.instance.collection('drivers');
   User? user = FirebaseAuth.instance.currentUser;
   late CollectionReference<Object?>? busScheduleCollection = FirebaseFirestore
@@ -30,8 +41,56 @@ class _BDHomePageState extends State<BDHomePage> {
       .doc('Tabarbour')
       .collection('Routes'); // return null if the document does not exist;
   String busLine = '';
-  String busStopName = '';
+  String busStopName = 'No Buses!';
 
+  void saveUserLocation() async {
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    FirebaseFirestore.instance.collection('drivers').doc(user?.uid).update({
+      'latitude': position.latitude,
+      'longitude': position.longitude,
+      'timestamp': Timestamp.fromDate(DateTime.now()),
+    });
+  }
+
+  Future<Position> _getCurrentLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are permanently denied, we cannot request permissions.');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  }
+  // Add a new Marker widget to the markers list for the current user location
+  Future<void> _addCurrentLocationMarker() async {
+    Position position = await _getCurrentLocation();
+    setState(() {
+      markers.add(
+        Marker(
+          markerId: const MarkerId('currentLocation'),
+          position: LatLng(position.latitude, position.longitude),
+          icon: BitmapDescriptor.defaultMarker,
+        ),
+      );
+    });
+  }
 
   // Assigning the markers based on the bus line the admin assigned
   Future<CollectionReference<Object?>?> readData() async {
@@ -95,6 +154,7 @@ class _BDHomePageState extends State<BDHomePage> {
   @override
   void initState() {
     _initBusScheduleCollection();
+    _addCurrentLocationMarker();
     super.initState();
   }
 
@@ -132,12 +192,14 @@ class _BDHomePageState extends State<BDHomePage> {
                     ),
                   );
                 }
+                times.clear();
                 markers.clear();
                 for (var element in snapshot.data!.docs) {
                   //For each document in the routes, retrieve their data
                   final data = element.data();
                   if ((data as Map<String, dynamic>)['location']?.latitude !=
                       null) {
+                    t = data['time'] ?? Timestamp.fromDate(DateTime.now());
                     // the marker id is the document title exists in the firestore
                     final MarkerId markerId = MarkerId(element.id.toString());
                     final Marker marker = Marker(
@@ -149,6 +211,7 @@ class _BDHomePageState extends State<BDHomePage> {
                       infoWindow: InfoWindow(title: element.id.toString()),
                     );
                     markers.add(marker);
+                    times.add(t.toDate());
                   }
                 }
                 return Stack(
@@ -156,6 +219,7 @@ class _BDHomePageState extends State<BDHomePage> {
                     GoogleMap(
                       zoomControlsEnabled: false,
                       mapToolbarEnabled: false,
+                      myLocationEnabled: true,
                       initialCameraPosition: const CameraPosition(
                           target: LatLng(32.023757505069405, 35.876136445246374), zoom: 13),
                       onMapCreated: (mapController){
@@ -267,7 +331,7 @@ class _BDHomePageState extends State<BDHomePage> {
                                                             Text(
                                                               DateFormat.jm()
                                                                   .format(
-                                                                      _currentTime)
+                                                                      currentTime)
                                                                   .toString(),
                                                               style: const TextStyle(
                                                                   fontSize:
@@ -302,13 +366,18 @@ class _BDHomePageState extends State<BDHomePage> {
                                                                 if (markers
                                                                     .isNotEmpty) {
                                                                   busStopName = markers[
-                                                                          index +
-                                                                              1]
+                                                                          index+1]
                                                                       .markerId
                                                                       .value;
                                                                 }
+                                                                final now = TimeOfDay.now();
+                                                                final amOrPm = now.hour < 12 ? arrivalTime = (currentTime.hour - -times[index].hour).toString() : ((currentTime.hour) - times[index].hour).toString();
+                                                                arrivalTime = amOrPm + ' hrs';
+                                                                polylineCoordinates.clear();
                                                                 getPolyPoints(
                                                                     ++index);
+                                                                _getCurrentLocation();
+                                                                saveUserLocation();
                                                               },
                                                               child: const Text(
                                                                 'Start',
@@ -360,9 +429,9 @@ class _BDHomePageState extends State<BDHomePage> {
                                                             ),
                                                           ],
                                                         ),
-                                                        const Column(
+                                                         Column(
                                                           children: [
-                                                            Text(
+                                                            const Text(
                                                               'Delivery Time',
                                                               style: TextStyle(
                                                                 fontSize: 16.0,
@@ -374,13 +443,13 @@ class _BDHomePageState extends State<BDHomePage> {
                                                               ),
                                                             ),
                                                             Text(
-                                                              'TIME',
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      15.0,
-                                                                  fontFamily:
-                                                                      'Wellfleet'),
-                                                            ),
+                                                              arrivalTime,
+                                                              // ( t.toDate().hour).toString(),
+                                                              // currentTime.difference(busTime).abs().inDays.toString(),
+                                                              style: const TextStyle(
+                                                                fontSize: 15.0,
+                                                                fontFamily: 'Wellfleet',
+                                                              ),),
                                                           ],
                                                         ),
                                                         SizedBox(
@@ -405,8 +474,13 @@ class _BDHomePageState extends State<BDHomePage> {
                                                                         .white,
                                                               ),
                                                               onPressed: () {
-                                                                polylineCoordinates
-                                                                    .clear();
+                                                                arrivalTime = 'No Buses At this Time';
+                                                                busStopName = "No Bus Available";
+                                                                polylineCoordinates.clear();
+                                                                times.clear();
+                                                                setState(() {
+                                                                    index =0;
+                                                                });
                                                               },
                                                               child: const Text(
                                                                 'Finish',

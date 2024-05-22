@@ -33,30 +33,30 @@ class _PSSettingsState extends State<PSSettings> {
               Map<String, dynamic> data =
                   snapshot.data!.data() as Map<String, dynamic>;
               // return Text('First Name: ${data['firstName']}');
-              return SingleChildScrollView(
-                child: Scaffold(
+              return Scaffold(
+                backgroundColor: Colors.white,
+                appBar: AppBar(
                   backgroundColor: Colors.white,
-                  appBar: AppBar(
-                    backgroundColor: Colors.white,
-                    leading: Padding(
-                      padding: const EdgeInsets.all(11.0),
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const PSNavBar()),
-                          );
-                        },
-                        icon: const Icon(
-                          Icons.arrow_circle_left_outlined,
-                          size: 40.0,
-                        ),
-                        color: Colors.blue[900],
+                  leading: Padding(
+                    padding: const EdgeInsets.all(11.0),
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const PSNavBar()),
+                        );
+                      },
+                      icon: const Icon(
+                        Icons.arrow_circle_left_outlined,
+                        size: 40.0,
                       ),
+                      color: Colors.blue[900],
                     ),
                   ),
-                  body: Container(
+                ),
+                body: SingleChildScrollView(
+                  child: Container(
                     width: getScreenWidth(context),
                     height: MediaQuery.sizeOf(context).height,
                     margin: const EdgeInsets.symmetric(
@@ -74,13 +74,13 @@ class _PSSettingsState extends State<PSSettings> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            // CircleAvatar(
-                            //   // backgroundImage: data['imageLink'] != null && data['imageLink'].isNotEmpty && Uri.parse(data['imageLink']).isAbsolute
-                            //   //     ? NetworkImage(data['imageLink'])
-                            //   //     : const AssetImage('assets/images/logo.png'),
-                            //   backgroundColor: Colors.blue.shade900,
-                            //   radius: 40.0,
-                            // ),
+                            CircleAvatar(
+                              // backgroundImage: data['imageLink'] != null && data['imageLink'].isNotEmpty && Uri.parse(data['imageLink']).isAbsolute
+                              //     ? NetworkImage(data['imageLink'])
+                              //     : const AssetImage('assets/images/logo.png'),
+                              backgroundColor: Colors.blue.shade900,
+                              radius: 40.0,
+                            ),
                             const SizedBox(
                               width: 5.0,
                             ),
