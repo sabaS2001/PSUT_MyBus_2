@@ -73,7 +73,7 @@ class BDSettings extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                 data['firstName'] ?? 'none' ' ' + data['lastName']?? 'none',
+                                (data['firstName'] ?? 'none') + ' ' +(data['lastName'] ?? 'none') ,
                                 style: const TextStyle(
                                   fontSize: 16.0,
                                   fontFamily: 'Wellfleet',

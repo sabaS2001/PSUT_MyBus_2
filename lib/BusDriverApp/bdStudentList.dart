@@ -35,6 +35,8 @@ class _BDStudentListState extends State<BDStudentList> {
       .doc('Tabarbour')
       .collection('Routes3'); // return null if the document does not exist;
   String busLine = '';
+  List<String> students = [];
+
 
   Future<void> _initBusScheduleCollection() async {
     CollectionReference<Object?>? tempBusScheduleCollection = await readData();
@@ -397,61 +399,55 @@ class _BDStudentListState extends State<BDStudentList> {
                                     )),
                               ),
                               IconButton(
-                                  onPressed: () {
+                                  onPressed: () async {
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
                                           backgroundColor: Colors.white,
                                           title: const Center(
-                                            child: Text('Students List',
-                                                style: TextStyle(
-                                                    fontFamily: 'Wellfleet')),
+                                            child: Text('Students List', style: TextStyle(fontFamily: 'Wellfleet')),
                                           ),
-                                          content: SingleChildScrollView(
-                                            child: Container(
-                                              width: 300,
-                                              margin:
-                                                  const EdgeInsets.all(10.0),
-                                              child: Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  CircleAvatar(
-                                                    backgroundImage: widget
-                                                                .profileImage !=
-                                                            ''
-                                                        ? NetworkImage(
-                                                            widget.profileImage)
-                                                        : const AssetImage(
-                                                            'assets/images/exclamation.png'),
-                                                    backgroundColor:
-                                                        Colors.transparent,
-                                                    radius: 30,
-                                                  ),
-                                                  widget.name != null ||
-                                                          widget.id != null
-                                                      ? Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: Text(
-                                                            '${widget.name}  ${widget.id}',
-                                                            style: const TextStyle(
-                                                                fontFamily:
-                                                                    'Wellfleet'),
+                                          content: Container(
+                                              height: MediaQuery.sizeOf(context).height* .50,
+                                            child: FutureBuilder(
+                                              future: FirebaseFirestore.instance.collection('StudentListQR').get(),
+                                              builder: (context, snapshot) {
+                                                if (snapshot.connectionState == ConnectionState.done) {
+                                                  if (snapshot.hasData) {
+                                                    List<Map<String, dynamic>> data = [];
+                                                    snapshot.data!.docs.forEach((doc) {
+                                                      data.add(doc.data());
+                                                    });
+                                                    return Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                      children: data.map((student) {
+                                                        return Padding(
+                                                          padding: const EdgeInsets.all(8.0),
+                                                          child: Row(
+                                                            children: [
+                                                              CircleAvatar(
+                                                                backgroundImage: student['imageLink'] != "" ? NetworkImage(student['imageLink']) : AssetImage('assets/images/exclamation.png'),
+                                                                radius: 30,
+                                                              ),
+                                                              Padding(
+                                                                padding: const EdgeInsets.all(8.0),
+                                                                child: Text(student['name'] + ' ,' + student['studentID'],
+                                                                style: TextStyle(
+                                                                  fontFamily: 'Wellfleet',
+                                                                  fontSize: 15,
+                                                                ),),
+                                                              ),
+                                                            ],
                                                           ),
-                                                        )
-                                                      : const Text(
-                                                        'Scan the students QR Code',
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                                'Wellfleet'),
-                                                      ),
-                                                ],
-                                              ),
+                                                        );
+                                                      }).toList(),
+                                                    );
+                                                  }
+                                                  return CircularProgressIndicator();
+                                                }
+                                                return CircularProgressIndicator();
+                                              },
                                             ),
                                           ),
                                         );
@@ -462,7 +458,8 @@ class _BDStudentListState extends State<BDStudentList> {
                                     Icons.arrow_drop_down_circle_outlined,
                                     color: Colors.blue.shade900,
                                     size: 30,
-                                  ))
+                                  )
+                              ),
                             ],
                           ),
                         ],

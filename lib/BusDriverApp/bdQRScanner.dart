@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:psut_my_bus/BusDriverApp/bdStudentList.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -62,8 +63,14 @@ class BDQRScan extends StatefulWidget {
 class _BDQRScanState extends State<BDQRScan> {
   late var qrInfo = [];
   late List<String> scannedData;
-  Widget note(String x) {
-    return Text('Hello $x');
+
+  Future<void> addStudent(String name, String studentID, String image) async {
+    FirebaseFirestore.instance.collection('StudentListQR').add({
+      'name': name,
+      'studentID': studentID,
+      'imageLink': image
+      // add more fields as needed
+    });
   }
 
   @override
@@ -115,6 +122,13 @@ class _BDQRScanState extends State<BDQRScan> {
                   for (final barcode in barcodes) {
                     debugPrint('QR Code Found! ${barcode.rawValue}');
                     qrInfo = (barcode.rawValue)!.split(' ');
+                    if(barcode.rawValue != null){
+                      addStudent(qrInfo[0] + ' ' + qrInfo[1], qrInfo[2], qrInfo[3]);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => BDStudentList(id: qrInfo[2] ?? '', name: qrInfo[0] + ' ' + qrInfo[1] ?? '', profileImage: qrInfo[3] ?? '')),
+                      );
+                    }
                   }
                 },
               ),

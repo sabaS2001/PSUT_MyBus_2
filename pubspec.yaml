@@ -92,6 +92,7 @@ flutter:
       - assets/images/bg_logo2.png
       - assets/images/bg_logo.png
       - assets/images/icons/back_icon.png
+      - assets/images/exclamation.png
 
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware
