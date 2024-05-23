@@ -4,7 +4,6 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'dart:typed_data';
 
 MobileScannerController cameraController = MobileScannerController();
-bool _screenOpened = false;
 
 class FoundCodeScreen extends StatefulWidget {
   final String value;
@@ -52,7 +51,7 @@ class _FoundCodeScreenState extends State<FoundCodeScreen> {
 }
 
 class BDQRScan extends StatefulWidget {
-  const BDQRScan({super.key});
+  const BDQRScan({super.key, required});
 
   @override
   State<BDQRScan> createState() => _BDQRScanState();
@@ -61,11 +60,8 @@ class BDQRScan extends StatefulWidget {
 
 
 class _BDQRScanState extends State<BDQRScan> {
-
-  void _screenWasClosed() {
-    _screenOpened = false;
-  }
-
+  late var qrInfo = [];
+  late List<String> scannedData;
   Widget note(String x) {
     return Text('Hello $x');
   }
@@ -96,7 +92,7 @@ class _BDQRScanState extends State<BDQRScan> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const BDStudentList()),
+                MaterialPageRoute(builder: (context) => BDStudentList(id: qrInfo[2] ?? '', name: qrInfo[0] + ' ' + qrInfo[1] ?? '', profileImage: qrInfo[3] ?? '')),
               );
             },
             icon: const Icon(Icons.arrow_circle_left_outlined, size: 40.0,),
@@ -118,6 +114,7 @@ class _BDQRScanState extends State<BDQRScan> {
                   final Uint8List? image = capture.image;
                   for (final barcode in barcodes) {
                     debugPrint('QR Code Found! ${barcode.rawValue}');
+                    qrInfo = (barcode.rawValue)!.split(' ');
                   }
                 },
               ),

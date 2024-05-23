@@ -60,7 +60,7 @@ class PSQRCode extends StatelessWidget {
                           width: 300,
                           height: 300,
                           child: QrImageView(
-                            data: data['firstName'] ?? 'none' + data["lastName"] ?? 'none'  + data['studentID'] ?? 'none'+ data['imageLink'] ?? 'none',
+                            data: (data['firstName'] ?? 'none') + ' ' + (data["lastName"] ?? 'none') + ' '  + (data['studentID'] ?? 'none') + ' ' + (data['imageLink'] ?? 'none'),
                             size: 300,
                           ),
                         ),

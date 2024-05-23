@@ -6,9 +6,22 @@ import 'package:psut_my_bus/BusDriverApp/Students.dart';
 import 'package:psut_my_bus/BusDriverApp/bdBottomNavBar.dart';
 import 'package:psut_my_bus/BusDriverApp/bdQRScanner.dart';
 
+class StudentInfo {
+  final String name;
+  final String id;
+  final String profileImage;
+  const StudentInfo(this.name, this.id, this.profileImage);
+}
 
 class BDStudentList extends StatefulWidget {
-  const BDStudentList({super.key});
+  final String name;
+  final String id;
+  final String profileImage;
+  const BDStudentList(
+      {super.key,
+      required this.name,
+      required this.id,
+      required this.profileImage});
 
   @override
   State<BDStudentList> createState() => _BDStudentListState();
@@ -16,9 +29,12 @@ class BDStudentList extends StatefulWidget {
 
 class _BDStudentListState extends State<BDStudentList> {
   String dateFormat = DateFormat('EEEE, MMM d, yyyy').format(DateTime.now());
-  late CollectionReference<Object?>? busScheduleCollection =  FirebaseFirestore.instance.collection('markers').doc('Tabarbour').collection('Routes3'); // return null if the document does not exist;
+  late CollectionReference<Object?>? busScheduleCollection = FirebaseFirestore
+      .instance
+      .collection('markers')
+      .doc('Tabarbour')
+      .collection('Routes3'); // return null if the document does not exist;
   String busLine = '';
-
 
   Future<void> _initBusScheduleCollection() async {
     CollectionReference<Object?>? tempBusScheduleCollection = await readData();
@@ -31,17 +47,28 @@ class _BDStudentListState extends State<BDStudentList> {
 
   Future<CollectionReference<Object?>?> readData() async {
     User? user = FirebaseAuth.instance.currentUser;
-    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance.collection('drivers').doc(user?.uid).get();
+    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+        .collection('drivers')
+        .doc(user?.uid)
+        .get();
     if (documentSnapshot.exists) {
       busLine = documentSnapshot.get('busLine');
       print(busLine);
       if (busLine == 'Marj Al Hammam') {
-        return FirebaseFirestore.instance.collection('markers').doc('Marj Al Hammam').collection('Routes2');
+        return FirebaseFirestore.instance
+            .collection('markers')
+            .doc('Marj Al Hammam')
+            .collection('Routes2');
       } else if (busLine == 'Madinah ') {
-        return FirebaseFirestore.instance.collection('markers').doc('Madinah ').collection('Routes');
-      }
-      else if (busLine == 'Tabarbour ') {
-        return FirebaseFirestore.instance.collection('markers').doc('Tabarbour').collection('Routes3');
+        return FirebaseFirestore.instance
+            .collection('markers')
+            .doc('Madinah ')
+            .collection('Routes');
+      } else if (busLine == 'Tabarbour ') {
+        return FirebaseFirestore.instance
+            .collection('markers')
+            .doc('Tabarbour')
+            .collection('Routes3');
       }
     } else {
       print('Document does not exist');
@@ -49,12 +76,12 @@ class _BDStudentListState extends State<BDStudentList> {
     return null;
   }
 
-
   @override
   void initState() {
     super.initState();
     _initBusScheduleCollection();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,27 +136,28 @@ class _BDStudentListState extends State<BDStudentList> {
               ),
             );
           }
-          if(busLine == 'none') {
-            return  const Center(
+          if (busLine == 'none') {
+            return const Center(
               child: SizedBox(
                 width: 250.0,
                 child: Center(
-                  child: Text('Please Wait For The Bus Administrator to Assign A Bus Line',
+                  child: Text(
+                    'Please Wait For The Bus Administrator to Assign A Bus Line',
                     style: TextStyle(
                       fontFamily: 'Wellfleet',
                       fontSize: 20.0,
-                    ),),
+                    ),
+                  ),
                 ),
               ),
             );
-          }
-          else{
+          } else {
             return ListView.builder(
               itemCount: snapshot.data?.docs.length,
               itemBuilder: (context, index) {
                 DocumentSnapshot document = snapshot.data!.docs[index];
                 Map<String, dynamic> data =
-                document.data() as Map<String, dynamic>;
+                    document.data() as Map<String, dynamic>;
                 return Column(
                   children: [
                     // Container(
@@ -235,8 +263,9 @@ class _BDStudentListState extends State<BDStudentList> {
                     Container(
                       padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
                       margin: const EdgeInsets.all(14.0),
-                      width: MediaQuery.of(context).size.width - 20 ,
-                      height: MediaQuery.of(context).size.height - MediaQuery.of(context).size.height *.80,
+                      width: MediaQuery.of(context).size.width - 20,
+                      height: MediaQuery.of(context).size.height -
+                          MediaQuery.of(context).size.height * .80,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20.0),
                         border: Border.all(
@@ -279,12 +308,13 @@ class _BDStudentListState extends State<BDStudentList> {
                                 Container(
                                   width: 40.0,
                                   decoration: BoxDecoration(
-                                    color: const Color.fromRGBO(0, 169, 224, 1.0),
+                                    color:
+                                        const Color.fromRGBO(0, 169, 224, 1.0),
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
                                   child: Center(
                                     child: Text(
-                                       '${data['busNumber'] ?? data['busNumber']}',
+                                      '${data['busNumber'] ?? data['busNumber']}',
                                       style: const TextStyle(
                                         fontSize: 15.0,
                                         fontFamily: 'Wellfleet',
@@ -334,20 +364,19 @@ class _BDStudentListState extends State<BDStudentList> {
                               SizedBox(
                                 width: MediaQuery.sizeOf(context).width * .60,
                                 child: ElevatedButton(
-                                    onPressed: (){
+                                    onPressed: () {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => const BDQRScan()),
+                                            builder: (context) =>
+                                                const BDQRScan()),
                                       );
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.white,
-                                      side: BorderSide(
-                                        color: Colors.blue.shade900,
-                                        width: 1
-                                      )
-                                    ),
+                                        backgroundColor: Colors.white,
+                                        side: BorderSide(
+                                            color: Colors.blue.shade900,
+                                            width: 1)),
                                     child: Row(
                                       children: [
                                         Padding(
@@ -360,10 +389,9 @@ class _BDStudentListState extends State<BDStudentList> {
                                         Text(
                                           'Scan the Student QR!',
                                           style: TextStyle(
-                                            fontFamily: 'Wellfleet',
-                                            fontSize: 15.0,
-                                            color: Colors.blue.shade900
-                                          ),
+                                              fontFamily: 'Wellfleet',
+                                              fontSize: 15.0,
+                                              color: Colors.blue.shade900),
                                         ),
                                       ],
                                     )),
@@ -373,23 +401,70 @@ class _BDStudentListState extends State<BDStudentList> {
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
-                                        return const AlertDialog(
-                                          title: Text('Students'),
-                                          content: SizedBox(
-                                            width:300,
-                                            height: 300,
-                                            // child: StudentList(students: widget.students),
+                                        return AlertDialog(
+                                          backgroundColor: Colors.white,
+                                          title: const Center(
+                                            child: Text('Students List',
+                                                style: TextStyle(
+                                                    fontFamily: 'Wellfleet')),
+                                          ),
+                                          content: SingleChildScrollView(
+                                            child: Container(
+                                              width: 300,
+                                              margin:
+                                                  const EdgeInsets.all(10.0),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  CircleAvatar(
+                                                    backgroundImage: widget
+                                                                .profileImage !=
+                                                            ''
+                                                        ? NetworkImage(
+                                                            widget.profileImage)
+                                                        : const AssetImage(
+                                                            'assets/images/exclamation.png'),
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    radius: 30,
+                                                  ),
+                                                  widget.name != null ||
+                                                          widget.id != null
+                                                      ? Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Text(
+                                                            '${widget.name}  ${widget.id}',
+                                                            style: const TextStyle(
+                                                                fontFamily:
+                                                                    'Wellfleet'),
+                                                          ),
+                                                        )
+                                                      : const Text(
+                                                        'Scan the students QR Code',
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'Wellfleet'),
+                                                      ),
+                                                ],
+                                              ),
+                                            ),
                                           ),
                                         );
                                       },
                                     );
                                   },
-                                  icon: Icon(Icons.arrow_drop_down_circle_outlined,
+                                  icon: Icon(
+                                    Icons.arrow_drop_down_circle_outlined,
                                     color: Colors.blue.shade900,
-                                    size: 30,))
+                                    size: 30,
+                                  ))
                             ],
                           ),
-
                         ],
                       ),
                     ),
@@ -398,28 +473,6 @@ class _BDStudentListState extends State<BDStudentList> {
               },
             );
           }
-        },
-      ),
-    );
-  }
-}
-
-class StudentList extends StatelessWidget {
-  final List<Student> students;
-
-  const StudentList({super.key, required this.students});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: ListView.builder(
-        itemCount: students.length,
-        itemBuilder: (context, index) {
-          final student = students[index];
-          return ListTile(
-            title: Text(student.name),
-            subtitle: Text(student.id),
-          );
         },
       ),
     );

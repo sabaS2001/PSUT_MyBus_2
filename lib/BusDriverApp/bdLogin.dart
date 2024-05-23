@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:psut_my_bus/BusDriverApp/bdBottomNavBar.dart';
 import 'FireAuth.dart';
+import 'bdForgetPage.dart';
 
 class BDLogin extends StatefulWidget {
   const BDLogin({super.key});
@@ -224,11 +225,11 @@ class _BDLoginState extends State<BDLogin> {
                         padding: const EdgeInsets.all(10.0),
                         child: TextButton(
                           onPressed: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //       builder: (context) => const BDF()),
-                            // );
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const BDForget()),
+                            );
                           },
                           child: const Text(
                             'Forget Password?',

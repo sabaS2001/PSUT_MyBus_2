@@ -18,14 +18,14 @@ class BDHomePage extends StatefulWidget {
 }
 
 class _BDHomePageState extends State<BDHomePage> {
-  final DateTime currentTime = DateTime(
+  late DateTime currentTime = DateTime(
     DateTime.now().year,
     DateTime.now().month,
     DateTime.now().day,
     DateTime.now().hour,
     DateTime.now().minute,
   );
-
+ late String _currentTime = "";
   late Timestamp t;
   late GoogleMapController mapController;
   final Completer <GoogleMapController> _controller = Completer();
@@ -43,6 +43,20 @@ class _BDHomePageState extends State<BDHomePage> {
   String busLine = '';
   String busStopName = 'No Buses!';
 
+
+  //to enable the current location in database
+  void enableUserLocation() async {
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    FirebaseFirestore.instance.collection('drivers').doc(user?.uid).update({
+      'latitude': 0.0,
+      'longitude': 0.0,
+      'timestamp': Timestamp.fromDate(DateTime.now()),
+    });
+  }
+
+
+
+  //save the current location in database
   void saveUserLocation() async {
     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     FirebaseFirestore.instance.collection('drivers').doc(user?.uid).update({
@@ -89,6 +103,7 @@ class _BDHomePageState extends State<BDHomePage> {
           icon: BitmapDescriptor.defaultMarker,
         ),
       );
+      saveUserLocation();
     });
   }
 
@@ -329,7 +344,7 @@ class _BDHomePageState extends State<BDHomePage> {
                                                               ),
                                                             ),
                                                             Text(
-                                                              DateFormat.jm()
+                                                                _currentTime = DateFormat.jm()
                                                                   .format(
                                                                       currentTime)
                                                                   .toString(),
@@ -377,7 +392,6 @@ class _BDHomePageState extends State<BDHomePage> {
                                                                 getPolyPoints(
                                                                     ++index);
                                                                 _getCurrentLocation();
-                                                                saveUserLocation();
                                                               },
                                                               child: const Text(
                                                                 'Start',
@@ -474,6 +488,7 @@ class _BDHomePageState extends State<BDHomePage> {
                                                                         .white,
                                                               ),
                                                               onPressed: () {
+                                                                _currentTime =  DateFormat.jm().format(currentTime).toString();
                                                                 arrivalTime = 'No Buses At this Time';
                                                                 busStopName = "No Bus Available";
                                                                 polylineCoordinates.clear();
@@ -481,6 +496,7 @@ class _BDHomePageState extends State<BDHomePage> {
                                                                 setState(() {
                                                                     index =0;
                                                                 });
+                                                                enableUserLocation();
                                                               },
                                                               child: const Text(
                                                                 'Finish',
