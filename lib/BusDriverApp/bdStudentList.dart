@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:psut_my_bus/BusDriverApp/Students.dart';
 import 'package:psut_my_bus/BusDriverApp/bdBottomNavBar.dart';
 import 'package:psut_my_bus/BusDriverApp/bdQRScanner.dart';
 
@@ -408,7 +407,7 @@ class _BDStudentListState extends State<BDStudentList> {
                                           title: const Center(
                                             child: Text('Students List', style: TextStyle(fontFamily: 'Wellfleet')),
                                           ),
-                                          content: Container(
+                                          content: SizedBox(
                                               height: MediaQuery.sizeOf(context).height* .50,
                                             child: FutureBuilder(
                                               future: FirebaseFirestore.instance.collection('StudentListQR').get(),
@@ -416,9 +415,9 @@ class _BDStudentListState extends State<BDStudentList> {
                                                 if (snapshot.connectionState == ConnectionState.done) {
                                                   if (snapshot.hasData) {
                                                     List<Map<String, dynamic>> data = [];
-                                                    snapshot.data!.docs.forEach((doc) {
+                                                    for (var doc in snapshot.data!.docs) {
                                                       data.add(doc.data());
-                                                    });
+                                                    }
                                                     return Column(
                                                       crossAxisAlignment: CrossAxisAlignment.center,
                                                       children: data.map((student) {
@@ -427,13 +426,13 @@ class _BDStudentListState extends State<BDStudentList> {
                                                           child: Row(
                                                             children: [
                                                               CircleAvatar(
-                                                                backgroundImage: student['imageLink'] != "" ? NetworkImage(student['imageLink']) : AssetImage('assets/images/exclamation.png'),
+                                                                backgroundImage: student['imageLink'] != "" ? NetworkImage(student['imageLink']) : const AssetImage('assets/images/exclamation.png'),
                                                                 radius: 30,
                                                               ),
                                                               Padding(
                                                                 padding: const EdgeInsets.all(8.0),
                                                                 child: Text(student['name'] + ' ,' + student['studentID'],
-                                                                style: TextStyle(
+                                                                style: const TextStyle(
                                                                   fontFamily: 'Wellfleet',
                                                                   fontSize: 15,
                                                                 ),),
@@ -444,9 +443,9 @@ class _BDStudentListState extends State<BDStudentList> {
                                                       }).toList(),
                                                     );
                                                   }
-                                                  return CircularProgressIndicator();
+                                                  return const CircularProgressIndicator();
                                                 }
-                                                return CircularProgressIndicator();
+                                                return const CircularProgressIndicator();
                                               },
                                             ),
                                           ),

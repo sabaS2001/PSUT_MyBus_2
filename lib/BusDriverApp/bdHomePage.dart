@@ -387,7 +387,7 @@ class _BDHomePageState extends State<BDHomePage> {
                                                                 }
                                                                 final now = TimeOfDay.now();
                                                                 final amOrPm = now.hour < 12 ? arrivalTime = (currentTime.hour - -times[index].hour).toString() : ((currentTime.hour) - times[index].hour).toString();
-                                                                arrivalTime = amOrPm + ' hrs';
+                                                                arrivalTime = '$amOrPm hrs';
                                                                 polylineCoordinates.clear();
                                                                 getPolyPoints(
                                                                     ++index);

@@ -86,7 +86,7 @@ class _PSBusScheduleState extends State<PSBusSchedule> {
         ),
       ),
       body: StreamBuilder(
-        stream: busScheduleCollection?.snapshots(),
+        stream: busScheduleCollection?.orderBy('number', descending: false).snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
@@ -155,7 +155,7 @@ class _PSBusScheduleState extends State<PSBusSchedule> {
                       child: Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 10.0),
+                            padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 4.0),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -203,31 +203,31 @@ class _PSBusScheduleState extends State<PSBusSchedule> {
                                   ),
                                 ),
                                 const SizedBox(
-                                  width: 20.0,
-                                ),
-                                Center(
-                                  child: Text(
-                                    '${data['originalPlace']}',
-                                    style: const TextStyle(
-                                      fontSize: 15.0,
-                                      fontFamily: 'Wellfleet',
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10.0,
-                                ),
-                                const Text('------->'),
-                                const SizedBox(
                                   width: 10.0,
                                 ),
                                 SizedBox(
-                                  width: 100,
-                                  child: Text(
-                                    document.id,
-                                    style: const TextStyle(
-                                      fontSize: 15.0,
-                                      fontFamily: 'Wellfleet',
+                                  width: MediaQuery.sizeOf(context).width - MediaQuery.sizeOf(context).width* .75 ,
+                                  child: Center(
+                                    child: Text(
+                                      '${data['originalPlace']}',
+                                      style: const TextStyle(
+                                        fontSize: 14.5,
+                                        fontFamily: 'Wellfleet',
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const Text('------->'),
+                                const SizedBox(width: 7.0,),
+                                SizedBox(
+                                  width: MediaQuery.sizeOf(context).width - MediaQuery.sizeOf(context).width* .75,
+                                  child: Center(
+                                    child: Text(
+                                      document.id,
+                                      style: const TextStyle(
+                                        fontSize: 14.5,
+                                        fontFamily: 'Wellfleet',
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -252,7 +252,7 @@ class _PSBusScheduleState extends State<PSBusSchedule> {
                       child: Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 10.0),
+                            padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 4.0),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -300,31 +300,31 @@ class _PSBusScheduleState extends State<PSBusSchedule> {
                                   ),
                                 ),
                                 const SizedBox(
-                                  width: 20.0,
-                                ),
-                                Center(
-                                  child: Text(
-                                    '${data['originalPlace']}',
-                                    style: const TextStyle(
-                                      fontSize: 15.0,
-                                      fontFamily: 'Wellfleet',
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10.0,
-                                ),
-                                const Text('------->'),
-                                const SizedBox(
                                   width: 10.0,
                                 ),
                                 SizedBox(
-                                  width: 100,
-                                  child: Text(
-                                    document.id,
-                                    style: const TextStyle(
-                                      fontSize: 15.0,
-                                      fontFamily: 'Wellfleet',
+                                  width: MediaQuery.sizeOf(context).width - MediaQuery.sizeOf(context).width* .75 ,
+                                  child: Center(
+                                    child: Text(
+                                      '${data['originalPlace']}',
+                                      style: const TextStyle(
+                                        fontSize: 14.5,
+                                        fontFamily: 'Wellfleet',
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const Text('------->'),
+                                const SizedBox(width: 7.0,),
+                                SizedBox(
+                                  width: MediaQuery.sizeOf(context).width - MediaQuery.sizeOf(context).width* .75,
+                                  child: Center(
+                                    child: Text(
+                                      document.id,
+                                      style: const TextStyle(
+                                        fontSize: 14.5,
+                                        fontFamily: 'Wellfleet',
+                                      ),
                                     ),
                                   ),
                                 ),
