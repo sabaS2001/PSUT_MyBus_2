@@ -16,6 +16,13 @@ class BDSettings extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     return screenWidth;
   }
+
+  void releaseEmergency() async {
+    FirebaseFirestore.instance.collection('Notifications').doc().set({
+     'message': 'There has been an emergency! Please be paitent!',
+      'time': Timestamp.now(),
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -62,7 +69,9 @@ class BDSettings extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           CircleAvatar(
-                            backgroundImage: NetworkImage(data['imageLink'] ?? 'none') ,
+                            backgroundImage: data['imageLink'] != null
+                                ? NetworkImage(data['imageLink'])
+                                : const AssetImage('assets/images/logo.png'),
                             backgroundColor: Colors.blue[900],
                             radius: 40.0,
                           ),
@@ -161,7 +170,63 @@ class BDSettings extends StatelessWidget {
                             width: 290.0,
                             height: 50.0,
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      backgroundColor: Colors.white,
+                                      title: const Center(
+                                        child: Text('Send An Emergency Notification',
+                                          style: TextStyle(
+                                              fontFamily: 'Wellfleet'
+                                          ),),
+                                      ),
+                                      content: const Text('\tAre you sure you want to send the notification?',
+                                        style: TextStyle(
+                                            fontFamily: 'Wellfleet'
+                                        ),),
+                                      actions: <Widget>[
+                                        Row(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            TextButton(
+                                              style: ButtonStyle(
+                                                backgroundColor: WidgetStatePropertyAll(Colors.blue.shade900),
+                                              ),
+                                              child: const Text('No', style: TextStyle(
+                                                fontFamily: 'Wellfleet',
+                                                color: Colors.white,
+                                              ),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                            TextButton(
+                                              style: ButtonStyle(
+                                                backgroundColor: WidgetStatePropertyAll(Colors.blue.shade900),
+                                              ),
+                                              child: const Text('Yes',
+                                                style: TextStyle(
+                                                  fontFamily: 'Wellfleet',
+                                                  color: Colors.white,
+                                                ),),
+                                              onPressed: () {
+                                                releaseEmergency();
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        ),
+
+                                      ],
+                                    );
+                                  },
+                                );
+                                releaseEmergency();
+                              },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color.fromRGBO(237, 23, 23, 1.0),
                                   shape: RoundedRectangleBorder(

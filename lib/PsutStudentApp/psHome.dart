@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:psut_my_bus/PsutStudentApp/psNotification.dart';
 
 class PSHomePage extends StatefulWidget {
   const PSHomePage({super.key});
@@ -112,7 +113,7 @@ class _PSHomePageState extends State<PSHomePage> {
           double longitude = long;
           markers.add(
             Marker(
-              infoWindow: InfoWindow(title: 'Bus Driver'),
+              infoWindow: const InfoWindow(title: 'Bus Driver'),
               markerId: const MarkerId('currentLocation'),
               position: LatLng(latitude, longitude),
               icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
@@ -139,14 +140,17 @@ class _PSHomePageState extends State<PSHomePage> {
               color: Color.fromRGBO(0, 169, 224, 1.0),
             ),
             onPressed: () {
-              // do something
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const PSNotification()),
+              );
             },
           )
         ],
       ),
       body: StreamBuilder(
         //Get all the routes that's available in Madinah called Routes
-        stream: busScheduleCollection?.orderBy('number', descending: false)!.snapshots(),
+        stream: busScheduleCollection?.orderBy('number', descending: false).snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(

@@ -62,6 +62,10 @@ dependencies:
   mobile_scanner: ^4.0.1
   intl: ^0.19.0
   image_picker: ^1.1.1
+  firebase_messaging: ^14.9.3
+  rxdart: ^0.27.7
+  flutter_local_notifications: ^17.1.2
+  fluttertoast: ^8.2.5
 
 psut_my_bus: ^3.4.0
 dev_dependencies:

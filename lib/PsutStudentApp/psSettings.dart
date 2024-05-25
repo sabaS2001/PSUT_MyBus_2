@@ -6,6 +6,7 @@ import 'psBottomNavBar.dart';
 import 'psProfile.dart';
 import 'psChangePassword.dart';
 import 'package:psut_my_bus/PsutStudentApp/psForgetPasswordSettings.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class PSSettings extends StatefulWidget {
   const PSSettings({super.key});
@@ -22,6 +23,14 @@ class _PSSettingsState extends State<PSSettings> {
     double screenWidth = MediaQuery.of(context).size.width;
     return screenWidth;
   }
+
+  late Fluttertoast flutterToast;
+  @override
+  void initState(){
+    super.initState();
+    flutterToast = Fluttertoast();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +69,7 @@ class _PSSettingsState extends State<PSSettings> {
                     width: getScreenWidth(context),
                     height: MediaQuery.sizeOf(context).height,
                     margin: const EdgeInsets.symmetric(
-                        vertical: 30.0, horizontal: 10.0),
+                        vertical: 30.0, horizontal: 20.0),
                     alignment: Alignment.bottomRight,
                     child: Column(
                       children: [
@@ -75,9 +84,9 @@ class _PSSettingsState extends State<PSSettings> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             CircleAvatar(
-                              // backgroundImage: data['imageLink'] != null && data['imageLink'].isNotEmpty && Uri.parse(data['imageLink']).isAbsolute
-                              //     ? NetworkImage(data['imageLink'])
-                              //     : const AssetImage('assets/images/logo.png'),
+                              backgroundImage: data['imageLink'] != null
+                                  ? NetworkImage(data['imageLink'])
+                                  : const AssetImage('assets/images/logo.png'),
                               backgroundColor: Colors.blue.shade900,
                               radius: 40.0,
                             ),
@@ -275,10 +284,10 @@ class _PSSettingsState extends State<PSSettings> {
                               ),
                             ),
                             SizedBox(width: 50.0),
-                            SwitchExample(),
+                            SwitchExample2(),
                           ],
                         ),
-                        const Row(
+                         const Row(
                           children: [
                             SizedBox(
                               width: 10.0,
@@ -297,7 +306,7 @@ class _PSSettingsState extends State<PSSettings> {
                               ),
                             ),
                             SizedBox(width: 50.0),
-                            SwitchExample(),
+                            SwitchExample3(),
                           ],
                         ),
                         const Row(
@@ -391,17 +400,18 @@ class _PSSettingsState extends State<PSSettings> {
           );
         });
   }
+
 }
 
+// Financial Toast
 class SwitchExample extends StatefulWidget {
   const SwitchExample({super.key});
 
   @override
   State<SwitchExample> createState() => _SwitchExampleState();
 }
-
 class _SwitchExampleState extends State<SwitchExample> {
-  bool light0 = true;
+  bool light0 = false;
 
   final WidgetStateProperty<Icon?> thumbIcon =
       WidgetStateProperty.resolveWith<Icon?>(
@@ -423,6 +433,16 @@ class _SwitchExampleState extends State<SwitchExample> {
           onChanged: (bool value) {
             setState(() {
               light0 = value;
+              if(value){
+                Fluttertoast.showToast(
+                  msg: 'Financial Notification is On!',
+                  backgroundColor: Colors.blue.shade900,
+                  textColor: Colors.white,
+                  fontSize: 15.0,
+                  gravity: ToastGravity.SNACKBAR,
+                );
+              }
+
             });
           },
         ),
@@ -430,3 +450,96 @@ class _SwitchExampleState extends State<SwitchExample> {
     );
   }
 }
+
+//Bus Arrival Toast
+class SwitchExample2 extends StatefulWidget {
+  const SwitchExample2({super.key});
+  @override
+  State<SwitchExample2> createState() => _SwitchExample2State();
+}
+class _SwitchExample2State extends State<SwitchExample2> {
+  bool light0 = false;
+  final WidgetStateProperty<Icon?> thumbIcon =
+  WidgetStateProperty.resolveWith<Icon?>(
+        (Set<WidgetState> states) {
+      if (states.contains(WidgetState.selected)) {
+        return const Icon(Icons.check);
+      }
+      return const Icon(Icons.close);
+    },
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Switch(
+          value: light0,
+          onChanged: (bool value) {
+            setState(() {
+              light0 = value;
+              if(value){
+                Fluttertoast.showToast(
+                  msg: 'Bus Arrival Notification is On!',
+                  backgroundColor: Colors.blue.shade900,
+                  textColor: Colors.white,
+                  fontSize: 15.0,
+                  gravity: ToastGravity.SNACKBAR,
+                );
+              }
+
+            });
+          },
+        ),
+      ],
+    );
+  }
+}
+
+//Emergency Arrival Toast
+class SwitchExample3 extends StatefulWidget {
+  const SwitchExample3({super.key});
+  @override
+  State<SwitchExample3> createState() => _SwitchExample3State();
+}
+class _SwitchExample3State extends State<SwitchExample3> {
+  bool light0 = false;
+  final WidgetStateProperty<Icon?> thumbIcon =
+  WidgetStateProperty.resolveWith<Icon?>(
+        (Set<WidgetState> states) {
+      if (states.contains(WidgetState.selected)) {
+        return const Icon(Icons.check);
+      }
+      return const Icon(Icons.close);
+    },
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Switch(
+          value: light0,
+          onChanged: (bool value) {
+            setState(() {
+              light0 = value;
+              if(value){
+                Fluttertoast.showToast(
+                  msg: 'Emergency Notification is On!',
+                  backgroundColor: Colors.blue.shade900,
+                  textColor: Colors.white,
+                  fontSize: 15.0,
+                  gravity: ToastGravity.SNACKBAR,
+                );
+              }
+
+            });
+          },
+        ),
+      ],
+    );
+  }
+}
+

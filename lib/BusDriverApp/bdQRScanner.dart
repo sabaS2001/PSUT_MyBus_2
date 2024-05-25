@@ -99,7 +99,7 @@ class _BDQRScanState extends State<BDQRScan> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => BDStudentList(id: qrInfo[2] ?? '', name: qrInfo[0] + ' ' + qrInfo[1] ?? '', profileImage: qrInfo[3] ?? '')),
+                MaterialPageRoute(builder: (context) => const BDStudentList(id: '', name:'', profileImage: '')),
               );
             },
             icon: const Icon(Icons.arrow_circle_left_outlined, size: 40.0,),

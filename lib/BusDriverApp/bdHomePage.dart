@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +6,7 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:psut_my_bus/BusDriverApp/bdNotification.dart';
 
 int index = 0;
 
@@ -170,6 +170,7 @@ class _BDHomePageState extends State<BDHomePage> {
   void initState() {
     _initBusScheduleCollection();
     _addCurrentLocationMarker();
+    saveUserLocation();
     super.initState();
   }
 
@@ -190,14 +191,18 @@ class _BDHomePageState extends State<BDHomePage> {
               color: Color.fromRGBO(0, 169, 224, 1.0),
             ),
             onPressed: () {
-              // do something
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const BDNotification()),
+              );
+
             },
           )
         ],
       ),
       body: StreamBuilder(
               //Get all the routes that's available in Madinah called Routes
-              stream: busScheduleCollection!.snapshots(),
+              stream: busScheduleCollection!.orderBy('number', descending: false).snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return Center(
@@ -378,20 +383,73 @@ class _BDHomePageState extends State<BDHomePage> {
                                                                         .white,
                                                               ),
                                                               onPressed: () {
-                                                                if (markers
-                                                                    .isNotEmpty) {
-                                                                  busStopName = markers[
-                                                                          index+1]
-                                                                      .markerId
-                                                                      .value;
-                                                                }
-                                                                final now = TimeOfDay.now();
-                                                                final amOrPm = now.hour < 12 ? arrivalTime = (currentTime.hour - -times[index].hour).toString() : ((currentTime.hour) - times[index].hour).toString();
-                                                                arrivalTime = '$amOrPm hrs';
-                                                                polylineCoordinates.clear();
-                                                                getPolyPoints(
-                                                                    ++index);
-                                                                _getCurrentLocation();
+                                                                  showDialog(
+                                                                    context: context,
+                                                                    builder: (BuildContext context) {
+                                                                      return AlertDialog(
+                                                                        backgroundColor: Colors.white,
+                                                                        title: const Center(
+                                                                          child: Text('Start A Route',
+                                                                          style: TextStyle(
+                                                                            fontFamily: 'Wellfleet'
+                                                                          ),),
+                                                                        ),
+                                                                        content: const Text('\tAre you sure you want to start the route?',
+                                                                          style: TextStyle(
+                                                                              fontFamily: 'Wellfleet'
+                                                                          ),),
+                                                                        actions: <Widget>[
+                                                                          Row(
+                                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                                            children: [
+                                                                              TextButton(
+                                                                                style: ButtonStyle(
+                                                                                  backgroundColor: WidgetStatePropertyAll(Colors.blue.shade900),
+                                                                                ),
+                                                                                child: const Text('No', style: TextStyle(
+                                                                                    fontFamily: 'Wellfleet',
+                                                                                    color: Colors.white,
+                                                                                ),
+                                                                                ),
+                                                                                onPressed: () {
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                              ),
+                                                                              TextButton(
+                                                                                style: ButtonStyle(
+                                                                                  backgroundColor: WidgetStatePropertyAll(Colors.blue.shade900),
+                                                                                ),
+                                                                                child: const Text('Yes',
+                                                                                  style: TextStyle(
+                                                                                      fontFamily: 'Wellfleet',
+                                                                                    color: Colors.white,
+                                                                                  ),),
+                                                                                onPressed: () {
+                                                                                  if (markers
+                                                                                      .isNotEmpty) {
+                                                                                    busStopName = markers[
+                                                                                    index+1]
+                                                                                        .markerId
+                                                                                        .value;
+                                                                                  }
+                                                                                  final now = TimeOfDay.now();
+                                                                                  final amOrPm = now.hour < 12 ? arrivalTime = (currentTime.hour - -times[index].hour).toString() : ((currentTime.hour) - times[index].hour).toString();
+                                                                                  arrivalTime = '$amOrPm hrs';
+                                                                                  polylineCoordinates.clear();
+                                                                                  getPolyPoints(
+                                                                                      index++);
+                                                                                  _getCurrentLocation();
+                                                                                  Navigator.of(context).pop();
+                                                                                },
+                                                                              ),
+                                                                            ],
+                                                                          ),
+
+                                                                        ],
+                                                                      );
+                                                                    },
+                                                                  );
                                                               },
                                                               child: const Text(
                                                                 'Start',
@@ -488,15 +546,68 @@ class _BDHomePageState extends State<BDHomePage> {
                                                                         .white,
                                                               ),
                                                               onPressed: () {
-                                                                _currentTime =  DateFormat.jm().format(currentTime).toString();
-                                                                arrivalTime = 'No Buses At this Time';
-                                                                busStopName = "No Bus Available";
-                                                                polylineCoordinates.clear();
-                                                                times.clear();
-                                                                setState(() {
-                                                                    index =0;
-                                                                });
-                                                                enableUserLocation();
+                                                                showDialog(
+                                                                  context: context,
+                                                                  builder: (BuildContext context) {
+                                                                    return AlertDialog(
+                                                                      backgroundColor: Colors.white,
+                                                                      title: const Center(
+                                                                        child: Text('End The Route',
+                                                                          style: TextStyle(
+                                                                              fontFamily: 'Wellfleet'
+                                                                          ),),
+                                                                      ),
+                                                                      content: const Text('\tAre you sure you want to finish the route?',
+                                                                        style: TextStyle(
+                                                                            fontFamily: 'Wellfleet'
+                                                                        ),),
+                                                                      actions: <Widget>[
+                                                                        Row(
+                                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                                          children: [
+                                                                            TextButton(
+                                                                              style: ButtonStyle(
+                                                                                backgroundColor: WidgetStatePropertyAll(Colors.blue.shade900),
+                                                                              ),
+                                                                              child: const Text('No', style: TextStyle(
+                                                                                fontFamily: 'Wellfleet',
+                                                                                color: Colors.white,
+                                                                              ),
+                                                                              ),
+                                                                              onPressed: () {
+                                                                                Navigator.of(context).pop();
+                                                                              },
+                                                                            ),
+                                                                            TextButton(
+                                                                              style: ButtonStyle(
+                                                                                backgroundColor: WidgetStatePropertyAll(Colors.blue.shade900),
+                                                                              ),
+                                                                              child: const Text('Yes',
+                                                                                style: TextStyle(
+                                                                                  fontFamily: 'Wellfleet',
+                                                                                  color: Colors.white,
+                                                                                ),),
+                                                                              onPressed: () {
+                                                                                enableUserLocation();
+                                                                                _currentTime =  DateFormat.jm().format(currentTime).toString();
+                                                                                arrivalTime = 'No Buses At this Time';
+                                                                                busStopName = "No Bus Available";
+                                                                                polylineCoordinates.clear();
+                                                                                times.clear();
+                                                                                setState(() {
+                                                                                  index =0;
+                                                                                });
+                                                                                Navigator.of(context).pop();
+                                                                              },
+                                                                            ),
+                                                                          ],
+                                                                        ),
+
+                                                                      ],
+                                                                    );
+                                                                  },
+                                                                );
                                                               },
                                                               child: const Text(
                                                                 'Finish',
